@@ -35,4 +35,5 @@ dd([
     'メモリ使用量（MB）' => $memoryUsed,
     'メモリ使用量（MB）開始時' => $startMemory / 1024 / 1024,
     'メモリ使用量（MB）終了時' => $endMemory / 1024 / 1024,
+    'opcache_get_status()' => opcache_get_status(),
 ]);
