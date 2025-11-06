@@ -12,7 +12,8 @@ class UserInfolist
         return $schema
             ->components([
                 TextEntry::make('name'),
-                TextEntry::make('email')
+                TextEntry::make('email')->copyable()
+                    ->copyMessage('Copied!')
                     ->label('Email address'),
                 TextEntry::make('email_verified_at')
                     ->dateTime()
