@@ -1,5 +1,9 @@
 <?php
 
+// 開始時
+$startTime = microtime(true);
+$startMemory = memory_get_usage();
+
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 
@@ -18,3 +22,17 @@ require __DIR__.'/../vendor/autoload.php';
 $app = require_once __DIR__.'/../bootstrap/app.php';
 
 $app->handleRequest(Request::capture());
+
+// 終了時
+$endTime = microtime(true);
+$endMemory = memory_get_usage();
+
+$executionTime = $endTime - $startTime;
+$memoryUsed = ($endMemory - $startMemory) / 1024 / 1024; // MB単位
+
+dd([
+    '処理時間（秒）' => $executionTime,
+    'メモリ使用量（MB）' => $memoryUsed,
+    'メモリ使用量（MB）開始時' => $startMemory / 1024 / 1024,
+    'メモリ使用量（MB）終了時' => $endMemory / 1024 / 1024,
+]);
