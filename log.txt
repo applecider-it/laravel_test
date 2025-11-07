@@ -1,0 +1,42 @@
+
+# ComposerでLaravelをインストール
+composer create-project laravel/laravel example-app
+
+# ディレクトリに移動
+cd example-app
+
+-----------------------------------
+
+管理画面
+
+composer require filament/filament
+
+php artisan make:filament-user
+
+php artisan make:filament-panel admin
+
+admin / admin@localhost.com / adminadmin
+
+http://127.0.0.1:8000/admin/login
+
+php artisan storage:link
+
+npm install
+npm run build
+
+php artisan filament:clear
+php artisan optimize:clear
+
+php artisan filament:install
+
+php artisan migrate
+
+php artisan make:filament-resource User
+
+-----------------------------------
+
+opcache
+
+php -i | grep opcache
+
+php -r "print_r(opcache_get_status());"
