@@ -10,9 +10,11 @@ php artisan serve
 
 http://localhost:8000/
 
-admin / admin@localhost.com / adminadmin
+test / test@localhost.com / testtest
 
 http://localhost:8000/admin/login
+
+admin / admin@localhost.com / adminadmin
 
 -----------------------------------
 

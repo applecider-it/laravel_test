@@ -30,6 +30,7 @@ $endMemory = memory_get_usage();
 $executionTime = $endTime - $startTime;
 $memoryUsed = ($endMemory - $startMemory) / 1024 / 1024; // MB単位
 
+/*
 dd([
     '処理時間（秒）' => $executionTime,
     'メモリ使用量（MB）' => $memoryUsed,
@@ -37,3 +38,4 @@ dd([
     'メモリ使用量（MB）終了時' => $endMemory / 1024 / 1024,
     'opcache_get_status()' => opcache_get_status(),
 ]);
+*/
