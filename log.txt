@@ -40,3 +40,8 @@ opcache
 php -i | grep opcache
 
 php -r "print_r(opcache_get_status());"
+
+-----------------------------------
+
+
+composer require laravel/breeze --dev
