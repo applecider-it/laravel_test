@@ -43,8 +43,57 @@ php -r "print_r(opcache_get_status());"
 
 -----------------------------------
 
+認証
 
 composer require laravel/breeze --dev
 
 php artisan breeze:install
+
+npm install
+npm run build
+
+php artisan migrate
+
+sudo apt update
+sudo apt install dbeaver-ce
+
+sudo apt update
+sudo apt install mysql-server
+
+sudo service mysql start
+sudo service mysql status
+
+sudo mysql
+
+CREATE DATABASE laravel_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+CREATE USER 'laravel_user'@'%' IDENTIFIED BY 'secret1234';
+GRANT ALL PRIVILEGES ON laravel_db.* TO 'laravel_user'@'%';
+
+FLUSH PRIVILEGES;
+
+sudo vi /etc/mysql/mysql.conf.d/mysqld.cnf
+
+bind-address = 0.0.0.0
+mysqlx-bind-address = 0.0.0.0
+
+sudo service mysql restart
+
+php artisan migrate
+
+-----
+DBeaver で接続設定：
+
+Host: 127.0.0.1
+
+Port: 3306
+
+User: laravel_user
+
+Pass: secret1234
+
+Database: laravel_db
+-----
+
+-----------------------------------
 
