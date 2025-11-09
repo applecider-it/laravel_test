@@ -6,6 +6,8 @@ cd /home/owner/workspace/tmp/laravel_test/src
 # 開発サーバーを起動
 php artisan serve
 
+tail -f ./storage/logs/laravel.log
+
 -----------------------------------
 
 http://localhost:8000/
