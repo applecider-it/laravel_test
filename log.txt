@@ -97,3 +97,5 @@ Database: laravel_db
 
 -----------------------------------
 
+php artisan make:filament-page DashboardStats
+
