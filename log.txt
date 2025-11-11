@@ -144,3 +144,28 @@ php artisan make:controller ChatController
 composer require firebase/php-jwt
 
 npm install ws jsonwebtoken dotenv
+
+-----------------------------------
+
+pip install fastapi uvicorn
+python ai_service.py
+
+# Python3のvenvモジュールで仮想環境を作成
+python3 -m venv venv
+
+# 仮想環境を有効化
+source venv/bin/activate  # Linux/macOS
+# Windowsの場合
+# .\venv\Scripts\activate
+
+sudo apt update
+sudo apt install python3-venv python3-pip -y
+
+rm -rf venv  # 古い venv を削除
+python3 -m venv venv
+
+pip install --upgrade pip
+pip install fastapi uvicorn
+
+php artisan make:controller TestController index ai_test
+

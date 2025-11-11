@@ -1,16 +1,35 @@
 
 cd /home/owner/workspace/tmp/laravel_test/src
 
+cd /home/owner/workspace/tmp/laravel_test
+
 -----------------------------------
 
 # 開発サーバーを起動
+
+laravel
+
 php artisan serve
 
 tail -f ./storage/logs/laravel.log
 
 foreman start
 
+-------
+
+node
+
 node /home/owner/workspace/tmp/laravel_test/node/server.js
+
+-------
+
+python
+
+cd /home/owner/workspace/tmp/laravel_test/python
+
+source venv/bin/activate
+
+python ai_service.py
 
 -----------------------------------
 

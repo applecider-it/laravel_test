@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TweetController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\TestController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -38,5 +39,10 @@ Route::middleware('auth')->group(function () {
     // Chat
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
 });
+
+// Test
+Route::get('/test', [TestController::class, 'index'])->name('test.index');
+Route::get('/test/ai_test', [TestController::class, 'ai_test'])->name('test.ai_test');
+
 
 require __DIR__ . '/auth.php';
