@@ -125,3 +125,11 @@ git remote add origin https://github.com/applecider-it/laravel_test.git
 git branch -M main
 git push -u origin main
 
+-----------------------------------
+
+
+# React 用の Vite プラグインをインストール
+npm install --save-dev @vitejs/plugin-react
+
+# React と ReactDOM
+npm install react react-dom

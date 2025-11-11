@@ -18,6 +18,9 @@
                     <x-nav-link href="{{ route('tweets.index') }}" :active="request()->routeIs('tweets.index')">
                         Tweets
                     </x-nav-link>
+                    <x-nav-link href="{{ route('tweets.index_react') }}" :active="request()->routeIs('tweets.index_react')">
+                        Tweets (react)
+                    </x-nav-link>
                 </div>
             </div>
 

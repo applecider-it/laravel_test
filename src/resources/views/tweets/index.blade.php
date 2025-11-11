@@ -6,10 +6,10 @@
     </x-slot>
 
     <div class="py-6 max-w-2xl mx-auto">
-        @include('tweets.form')
+        @include('tweets.partials.form')
 
         <div class="space-y-4">
-            @include('tweets.list')
+            @include('tweets.partials.list')
         </div>
     </div>
 </x-app-layout>
