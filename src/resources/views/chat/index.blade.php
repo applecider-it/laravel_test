@@ -11,7 +11,8 @@
         <button onclick="sendMessage()">Send</button>
 
         <script>
-        const ws = new WebSocket('ws://127.0.0.1:8080');
+        const WS_TOKEN = @json($token);
+        const ws = new WebSocket(`ws://127.0.0.1:8080?token=${WS_TOKEN}`);
 
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
@@ -21,7 +22,7 @@
 
         function sendMessage() {
             const message = document.getElementById('message').value;
-            ws.send(JSON.stringify({ user: 'Me', message }));
+            ws.send(JSON.stringify({ message }));
             document.getElementById('message').value = '';
         }
         </script>

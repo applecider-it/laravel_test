@@ -1,17 +1,36 @@
-// server.js
+require('dotenv').config();
 const WebSocket = require('ws');
+const jwt = require('jsonwebtoken');
 
 const wss = new WebSocket.Server({ host: '0.0.0.0', port: 8080 });
 
-wss.on('connection', (ws) => {
-    console.log('Client connected');
+wss.on('connection', (ws, req) => {
+    const params = new URLSearchParams(req.url.replace('/?', ''));
+    const token = params.get('token');
+
+    if (!token) {
+        ws.close();
+        return;
+    }
+
+    try {
+        const payload = jwt.verify(token, process.env.WS_JWT_SECRET);
+        ws.user = { id: payload.sub, name: payload.name };
+        console.log('Authenticated:', ws.user.name);
+    } catch (e) {
+        ws.close();
+        return;
+    }
 
     ws.on('message', (msg) => {
-        // msgはJSON文字列
-        const data = JSON.parse(msg);
-        console.log('Received:', data);
+        const incoming = JSON.parse(msg);
 
-        // 全クライアントに送信
+        const data = {
+            user: ws.user.name,
+            user_id: ws.user.id,
+            message: incoming.message,
+        };
+
         wss.clients.forEach(client => {
             if (client.readyState === WebSocket.OPEN) {
                 client.send(JSON.stringify(data));
@@ -19,5 +38,5 @@ wss.on('connection', (ws) => {
         });
     });
 
-    ws.on('close', () => console.log('Client disconnected'));
+    ws.on('close', () => console.log('Disconnected:', ws.user?.name));
 });

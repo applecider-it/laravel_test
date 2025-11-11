@@ -140,3 +140,7 @@ npm init -y
 npm install ws
 
 php artisan make:controller ChatController
+
+composer require firebase/php-jwt
+
+npm install ws jsonwebtoken dotenv
