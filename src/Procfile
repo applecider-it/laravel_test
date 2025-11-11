@@ -1,0 +1,2 @@
+web: php artisan serve
+log: tail -f ./storage/logs/laravel.log

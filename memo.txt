@@ -8,6 +8,9 @@ php artisan serve
 
 tail -f ./storage/logs/laravel.log
 
+foreman start
+
+
 -----------------------------------
 
 http://localhost:8000/
