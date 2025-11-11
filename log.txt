@@ -133,3 +133,10 @@ npm install --save-dev @vitejs/plugin-react
 
 # React と ReactDOM
 npm install react react-dom
+
+-----------------------------------
+
+npm init -y
+npm install ws
+
+php artisan make:controller ChatController

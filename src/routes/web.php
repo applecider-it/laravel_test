@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TweetController;
+use App\Http\Controllers\ChatController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,6 +33,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/tweets/react', [TweetController::class, 'index_react'])->name('tweets.index_react');
     Route::post('/tweets/api', [TweetController::class, 'store_api'])->name('tweets.store_api');
+
+    // Chat
+    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
 });
 
 require __DIR__.'/auth.php';
