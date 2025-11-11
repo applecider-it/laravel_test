@@ -117,3 +117,11 @@ composer require laravel-lang/lang
 php artisan lang:publish ja
 
 php artisan lang:publish
+
+-----------------------------------
+
+
+git remote add origin https://github.com/applecider-it/laravel_test.git
+git branch -M main
+git push -u origin main
+
