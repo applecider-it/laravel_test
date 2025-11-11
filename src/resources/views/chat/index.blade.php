@@ -7,25 +7,16 @@
 
     <div class="py-6 max-w-2xl mx-auto">
         <div id="chat-box"></div>
+
         <input type="text" id="message">
-        <button onclick="sendMessage()">Send</button>
-
-        <script>
-        const WS_TOKEN = @json($token);
-        const ws = new WebSocket(`ws://127.0.0.1:8080?token=${WS_TOKEN}`);
-
-        ws.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            const box = document.getElementById('chat-box');
-            box.innerHTML += `<p><strong>${data.user}:</strong> ${data.message}</p>`;
-        };
-
-        function sendMessage() {
-            const message = document.getElementById('message').value;
-            ws.send(JSON.stringify({ message }));
-            document.getElementById('message').value = '';
-        }
-        </script>
-
+        <button id="send-btn">Send</button>
     </div>
+
+    {{-- Vite の JS 読み込み --}}
+    @vite(['resources/js/chat.js'])
+
+    <script>
+        // Laravel から渡される JWT
+        window.WS_TOKEN = @json($token);
+    </script>
 </x-app-layout>

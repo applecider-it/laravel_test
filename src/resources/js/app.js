@@ -1,7 +1,5 @@
-import './bootstrap';
+/**
+ * アプリケーションのエントリーポイント
+ */
 
-import Alpine from 'alpinejs';
-
-window.Alpine = Alpine;
-
-Alpine.start();
+import './services/app/setup-app';

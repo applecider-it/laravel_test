@@ -12,4 +12,4 @@
 </x-app-layout>
 
 @viteReactRefresh
-@vite('resources/js/tweet.jsx')
+@vite('resources/js/tweet.js')
