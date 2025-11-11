@@ -97,6 +97,8 @@ Database: laravel_db
 
 -----------------------------------
 
+Tweet
+
 php artisan make:filament-page DashboardStats
 
 
@@ -105,3 +107,13 @@ php artisan make:model Tweet -m
 php artisan migrate
 
 php artisan make:controller TweetController
+
+-----------------------------------
+
+日本語化
+
+composer require laravel-lang/lang
+
+php artisan lang:publish ja
+
+php artisan lang:publish
