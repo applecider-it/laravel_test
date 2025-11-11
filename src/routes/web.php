@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Webのルート
  * 
@@ -38,4 +39,4 @@ Route::middleware('auth')->group(function () {
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

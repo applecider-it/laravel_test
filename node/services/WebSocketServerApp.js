@@ -48,10 +48,10 @@ class WebSocketServerApp {
     const params = new URLSearchParams(req.url.replace('/?', ''));
     const token = params.get('token');
 
-    console.log(`token: ${token}`)
+    console.log(`token: ${token}`);
 
     if (!token) return null;
-    console.log(`WS_JWT_SECRET: ${process.env.WS_JWT_SECRET}`)
+    console.log(`WS_JWT_SECRET: ${process.env.WS_JWT_SECRET}`);
 
     try {
       const payload = jwt.verify(token, process.env.WS_JWT_SECRET);
@@ -59,6 +59,7 @@ class WebSocketServerApp {
       return {
         id: payload.sub,
         name: payload.name,
+        token,
       };
     } catch {
       return null;
@@ -68,7 +69,7 @@ class WebSocketServerApp {
   /**
    * メッセージ受信処理
    */
-  handleMessage(ws, msg) {
+  async handleMessage(ws, msg) {
     let incoming;
 
     try {
@@ -77,6 +78,8 @@ class WebSocketServerApp {
       return;
     }
 
+    await this.callbackTest(ws, incoming);
+
     const data = {
       user: ws.user.name,
       user_id: ws.user.id,
@@ -84,6 +87,34 @@ class WebSocketServerApp {
     };
 
     this.broadcast(data);
+  }
+
+  async callbackTest(ws, incoming) {
+    // Laravel API にも通知（JWT付き）
+    try {
+      const url = `${process.env.LARAVEL_API_URL}/api/chat/callback_test`;
+
+      console.log(`send: ${url} token ${ws.user.token}`);
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${ws.user.token || ''}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ content: incoming.message }),
+      });
+
+      if (!response.ok) {
+        console.error('APIエラー:', response.status, response.statusText);
+        return;
+      }
+
+      // Laravel からの JSON を取得
+      const data = await response.json();
+      console.log('Laravelからの返却:', data);
+    } catch (err) {
+      console.error('Laravel API error:', err);
+    }
   }
 
   /**

@@ -19,4 +19,8 @@
         // Laravel から渡される JWT
         window.WS_TOKEN = @json($token);
     </script>
+
+    <form action="{{ route('chat.callback_test') }}" method="POST" class="mb-4">
+        <button type="submit" class="mt-2 app-btn-primary">Test</button>
+    </form>
 </x-app-layout>
