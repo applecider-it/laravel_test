@@ -99,3 +99,9 @@ Database: laravel_db
 
 php artisan make:filament-page DashboardStats
 
+
+php artisan make:model Tweet -m
+
+php artisan migrate
+
+php artisan make:controller TweetController

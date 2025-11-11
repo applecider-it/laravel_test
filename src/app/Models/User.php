@@ -10,6 +10,11 @@ use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 
+/**
+ * ユーザーモデル
+ * 
+ * FilamentUserがあることで、filamentがcanAccessPanelを参照するようになる。
+ */
 class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -49,10 +54,17 @@ class User extends Authenticatable implements FilamentUser
         ];
     }
 
+    /** filamentで利用する管理者判別 */
     public function canAccessPanel(Panel $panel): bool
     {
         return in_array($this->email, [
             'admin@localhost.com',
         ]);
+    }
+
+    /** ツイートモデルのリレーション */
+    public function tweets()
+    {
+        return $this->hasMany(Tweet::class);
     }
 }

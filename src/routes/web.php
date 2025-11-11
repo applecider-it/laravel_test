@@ -1,7 +1,14 @@
 <?php
+/**
+ * Webのルート
+ * 
+ * 認証系はauth.phpにある
+ */
+
+use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TweetController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -15,6 +22,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/tweets', [TweetController::class, 'index'])->name('tweets.index');
+    Route::post('/tweets', [TweetController::class, 'store'])->name('tweets.store');
 });
 
 require __DIR__.'/auth.php';
