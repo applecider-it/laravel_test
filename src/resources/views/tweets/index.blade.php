@@ -10,9 +10,9 @@
             @csrf
             <textarea name="content" rows="3" class="w-full border rounded p-2" placeholder="What's happening?"></textarea>
             @error('content')
-                <p class="text-red-500 text-sm">{{ $message }}</p>
+                <p class="app-error-text">{{ $message }}</p>
             @enderror
-            <button type="submit" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded">Tweet</button>
+            <button type="submit" class="mt-2 app-btn-primary">Tweet</button>
         </form>
 
         <div class="space-y-4">

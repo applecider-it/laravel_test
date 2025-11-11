@@ -139,7 +139,7 @@ return [
     'prohibited_unless' => ':other が :values に含まれていない限り、:attribute は禁止されています。',
     'prohibits' => ':attribute が存在する場合、:other は存在できません。',
     'regex' => ':attribute の形式が無効です。',
-    'required' => ':attribute は必須です。',
+    'required' => ':attributeは必須です。',
     'required_array_keys' => ':attribute には次の項目を含める必要があります: :values。',
     'required_if' => ':other が :value の場合、:attribute は必須です。',
     'required_if_accepted' => ':other が承認されている場合、:attribute は必須です。',

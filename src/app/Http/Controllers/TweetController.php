@@ -17,9 +17,14 @@ class TweetController extends Controller
     /** 追加処理 */
     public function store(Request $request)
     {
-        $request->validate([
-            'content' => 'required|max:280',
-        ]);
+        $request->validate(
+            rules: [
+                'content' => 'required|max:280'
+            ],
+            attributes: [
+                'content' => '投稿内容'
+            ]
+        );
 
         $request->user()->tweets()->create([
             'content' => $request->content,
