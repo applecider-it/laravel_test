@@ -1,29 +1,19 @@
-import { escapeHtml } from "@/services/data/html";
-
 /**
  * ChatWebSocketClient
  * JWT認証付き WebSocket クライアント
  */
 export default class ChatWebSocketClient {
-    /**
-     * @param {string} token - Blade から埋め込まれた JWT
-     * @param {string} chatBoxId - チャット表示エレメントID
-     * @param {string} inputId - 入力エレメントID
-     * @param {string} sendBtnId - 送信ボタンID
-     */
-    constructor(token, chatBoxId, inputId, sendBtnId) {
+    constructor(token) {
         this.token = token;
-        this.chatBox = document.getElementById(chatBoxId);
-        this.messageInput = document.getElementById(inputId);
-        this.sendBtn = document.getElementById(sendBtnId);
 
         this.ws = null;
 
         this.channel = "chat";
         this.room = "room1";
 
+        this.setMessageList = null;
+
         this.initWebSocket();
-        this.bindEvents();
     }
 
     /** WebSocket 接続初期化 */
@@ -47,17 +37,8 @@ export default class ChatWebSocketClient {
         };
     }
 
-    /** イベントのバインド */
-    bindEvents() {
-        this.sendBtn.addEventListener("click", () => this.sendMessage());
-        this.messageInput.addEventListener("keydown", (e) => {
-            if (e.key === "Enter") this.sendMessage();
-        });
-    }
-
     /** メッセージ送信 */
-    sendMessage() {
-        const message = this.messageInput.value.trim();
+    sendMessage(message) {
         if (!message || !this.ws || this.ws.readyState !== WebSocket.OPEN) {
             console.warn("[DEBUG] WebSocket not ready or empty message");
             return;
@@ -66,7 +47,6 @@ export default class ChatWebSocketClient {
         const payload = { message, channel: this.channel };
         console.log("[DEBUG] Sending message", payload);
         this.ws.send(JSON.stringify(payload));
-        this.messageInput.value = "";
     }
 
     /** メッセージ受信 */
@@ -86,11 +66,6 @@ export default class ChatWebSocketClient {
 
     /** 新しいチャット受信時 */
     recieveNewChat(data) {
-        if (this.chatBox) {
-            this.chatBox.innerHTML += `<p><strong>${escapeHtml(
-                data.user
-            )}:</strong> ${escapeHtml(data.message)}</p>`;
-            this.chatBox.scrollTop = this.chatBox.scrollHeight;
-        }
+        this.setMessageList((list) => [...list, data]);
     }
 }

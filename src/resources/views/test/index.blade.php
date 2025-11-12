@@ -8,5 +8,11 @@
     <div class="py-6 max-w-2xl mx-auto">
         <p><a href="{{ route('test.ai_test') }}">AI Test</a></p>
         <p><a href="{{ route('test.websocket_test') }}">Websocket Test</a></p>
+
+        <p>
+            <form action="{{ route('chat.callback_test') }}" method="POST" class="mb-4">
+                <button type="submit" class="mt-2 app-btn-primary">chat.callback_test</button>
+            </form>
+        </p>
     </div>
 </x-app-layout>

@@ -5,22 +5,11 @@
         </h2>
     </x-slot>
 
-    <div class="py-6 max-w-2xl mx-auto">
-        <div id="chat-box"></div>
-
-        <input type="text" id="message">
-        <button id="send-btn">Send</button>
-    </div>
+    <div id="chat-root" data-all="{{ json_encode([
+        'token' => $token,
+    ]) }}"></div>
 
     {{-- Vite の JS 読み込み --}}
+    @viteReactRefresh
     @vite(['resources/js/chat.js'])
-
-    <script>
-        // Laravel から渡される JWT
-        window.WS_TOKEN = @json($token);
-    </script>
-
-    <form action="{{ route('chat.callback_test') }}" method="POST" class="mb-4">
-        <button type="submit" class="mt-2 app-btn-primary">Test</button>
-    </form>
 </x-app-layout>
