@@ -1,12 +1,17 @@
 
 # Laravelモノリスの試験的なアプリケーション
 
-Laravelをモノリスにする。
+## Laravelをモノリスにする。
 
-## マイクロサービス
+- [Laravelモノリスのドキュメント](./src/documents/index.md)
 
-websocketはnodejsのマイクロサービス
+## websocketはnodejsのマイクロサービス
 
-aiはpythonのマイクロサービス
+- Nodeマイクロサービスのドキュメント(未作成)
+
+## aiはpythonのマイクロサービス
+
+- Pythonマイクロサービスのドキュメント(未作成)
+
 
 
