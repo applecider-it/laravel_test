@@ -20,7 +20,7 @@ export default class ChatWebSocketClient {
     initWebSocket() {
         console.log(`[DEBUG] Connecting WebSocket with token: ${this.token}`);
 
-        this.ws = new WebSocket(`ws://127.0.0.1:8080?token=${this.token}`);
+        this.ws = new WebSocket(`ws://127.0.0.1:8080?token=${this.token}&channel=chat`);
 
         this.ws.onopen = () => {
             console.log("[DEBUG] WebSocket connected");

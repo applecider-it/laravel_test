@@ -1,6 +1,5 @@
 import WebSocket, { WebSocketServer } from 'ws';
 
-import Test from './web-socket-server-app/Test.js';
 import Auth from './web-socket-server-app/Auth.js';
 
 import ChatCannnel from './channels/ChatCannnel.js';
@@ -11,7 +10,6 @@ import ChatCannnel from './channels/ChatCannnel.js';
  */
 export default class WebSocketServerApp {
   constructor(options = {}) {
-    this.test = new Test();
     this.auth = new Auth();
 
     this.channels = {};
@@ -26,6 +24,7 @@ export default class WebSocketServerApp {
     console.log(`WebSocket server running on ws://${host}:${port}`);
   }
 
+  /** コネクション時 */
   handleConnection(ws, req) {
     const user = this.auth.authenticate(req);
 
@@ -45,7 +44,7 @@ export default class WebSocketServerApp {
     });
   }
 
-
+  /** メッセージ取得時 */
   async handleMessage(ws, msg) {
     let incoming;
 
@@ -57,13 +56,11 @@ export default class WebSocketServerApp {
 
     console.log('incoming', incoming)
 
-    await this.test.callbackTest(ws, incoming);
-
     // これがないとLaravelでrecieveしたときに止まる
     ws.send(JSON.stringify({ type: "sended", ok: true }));
 
     if (incoming.channel == 'chat') {
-      this.channels.chat.newChat(this.wss, ws, incoming);
+      this.channels.chat.handleMessage(this.wss, ws, incoming);
     }
   }
 

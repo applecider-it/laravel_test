@@ -8,8 +8,10 @@ export default class Auth {
   authenticate(req) {
     const params = new URLSearchParams(req.url.replace('/?', ''));
     const token = params.get('token');
+    const channel = params.get('channel');
 
     console.log(`token: ${token}`);
+    console.log(`channel: ${channel}`);
 
     if (!token) return null;
     console.log(`WS_JWT_SECRET: ${process.env.WS_JWT_SECRET}`);
@@ -21,6 +23,7 @@ export default class Auth {
         id: payload.sub,
         name: payload.name,
         token,
+        channel,
       };
     } catch (e) {
       console.error(e);

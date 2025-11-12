@@ -29,6 +29,10 @@ class ChatController extends Controller
     {
         Log::info('callback_test実行');
         Log::info('auth()->user()', [auth()->user()]);
+        Log::info('$request->all', [$request->all()]);
+
+        $content = $request->input('content');
+        Log::info('$content', [$content]);
 
         Log::info('getMiddleware', [print_r(app('router')->getMiddleware(), true)]);
         Log::info('getMiddlewareGroups', [print_r(app('router')->getMiddlewareGroups(), true)]);
@@ -55,6 +59,7 @@ class ChatController extends Controller
             'auth_user' => auth()->user(),
             'test_abc' => 123,
             'userId' => $userId,
+            'content' => $content,
         ]);
     }
 }

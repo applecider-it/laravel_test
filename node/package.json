@@ -9,11 +9,13 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
     "dotenv": "^17.2.3",
     "jsonwebtoken": "^9.0.2",
     "ws": "^8.18.3"
   },
-  "type": "module"
+  "imports": {
+    "#services/*": "./services/*"
+  }
 }
