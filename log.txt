@@ -167,6 +167,14 @@ python3 -m venv venv
 pip install --upgrade pip
 pip install fastapi uvicorn
 
+-----------------------------------
+
 php artisan make:controller TestController index ai_test
 
 composer require textalk/websocket
+
+-----------------------------------
+
+composer require barryvdh/laravel-debugbar --dev
+
+php artisan vendor:publish --provider="Barryvdh\Debugbar\ServiceProvider"
