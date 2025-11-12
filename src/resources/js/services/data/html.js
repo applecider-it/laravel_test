@@ -1,5 +1,10 @@
+/**
+ * HTML関連
+ */
+
 /** HTMLエスケープ */
 export function escapeHtml(str) {
+  str = String(str);
   return str
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')

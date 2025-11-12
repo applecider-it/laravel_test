@@ -14,6 +14,8 @@ class TestController extends Controller
     {
         return view('test.index');
     }
+
+    /** Laravelから、AIマイクロサービスへの送信テスト */
     public function ai_test(Request $request)
     {
         $text = 'Hello AI';
@@ -27,11 +29,13 @@ class TestController extends Controller
 
         return view('test.index');
     }
+
+    /** Laravelから、websocketマイクロサービスへの送信テスト */
     public function websocket_test(Request $request)
     {
         $token = JWT::encode([
             'sub' => 'system',
-            'name' => 'system',
+            'name' => 'System',
             'iat' => time(),
             'exp' => time() + 60 * 60 * 12, // 12時間
         ], env('WS_JWT_SECRET'), 'HS256');
