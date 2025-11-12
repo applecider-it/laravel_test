@@ -4,6 +4,8 @@ import Test from './chat-cannnel/Test.js';
 
 import { canBroadcast } from '#services/broadcast.js';
 
+import { log } from '#services/log.js';
+
 /**
  * チャットチャンネル
  */
@@ -31,11 +33,11 @@ export default class ChatCannnel {
     const str = JSON.stringify(data);
 
     wss.clients.forEach((client) => {
-      console.log(`broadcast: ${client.user?.name}`);
+      log(`broadcast: ${client.user?.name}`);
 
       if (canBroadcast(client, 'chat')) {
-          console.log(`send: ${client.user?.name}`);
-          client.send(str);
+        log(`send: ${client.user?.name}`);
+        client.send(str);
       }
     });
   }

@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
 
+import { log } from '#services/log.js';
+
 /**
  * 認証管理
  */
@@ -10,11 +12,11 @@ export default class Auth {
     const token = params.get('token');
     const channel = params.get('channel');
 
-    console.log(`token: ${token}`);
-    console.log(`channel: ${channel}`);
+    log(`token: ${token}`);
+    log(`channel: ${channel}`);
 
     if (!token) return null;
-    console.log(`WS_JWT_SECRET: ${process.env.WS_JWT_SECRET}`);
+    log(`WS_JWT_SECRET: ${process.env.WS_JWT_SECRET}`);
 
     try {
       const payload = jwt.verify(token, process.env.WS_JWT_SECRET);

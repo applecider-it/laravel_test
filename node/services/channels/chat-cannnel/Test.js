@@ -1,5 +1,7 @@
 import { sendToLaravel } from '#services/laravel.js';
 
+import { log } from '#services/log.js';
+
 /**
  * テスト用クラス
  */
@@ -13,6 +15,6 @@ export default class Test {
 
     const data = await sendToLaravel(ws, params, uri);
 
-    console.log('Laravelからの返却:', data);
+    log('Laravelからの返却:', data);
   }
 }
