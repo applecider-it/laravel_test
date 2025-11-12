@@ -6,7 +6,9 @@ import { log } from '#services/log.js';
  * 認証管理
  */
 export default class Auth {
-  /** 認証 */
+  /**
+   * JWTから認証してユーザー情報を返す
+   */
   authenticate(req) {
     const params = new URLSearchParams(req.url.replace('/?', ''));
     const token = params.get('token');
@@ -18,18 +20,21 @@ export default class Auth {
     if (!token) return null;
     log(`WS_JWT_SECRET: ${process.env.WS_JWT_SECRET}`);
 
-    try {
-      const payload = jwt.verify(token, process.env.WS_JWT_SECRET);
+    let payload = null;
 
-      return {
-        id: payload.sub,
-        name: payload.name,
-        token,
-        channel,
-      };
+    try {
+      payload = jwt.verify(token, process.env.WS_JWT_SECRET);
     } catch (e) {
       console.error(e);
       return null;
     }
+
+    return {
+      id: payload.sub,
+      name: payload.name,
+      token,
+      channel,
+      channelData: {},
+    };
   }
 }

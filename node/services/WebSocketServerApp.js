@@ -7,8 +7,7 @@ import ChatCannnel from './channels/ChatCannnel.js';
 import { log } from './log.js';
 
 /**
- * WebSocketServerApp
- * 認証付き WebSocket サーバー。純粋なロジックはこのクラスに閉じ込める。
+ * WebSocket サーバー管理
  */
 export default class WebSocketServerApp {
   constructor(options = {}) {

@@ -3,7 +3,7 @@ import { sendToLaravel } from '#services/laravel.js';
 import { log } from '#services/log.js';
 
 /**
- * テスト用クラス
+ * チャットチャンネルのテスト用クラス
  */
 export default class Test {
   /** 実験的にnodeからlaravelにapi送信するロジック */

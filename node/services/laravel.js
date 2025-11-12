@@ -1,7 +1,11 @@
 
 import { log } from '#services/log.js';
 
-/** 認証情報付きで、LaravelにAPI送信する */
+/** 
+ * 認証情報付きで、LaravelにAPI送信する。
+ * 
+ * エラー発生時は、トレースしてからnullを返す。
+ */
 export async function sendToLaravel(ws, params, uri) {
   let data = null;
 
@@ -33,6 +37,7 @@ export async function sendToLaravel(ws, params, uri) {
     return null;
   }
 
+  // エラー時と区別をつけられるようにオブジェクトにして返す
   return {
     data
   };
