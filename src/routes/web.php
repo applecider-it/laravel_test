@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function () {
 // Test
 Route::get('/test', [TestController::class, 'index'])->name('test.index');
 Route::get('/test/ai_test', [TestController::class, 'ai_test'])->name('test.ai_test');
+Route::get('/test/websocket_test', [TestController::class, 'websocket_test'])->name('test.websocket_test');
 
 
 require __DIR__ . '/auth.php';

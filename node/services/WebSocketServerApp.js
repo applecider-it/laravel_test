@@ -86,10 +86,14 @@ class WebSocketServerApp {
       message: incoming.message,
     };
 
+    ws.send(JSON.stringify({ ok: true}));
+
     this.broadcast(data);
   }
 
   async callbackTest(ws, incoming) {
+    if (ws.user.id == "system") return;
+
     // Laravel API にも通知（JWT付き）
     try {
       const url = `${process.env.LARAVEL_API_URL}/api/chat/callback_test`;
@@ -125,7 +129,11 @@ class WebSocketServerApp {
 
     this.wss.clients.forEach((client) => {
       if (client.readyState === WebSocket.OPEN) {
-        client.send(str);
+        console.log('bc cl', client.user);
+        if (client.user.id != 'system') {
+          client.send(str);
+          console.log('bc send', client.user?.name);
+        }
       }
     });
   }

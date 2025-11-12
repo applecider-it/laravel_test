@@ -6,10 +6,7 @@
     </x-slot>
 
     <div class="py-6 max-w-2xl mx-auto">
-        <p>
-            <a href="{{ route('test.ai_test') }}">
-                AI Test
-            </a>
-        </p>
+        <p><a href="{{ route('test.ai_test') }}">AI Test</a></p>
+        <p><a href="{{ route('test.websocket_test') }}">Websocket Test</a></p>
     </div>
 </x-app-layout>
