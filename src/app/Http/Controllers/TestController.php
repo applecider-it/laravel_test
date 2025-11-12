@@ -7,11 +7,20 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use WebSocket\Client;
 use Firebase\JWT\JWT;
+use Illuminate\Support\Facades\Route;
 
 class TestController extends Controller
 {
     public function index()
     {
+
+        Log::info('getMiddleware', [print_r(app('router')->getMiddleware(), true)]);
+        Log::info('getMiddlewareGroups', [print_r(app('router')->getMiddlewareGroups(), true)]);
+
+        $currentRoute = Route::current(); // 現在のルート
+        // 適用されている全ミドルウェア
+        Log::info('gatherMiddleware', [print_r($currentRoute->gatherMiddleware(), true)]);
+
         return view('test.index');
     }
 

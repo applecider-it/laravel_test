@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Route;
 
 class ChatController extends Controller
 {
@@ -27,6 +28,14 @@ class ChatController extends Controller
     public function callback_test(Request $request)
     {
         Log::info('callback_test実行');
+        Log::info('auth()->user()', [auth()->user()]);
+
+        Log::info('getMiddleware', [print_r(app('router')->getMiddleware(), true)]);
+        Log::info('getMiddlewareGroups', [print_r(app('router')->getMiddlewareGroups(), true)]);
+
+        $currentRoute = Route::current(); // 現在のルート
+        // 適用されている全ミドルウェア
+        Log::info('gatherMiddleware', [print_r($currentRoute->gatherMiddleware(), true)]);
 
         $userId = null;
 
