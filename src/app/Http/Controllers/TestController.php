@@ -42,7 +42,12 @@ class TestController extends Controller
 
         $client = new Client("ws://127.0.0.1:8080?token={$token}"); // Node の WebSocket サーバ
 
-        $client->send(json_encode(["message" => "hello from Laravel"]));
+        $data = [
+            "message" => "hello from Laravel",
+            "channel" => "chat",
+        ];
+
+        $client->send(json_encode($data));
         $response = $client->receive();
 
         if ($response) {

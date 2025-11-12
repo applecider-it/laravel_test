@@ -1,4 +1,4 @@
-import { escapeHtml } from '@/services/data/html';
+import { escapeHtml } from "@/services/data/html";
 
 /**
  * ChatWebSocketClient
@@ -19,6 +19,9 @@ export default class ChatWebSocketClient {
 
         this.ws = null;
 
+        this.channel = "chat";
+        this.room = "room1";
+
         this.initWebSocket();
         this.bindEvents();
     }
@@ -30,25 +33,25 @@ export default class ChatWebSocketClient {
         this.ws = new WebSocket(`ws://127.0.0.1:8080?token=${this.token}`);
 
         this.ws.onopen = () => {
-            console.log('[DEBUG] WebSocket connected');
+            console.log("[DEBUG] WebSocket connected");
         };
 
         this.ws.onmessage = (event) => this.handleMessage(event);
 
         this.ws.onclose = (event) => {
-            console.log('[DEBUG] WebSocket closed', event);
+            console.log("[DEBUG] WebSocket closed", event);
         };
 
         this.ws.onerror = (err) => {
-            console.error('[DEBUG] WebSocket error', err);
+            console.error("[DEBUG] WebSocket error", err);
         };
     }
 
     /** イベントのバインド */
     bindEvents() {
-        this.sendBtn.addEventListener('click', () => this.sendMessage());
-        this.messageInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') this.sendMessage();
+        this.sendBtn.addEventListener("click", () => this.sendMessage());
+        this.messageInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") this.sendMessage();
         });
     }
 
@@ -56,14 +59,14 @@ export default class ChatWebSocketClient {
     sendMessage() {
         const message = this.messageInput.value.trim();
         if (!message || !this.ws || this.ws.readyState !== WebSocket.OPEN) {
-            console.warn('[DEBUG] WebSocket not ready or empty message');
+            console.warn("[DEBUG] WebSocket not ready or empty message");
             return;
         }
 
-        const payload = { message };
-        console.log('[DEBUG] Sending message', payload);
+        const payload = { message, channel: this.channel };
+        console.log("[DEBUG] Sending message", payload);
         this.ws.send(JSON.stringify(payload));
-        this.messageInput.value = '';
+        this.messageInput.value = "";
     }
 
     /** メッセージ受信 */
@@ -72,11 +75,11 @@ export default class ChatWebSocketClient {
         try {
             data = JSON.parse(event.data);
         } catch (err) {
-            console.error('[DEBUG] Failed to parse message', event.data, err);
+            console.error("[DEBUG] Failed to parse message", event.data, err);
             return;
         }
 
-        console.log('[DEBUG] Received message', data);
+        console.log("[DEBUG] Received message", data);
 
         if (data.type == "newChat") this.recieveNewChat(data);
     }
@@ -84,7 +87,9 @@ export default class ChatWebSocketClient {
     /** 新しいチャット受信時 */
     recieveNewChat(data) {
         if (this.chatBox) {
-            this.chatBox.innerHTML += `<p><strong>${escapeHtml(data.user)}:</strong> ${escapeHtml(data.message)}</p>`;
+            this.chatBox.innerHTML += `<p><strong>${escapeHtml(
+                data.user
+            )}:</strong> ${escapeHtml(data.message)}</p>`;
             this.chatBox.scrollTop = this.chatBox.scrollHeight;
         }
     }

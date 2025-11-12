@@ -1,7 +1,9 @@
 import WebSocket, { WebSocketServer } from 'ws';
-import jwt from 'jsonwebtoken';
 
 import Test from './web-socket-server-app/Test.js';
+import Auth from './web-socket-server-app/Auth.js';
+
+import ChatCannnel from './channels/ChatCannnel.js';
 
 /**
  * WebSocketServerApp
@@ -10,6 +12,10 @@ import Test from './web-socket-server-app/Test.js';
 export default class WebSocketServerApp {
   constructor(options = {}) {
     this.test = new Test();
+    this.auth = new Auth();
+
+    this.channels = {};
+    this.channels.chat = new ChatCannnel();
 
     const { host = '0.0.0.0', port = 8080 } = options;
 
@@ -21,7 +27,7 @@ export default class WebSocketServerApp {
   }
 
   handleConnection(ws, req) {
-    const user = this.authenticate(req);
+    const user = this.auth.authenticate(req);
 
     if (!user) {
       console.log('invalid authenticate');
@@ -39,27 +45,6 @@ export default class WebSocketServerApp {
     });
   }
 
-  authenticate(req) {
-    const params = new URLSearchParams(req.url.replace('/?', ''));
-    const token = params.get('token');
-
-    console.log(`token: ${token}`);
-
-    if (!token) return null;
-    console.log(`WS_JWT_SECRET: ${process.env.WS_JWT_SECRET}`);
-
-    try {
-      const payload = jwt.verify(token, process.env.WS_JWT_SECRET);
-
-      return {
-        id: payload.sub,
-        name: payload.name,
-        token,
-      };
-    } catch {
-      return null;
-    }
-  }
 
   async handleMessage(ws, msg) {
     let incoming;
@@ -70,31 +55,16 @@ export default class WebSocketServerApp {
       return;
     }
 
+    console.log('incoming', incoming)
+
     await this.test.callbackTest(ws, incoming);
 
+    // これがないとLaravelでrecieveしたときに止まる
     ws.send(JSON.stringify({ type: "sended", ok: true }));
 
-    const data = {
-      type: "newChat",
-      user: ws.user.name,
-      user_id: ws.user.id,
-      message: incoming.message,
-    };
-
-    this.broadcast(data);
+    if (incoming.channel == 'chat') {
+      this.channels.chat.newChat(this.wss, ws, incoming);
+    }
   }
 
-  broadcast(data) {
-    const str = JSON.stringify(data);
-
-    this.wss.clients.forEach((client) => {
-      if (client.readyState === WebSocket.OPEN) {
-        console.log(`broadcast: ${client.user?.name}`)
-        if (client.user.id !== 'system') {
-          console.log(`send: ${client.user?.name}`)
-          client.send(str);
-        }
-      }
-    });
-  }
 }

@@ -23,9 +23,12 @@ class ChatController extends Controller
         return view('chat.index', compact('token'));
     }
 
+    /** nodeからのコールバックテスト用のAPI */
     public function callback_test(Request $request)
     {
         Log::info('callback_test実行');
+
+        $userId = null;
 
         $token = $request->bearerToken(); // Authorization: Bearer <token>
         try {
@@ -42,6 +45,7 @@ class ChatController extends Controller
         return response()->json([
             'auth_user' => auth()->user(),
             'test_abc' => 123,
+            'userId' => $userId,
         ]);
     }
 }
