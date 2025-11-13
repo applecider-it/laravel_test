@@ -17,9 +17,3 @@ src/ <- Laravelモノリス
   documents/ <- Laravelモノリス固有のドキュメント
 documents/ <- 全体のドキュメント
 ```
-
-## リンク
-
-- [Laravelモノリスのドキュメント](../src/documents/index.md)
-- [Nodeマイクロサービスのドキュメント](../node/documents/index.md)
-- [Pythonマイクロサービスのドキュメント](../python/documents/index.md)
