@@ -8,10 +8,31 @@ use App\Models\Tweet;
 class TweetController extends Controller
 {
     /** 一覧ページ */
-    public function index()
+    public function index(Request $request)
     {
-        $tweets = Tweet::with('user')->latest()->get();
-        return view('tweets.index', compact('tweets'));
+        $searchWord = $request->input('search_word');
+        $sort       = $request->input('sort', 'id');
+        $sortType   = $request->input('sort_type', 'desc');
+
+        $tweets = Tweet::with('user');
+        
+        if (!empty($searchWord)) {
+            $tweets->where('content', 'like', "%{$searchWord}%");
+        }
+        $tweets->orderBy($sort, $sortType);
+        $tweets->latest();
+
+        $tweets = $tweets->paginate(3);
+        /*
+        $tweets->appends([
+            'search_word' => $searchWord,
+            'sort'        => $sort,
+            'sort_type'   => $sortType,
+        ]);
+        */
+        $tweets->withQueryString();
+
+        return view('tweets.index', compact('tweets', 'searchWord', 'sort', 'sortType'));
     }
 
     /** 追加処理 */
@@ -27,7 +48,7 @@ class TweetController extends Controller
         );
 
         $request->user()->tweets()->create([
-            'content' => $request->content,
+            'content' => $request->input('content'),
         ]);
 
         return redirect()->back();
@@ -51,11 +72,11 @@ class TweetController extends Controller
                 'content' => '投稿内容'
             ]
         );
-    
+
         $tweet = $request->user()->tweets()->create([
-            'content' => $request->content,
+            'content' => $request->input('content'),
         ]);
-    
+
         return response()->json(
             $tweet->load('user')
         );

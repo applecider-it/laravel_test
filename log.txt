@@ -191,3 +191,12 @@ npx tsx watch src/server.ts
 
 npx tsc
 node dist/server.js
+
+-----------------------------------
+
+
+php artisan vendor:publish --tag=laravel-pagination
+
+-----------------------------------
+
+

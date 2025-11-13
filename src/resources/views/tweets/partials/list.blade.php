@@ -4,3 +4,7 @@
         <p class="text-gray-500 text-sm">by {{ $tweet->user->name }} - {{ $tweet->created_at->diffForHumans() }}</p>
     </div>
 @endforeach
+
+<div>
+    {{ $tweets->links() }}
+</div>
