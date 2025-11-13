@@ -35,9 +35,17 @@ php artisan serve
 
 node
 
-npx tsx /home/owner/workspace/tmp/laravel_test/node/app/entrypoints/server.js
+srcディレクトリで実行すると、node関連の設定の読み込みが混乱してしまうことがあったので、
+nodeディレクトリに移動してから実行したほうが無難。
 
-npx tsx watch /home/owner/workspace/tmp/laravel_test/node/app/entrypoints/server.js
+cd /home/owner/workspace/tmp/laravel_test/node
+
+npx tsx watch ./app/entrypoints/server.js
+
+
+本番起動
+
+npx tsx ./app/entrypoints/server.js
 
 
 -------

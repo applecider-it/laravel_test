@@ -8,5 +8,6 @@ import { log } from '@/services/system/log.ts';
 export function loadEnv(): void {
   log('import.meta.url', import.meta.url);
   const dir = dirname(dirname(dirname(dirname(fileURLToPath(import.meta.url)))));
+  log('dir', dir);
   dotenv.config({ path: `${dir}/.env` });
 }
