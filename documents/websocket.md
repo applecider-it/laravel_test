@@ -1,5 +1,11 @@
 # websocket連携
 
+websocketはnodeで連携する。
+
+Laravelと双方向APIで連携。
+
+認証はJWTを使う。
+
 ## コネクション時のパラメーター
 
 ### token
