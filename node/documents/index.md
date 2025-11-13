@@ -5,6 +5,9 @@
 # 構成
 
 ```
-entrypoints/ エントリーポイント
-services/ 実体
+app/
+  entrypoints/ エントリーポイント
+  services/ 実体
+    カテゴリーごとのディレクトリ/
+      サービスラス実体
 ```

@@ -6,20 +6,27 @@ import ChatCannnel from '@/services/channels/ChatCannnel.ts';
 
 import Auth from './server/Auth.ts';
 
+type Options = {
+  host: string;
+  port: number;
+}
+
 /**
  * WebSocket サーバー管理
  */
 export default class Server {
+  /** 権限管理サブクラス */
   auth;
+  /** 全てのチャンネルクラスを集めたハッシュ */
   channels: any;
+  /** WebSockerサーバーインスタンス */
   wss;
-  constructor(options: any = {}) {
+
+  constructor({ host = '0.0.0.0', port = 8080 }: Options) {
     this.auth = new Auth();
 
     this.channels = {};
     this.channels.chat = new ChatCannnel();
-
-    const { host = '0.0.0.0', port = 8080 } = options;
 
     this.wss = new WebSocketServer({ host, port });
 
