@@ -62,4 +62,10 @@ admin / admin@localhost.com / adminadmin
 
 -----------------------------------
 
+コマンド
+
+php artisan app:web-socket-test
+
+-----------------------------------
+
 

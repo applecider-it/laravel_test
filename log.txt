@@ -199,4 +199,6 @@ php artisan vendor:publish --tag=laravel-pagination
 
 -----------------------------------
 
+php artisan make:command WebSocketTest
+
 
