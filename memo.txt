@@ -5,15 +5,31 @@ cd /home/owner/workspace/tmp/laravel_test
 
 -----------------------------------
 
-# 開発サーバーを起動
+開発サーバーを起動
+
+-------
 
 laravel
 
+foreman start
+
+--
+
+個別
+
 php artisan serve
+
+npm run dev
 
 tail -f ./storage/logs/laravel.log
 
-foreman start
+--
+
+ビルドして実行
+
+npm run build
+
+php artisan serve
 
 -------
 

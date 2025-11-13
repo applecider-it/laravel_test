@@ -9,7 +9,7 @@ export default defineConfig({
             input: [
                 "resources/css/app.css",
                 "resources/js/app.ts",
-                "resources/js/tweet.ts'",
+                "resources/js/tweet.ts",
                 "resources/js/chat.ts",
             ],
             refresh: true,
