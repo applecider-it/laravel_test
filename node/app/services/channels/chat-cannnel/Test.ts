@@ -1,12 +1,12 @@
-import { sendToLaravel } from '#services/system/laravel.js';
-import { log } from '#services/system/log.js';
+import { sendToLaravel } from '@/services/system/laravel.js';
+import { log } from '@/services/system/log.ts';
 
 /**
  * チャットチャンネルのテスト用クラス
  */
 export default class Test {
   /** 実験的にnodeからlaravelにapi送信するロジック */
-  async callbackTest(ws, incoming) {
+  async callbackTest(ws: any, incoming: any) {
     if (ws.user.id === 'system') return;
 
     const params = { content: incoming.message };

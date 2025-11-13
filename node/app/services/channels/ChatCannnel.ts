@@ -1,20 +1,20 @@
-import WebSocket from 'ws';
+import { canBroadcast } from '@/services/web-socket/broadcast.ts';
+import { log } from '@/services/system/log.ts';
 
-import { canBroadcast } from '#services/web-socket/broadcast.js';
-import { log } from '#services/system/log.js';
-
-import Test from './chat-cannnel/Test.js';
+import Test from './chat-cannnel/Test.ts';
 
 /**
  * チャットチャンネル
  */
 export default class ChatCannnel {
+  test;
+
   constructor() {
     this.test = new Test();
   }
 
   /** メッセージ取得時 */
-  async handleMessage(wss, ws, incoming) {
+  async handleMessage(wss: any, ws: any, incoming: any) {
     await this.test.callbackTest(ws, incoming);
 
     const data = {
@@ -24,14 +24,14 @@ export default class ChatCannnel {
       message: incoming.message,
     };
 
-    this.#broadcast(wss, data);
+    this.broadcast(wss, data);
   }
 
   /** 全体送信 */
-  #broadcast(wss, data) {
+  private broadcast(wss: any, data: any) {
     const str = JSON.stringify(data);
 
-    wss.clients.forEach((client) => {
+    wss.clients.forEach((client: any) => {
       log(`broadcast: ${client.user?.name}`);
 
       if (canBroadcast(client, 'chat')) {

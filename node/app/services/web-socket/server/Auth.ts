@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-import { log } from '#services/system/log.js';
+import { log } from '@/services/system/log.ts';
 
 /**
  * 認証管理
@@ -9,7 +9,7 @@ export default class Auth {
   /**
    * JWTから認証してユーザー情報を返す
    */
-  authenticate(req) {
+  authenticate(req: any) {
     const params = new URLSearchParams(req.url.replace('/?', ''));
     const token = params.get('token');
     const channel = params.get('channel');
@@ -20,10 +20,10 @@ export default class Auth {
     if (!token) return null;
     log(`WS_JWT_SECRET: ${process.env.WS_JWT_SECRET}`);
 
-    let payload = null;
+    let payload: any = null;
 
     try {
-      payload = jwt.verify(token, process.env.WS_JWT_SECRET);
+      payload = jwt.verify(token, process.env.WS_JWT_SECRET!);
     } catch (e) {
       console.error(e);
       return null;

@@ -1,16 +1,19 @@
 import WebSocket, { WebSocketServer } from 'ws';
 
-import { log } from '#services/system/log.js';
+import { log } from '@/services/system/log.ts';
 
-import ChatCannnel from '#services/channels/ChatCannnel.js';
+import ChatCannnel from '@/services/channels/ChatCannnel.ts';
 
-import Auth from './server/Auth.js';
+import Auth from './server/Auth.ts';
 
 /**
  * WebSocket サーバー管理
  */
 export default class Server {
-  constructor(options = {}) {
+  auth;
+  channels: any;
+  wss;
+  constructor(options: any = {}) {
     this.auth = new Auth();
 
     this.channels = {};
@@ -26,7 +29,7 @@ export default class Server {
   }
 
   /** コネクション時 */
-  handleConnection(ws, req) {
+  handleConnection(ws: any, req: any) {
     const user = this.auth.authenticate(req);
 
     if (!user) {
@@ -38,7 +41,7 @@ export default class Server {
     ws.user = user;
     log(`Authenticated: ${user.name}`);
 
-    ws.on('message', (msg) => this.handleMessage(ws, msg));
+    ws.on('message', (msg: any) => this.handleMessage(ws, msg));
 
     ws.on('close', () => {
       log(`Disconnected: ${ws.user?.name}`);
@@ -46,7 +49,7 @@ export default class Server {
   }
 
   /** メッセージ取得時 */
-  async handleMessage(ws, msg) {
+  async handleMessage(ws: any, msg: any) {
     let incoming;
 
     try {

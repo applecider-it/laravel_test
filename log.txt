@@ -184,3 +184,10 @@ php artisan vendor:publish --provider="Barryvdh\Debugbar\ServiceProvider"
 npm install -D typescript ts-node @types/node
 
 npx tsc --init
+
+npx tsx src/server.ts
+
+npx tsx watch src/server.ts
+
+npx tsc
+node dist/server.js

@@ -1,12 +1,12 @@
 
-import { log } from '#services/system/log.js';
+import { log } from '@/services/system/log.ts';
 
 /** 
  * 認証情報付きで、LaravelにAPI送信する。
  * 
  * エラー発生時は、トレースしてからnullを返す。
  */
-export async function sendToLaravel(ws, params, uri) {
+export async function sendToLaravel(ws: any, params: any, uri: string) {
   let data = null;
 
   log('sendToLaravel', params, uri, ws.user.name);

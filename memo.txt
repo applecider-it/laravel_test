@@ -19,7 +19,10 @@ foreman start
 
 node
 
-node /home/owner/workspace/tmp/laravel_test/node/entrypoints/server.js
+npx tsx /home/owner/workspace/tmp/laravel_test/node/app/entrypoints/server.js
+
+npx tsx watch /home/owner/workspace/tmp/laravel_test/node/app/entrypoints/server.js
+
 
 -------
 
