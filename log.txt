@@ -178,3 +178,9 @@ composer require textalk/websocket
 composer require barryvdh/laravel-debugbar --dev
 
 php artisan vendor:publish --provider="Barryvdh\Debugbar\ServiceProvider"
+
+-----------------------------------
+
+npm install -D typescript ts-node @types/node
+
+npx tsc --init

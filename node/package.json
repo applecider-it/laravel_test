@@ -17,5 +17,10 @@
   },
   "imports": {
     "#services/*": "./services/*"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   }
 }
