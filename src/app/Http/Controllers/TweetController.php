@@ -5,8 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Tweet;
 
+use App\Services\Tweet\ListService as TweetListService;
+use App\Services\Tweet\FormService as TweetFormService;
+
 class TweetController extends Controller
 {
+    public function __construct(
+        private TweetListService $tweetListService,
+        private TweetFormService $tweetFormService
+    ) {}
+
     /** 一覧ページ */
     public function index(Request $request)
     {
@@ -14,13 +22,7 @@ class TweetController extends Controller
         $sort       = $request->input('sort', 'id');
         $sortType   = $request->input('sort_type', 'desc');
 
-        $tweets = Tweet::with('user');
-        
-        if (!empty($searchWord)) {
-            $tweets->where('content', 'like', "%{$searchWord}%");
-        }
-        $tweets->orderBy($sort, $sortType);
-        $tweets->latest();
+        $tweets = $this->tweetListService->getTweetsForList($searchWord, $sort, $sortType);
 
         $tweets = $tweets->paginate(3);
         /*
@@ -38,20 +40,22 @@ class TweetController extends Controller
     /** 追加処理 */
     public function store(Request $request)
     {
+        $tweet = new Tweet();
         $request->validate(
             rules: [
-                'content' => 'required|max:280'
+                'content' => $tweet->validation_content(),
             ],
             attributes: [
-                'content' => '投稿内容'
+                'content' => __('models.tweet.columns.content')
             ]
         );
 
-        $request->user()->tweets()->create([
-            'content' => $request->input('content'),
-        ]);
+        $user = $request->user();
+        $content = $request->input('content');
 
-        return redirect()->back();
+        $this->tweetFormService->newTweet($user, $content);
+
+        return redirect()->back()->with('success', '投稿が作成されました');
     }
 
     /** 一覧ページ(React) */
@@ -64,18 +68,20 @@ class TweetController extends Controller
     /** 追加処理API */
     public function store_api(Request $request)
     {
+        $tweet = new Tweet();
         $request->validate(
             rules: [
-                'content' => 'required|max:280'
+                'content' => $tweet->validation_content(),
             ],
             attributes: [
-                'content' => '投稿内容'
+                'content' => __('models.tweet.columns.content')
             ]
         );
 
-        $tweet = $request->user()->tweets()->create([
-            'content' => $request->input('content'),
-        ]);
+        $user = $request->user();
+        $content = $request->input('content');
+
+        $tweet = $this->tweetFormService->newTweet($user, $content);
 
         return response()->json(
             $tweet->load('user')

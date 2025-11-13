@@ -15,4 +15,10 @@ class Tweet extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /** 投稿内容のバリデーション */
+    public function validation_content()
+    {
+        return 'required|max:280';
+    }
 }

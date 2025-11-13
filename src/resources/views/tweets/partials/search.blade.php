@@ -2,7 +2,7 @@
   <input type="text" name="search_word" value="{{ $searchWord }}" placeholder="検索ワード">
   <select name="sort">
     <option value="id"   {{ $sort === 'id' ? 'selected' : '' }}>ID</option>
-    <option value="name" {{ $sort === 'name' ? 'selected' : '' }}>名前</option>
+    <option value="content" {{ $sort === 'content' ? 'selected' : '' }}>投稿内容</option>
   </select>
   <select name="sort_type">
     <option value="asc"  {{ $sortType === 'asc' ? 'selected' : '' }}>昇順</option>
