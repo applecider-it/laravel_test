@@ -12,9 +12,7 @@
                     {{ __("You're logged in!") }}
 
                     <p>
-                        <a href="{{ route('test.index') }}">
-                            Test
-                        </a>
+                        <a href="{{ route('test.index') }}" class="app-link-normal">Test</a>
                     </p>
                 </div>
             </div>
