@@ -8,9 +8,9 @@ export default defineConfig({
         laravel({
             input: [
                 "resources/css/app.css",
-                "resources/js/app.js",
-                "resources/js/tweet.jsx'",
-                "resources/js/chat.js",
+                "resources/js/app.ts",
+                "resources/js/tweet.ts'",
+                "resources/js/chat.ts",
             ],
             refresh: true,
         }),

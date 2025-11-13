@@ -3,6 +3,13 @@
  * JWT認証付き WebSocket クライアント
  */
 export default class ChatWebSocketClient {
+    token;
+    wsHost;
+    ws;
+    channel: string;
+    room;
+    setMessageList;
+    
     constructor(token, wsHost) {
         this.token = token;
         this.wsHost = wsHost;

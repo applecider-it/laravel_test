@@ -4,11 +4,11 @@
 
 import React from "react";
 import { createRoot } from "react-dom/client";
-import Chat from "./Chat.jsx";
+import Chat from "./Chat";
 
 import ChatWebSocketClient from "./ChatWebSocketClient";
 
-const el = document.getElementById("chat-root");
+const el: any = document.getElementById("chat-root");
 
 if (el) {
     const all = JSON.parse(el.dataset.all);
