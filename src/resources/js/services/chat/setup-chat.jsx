@@ -13,12 +13,8 @@ const el = document.getElementById("chat-root");
 if (el) {
     const all = JSON.parse(el.dataset.all);
 
-    const chatClient = new ChatWebSocketClient(
-        all.token
-    );
+    const chatClient = new ChatWebSocketClient(all.token, all.wsHost);
 
     const root = createRoot(el);
-    root.render(
-        <Chat chatClient={chatClient} />
-    );
+    root.render(<Chat chatClient={chatClient} />);
 }

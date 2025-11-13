@@ -9,8 +9,14 @@ use WebSocket\Client;
 use Firebase\JWT\JWT;
 use Illuminate\Support\Facades\Route;
 
+use App\Services\WebSocket\SystemService as WebSocketSystemService;
+
 class TestController extends Controller
 {
+    public function __construct(
+        private WebSocketSystemService $webSocketSystemService
+    ) {}
+
     public function index()
     {
 
@@ -42,30 +48,14 @@ class TestController extends Controller
     /** Laravelから、websocketマイクロサービスへの送信テスト */
     public function websocket_test(Request $request)
     {
-        $token = JWT::encode([
-            'sub' => 'system',
-            'name' => 'System',
-            'iat' => time(),
-            'exp' => time() + 60 * 60 * 12, // 12時間
-        ], env('WS_JWT_SECRET'), 'HS256');
-
-        $client = new Client("ws://127.0.0.1:8080?token={$token}"); // Node の WebSocket サーバ
-
         $data = [
             "message" => "hello from Laravel",
             "channel" => "chat",
         ];
+        
+        $response = $this->webSocketSystemService->sendSystemData($data);
 
-        $client->send(json_encode($data));
-        $response = $client->receive();
-
-        if ($response) {
-            Log::info('websocket_test response', [$response]);
-        } else {
-            Log::info('websocket_test response is null');
-        }
-
-        $client->close();
+        Log::info('websocket_test response', [$response]);
 
         return view('test.index');
     }
