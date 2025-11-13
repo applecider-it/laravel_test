@@ -1,15 +1,15 @@
 import WebSocket, { WebSocketServer } from 'ws';
 
-import Auth from './web-socket-server-app/Auth.js';
+import { log } from '#services/system/log.js';
 
-import ChatCannnel from './channels/ChatCannnel.js';
+import ChatCannnel from '#services/channels/ChatCannnel.js';
 
-import { log } from './log.js';
+import Auth from './server/Auth.js';
 
 /**
  * WebSocket サーバー管理
  */
-export default class WebSocketServerApp {
+export default class Server {
   constructor(options = {}) {
     this.auth = new Auth();
 

@@ -1,6 +1,5 @@
-import { sendToLaravel } from '#services/laravel.js';
-
-import { log } from '#services/log.js';
+import { sendToLaravel } from '#services/system/laravel.js';
+import { log } from '#services/system/log.js';
 
 /**
  * チャットチャンネルのテスト用クラス

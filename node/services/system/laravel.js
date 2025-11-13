@@ -1,5 +1,5 @@
 
-import { log } from '#services/log.js';
+import { log } from '#services/system/log.js';
 
 /** 
  * 認証情報付きで、LaravelにAPI送信する。

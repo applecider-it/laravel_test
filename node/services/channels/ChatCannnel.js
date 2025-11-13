@@ -1,10 +1,9 @@
 import WebSocket from 'ws';
 
+import { canBroadcast } from '#services/web-socket/broadcast.js';
+import { log } from '#services/system/log.js';
+
 import Test from './chat-cannnel/Test.js';
-
-import { canBroadcast } from '#services/broadcast.js';
-
-import { log } from '#services/log.js';
 
 /**
  * チャットチャンネル

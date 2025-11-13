@@ -1,5 +1,5 @@
 
-import { getFullTimeStr } from './date.js';
+import { getFullTimeStr } from '#services/data/date.js';
 
 /** ログを出力 */
 export function log(...params) {

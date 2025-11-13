@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-import { log } from '#services/log.js';
+import { log } from '#services/system/log.js';
 
 /**
  * 認証管理
