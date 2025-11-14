@@ -22,13 +22,18 @@ class SystemService
      * 
      * 接続後すぐに閉じる
      */
-    public function sendSystemData(array $data)
+    public function sendSystemData(string $channel, array $data)
     {
+        $sendData = [
+            "data" => $data,
+            "channel" => $channel,
+        ];
+
         $token = $this->authService->createSystemJwt();
 
         $host = env('WS_SERVER_HOST');
         $client = new Client("ws://{$host}?token={$token}");
-        $client->send(json_encode($data));
+        $client->send(json_encode($sendData));
         $response = $client->receive();
         $client->close();
 

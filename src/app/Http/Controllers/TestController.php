@@ -10,6 +10,7 @@ use Firebase\JWT\JWT;
 use Illuminate\Support\Facades\Route;
 
 use App\Services\WebSocket\SystemService as WebSocketSystemService;
+use App\Services\Channels\ChatChannel;
 
 class TestController extends Controller
 {
@@ -49,13 +50,10 @@ class TestController extends Controller
     public function websocket_test(Request $request)
     {
         $data = [
-            "data" => [
-                "message" => "hello from Laravel",
-            ],
-            "channel" => "chat",
+            "message" => "hello from Laravel " . date('Y-m-d h:i:s'),
         ];
 
-        $response = $this->webSocketSystemService->sendSystemData($data);
+        $response = $this->webSocketSystemService->sendSystemData(ChatChannel::CHANNEL_ID, $data);
 
         Log::info('websocket_test response', [$response]);
 
