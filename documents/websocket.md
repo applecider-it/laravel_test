@@ -17,7 +17,7 @@ Laravelと双方向APIで連携。
 
 | 項目名 | 内容 | 型 | 詳細 |
 |--------|--------|--------|--------|
-| sub | ID | string \| integer | idに相当するlaravel内部ではidとして管理し、送受信時はsubとして送受信する。 |
+| sub | ID | string \| integer | idに相当する項目。laravel内部ではidとして管理し、送受信時はsubとして送受信する。 |
 | name | 表示名 | string |  |
 | iat | 現在日時 | integer |  |
 | exp | 有効期限 | integer |  |
