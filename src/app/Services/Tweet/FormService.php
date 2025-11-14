@@ -11,6 +11,22 @@ use App\Models\User;
 class FormService
 {
     /**
+     * 指定したユーザーの新しいツイート作成時のバリデーション情報
+     */
+    public function newTweetValidation()
+    {
+        $tweet = new Tweet();
+        return [
+            'rules' => [
+                'content' => $tweet->validation_content(),
+            ],
+            'attributes' => [
+                'content' => __('models.tweet.columns.content')
+            ]
+        ];
+    }
+
+    /**
      * 指定したユーザーの新しいツイート作成
      */
     public function newTweet(User $user, string $content)

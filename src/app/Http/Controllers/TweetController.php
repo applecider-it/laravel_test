@@ -40,22 +40,27 @@ class TweetController extends Controller
     /** 追加処理 */
     public function store(Request $request)
     {
-        $tweet = new Tweet();
-        $request->validate(
-            rules: [
-                'content' => $tweet->validation_content(),
-            ],
-            attributes: [
-                'content' => __('models.tweet.columns.content')
-            ]
+        $validation = $this->tweetFormService->newTweetValidation();
+        $validated = $request->validate(
+            rules: $validation['rules'],
+            attributes: $validation['attributes']
         );
 
         $user = $request->user();
         $content = $request->input('content');
+        $commit = $request->input('commit');
 
-        $this->tweetFormService->newTweet($user, $content);
+        if ($commit) {
+            // 確定時
+            
+            $this->tweetFormService->newTweet($user, $content);
 
-        return redirect()->back()->with('success', '投稿が作成されました');
+            return redirect()->back()->with('success', '投稿が作成されました');    
+        }
+
+        return view('tweets.confirm', [
+            'data' => $validated,
+        ]);
     }
 
     /** 一覧ページ(React) */
@@ -68,14 +73,10 @@ class TweetController extends Controller
     /** 追加処理API */
     public function store_api(Request $request)
     {
-        $tweet = new Tweet();
+        $validation = $this->tweetFormService->newTweetValidation();
         $request->validate(
-            rules: [
-                'content' => $tweet->validation_content(),
-            ],
-            attributes: [
-                'content' => __('models.tweet.columns.content')
-            ]
+            rules: $validation['rules'],
+            attributes: $validation['attributes']
         );
 
         $user = $request->user();

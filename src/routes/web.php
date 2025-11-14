@@ -30,9 +30,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Tweet
-    Route::get('/tweets', [TweetController::class, 'index'])->name('tweets.index');
-    Route::post('/tweets', [TweetController::class, 'store'])->name('tweets.store');
-
+    Route::resource('tweets', TweetController::class)->only([
+        'index',
+        'store'
+    ]);
     Route::get('/tweets/react', [TweetController::class, 'index_react'])->name('tweets.index_react');
     Route::post('/tweets/api', [TweetController::class, 'store_api'])->name('tweets.store_api');
 
