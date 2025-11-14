@@ -24,6 +24,9 @@ class UserInfolist
                 TextEntry::make('updated_at')
                     ->dateTime()
                     ->placeholder('-'),
+                TextEntry::make('tweets_count')
+                    ->label('投稿件数')
+                    ->getStateUsing(fn($record) => $record->tweets()->count()),
             ]);
     }
 }

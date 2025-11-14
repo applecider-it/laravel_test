@@ -203,5 +203,9 @@ php artisan make:command WebSocketTest
 
 -----------------------------------
 
-
 sudo apt install php-redis
+
+-----------------------------------
+
+
+php artisan make:filament-page Users/CustomActionUser

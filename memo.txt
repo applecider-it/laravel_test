@@ -80,4 +80,9 @@ php artisan app:web-socket-test --token=XXXXXXXXX
 
 -----------------------------------
 
+ルート一覧
+
+php artisan route:list
+
+-----------------------------------
 

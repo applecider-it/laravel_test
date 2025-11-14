@@ -13,15 +13,19 @@ class UserForm
         return $schema
             ->components([
                 TextInput::make('name')
-                    ->required(),
+                    ->required()
+                    ->minLength(3)
+                    ->maxLength(20),
                 TextInput::make('email')
                     ->label('Email address')
                     ->email()
                     ->required(),
                 DateTimePicker::make('email_verified_at'),
+                /*
                 TextInput::make('password')
                     ->password()
                     ->required(),
+                    */
             ]);
     }
 }
