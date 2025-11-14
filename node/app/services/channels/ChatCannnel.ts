@@ -23,7 +23,9 @@ export default class ChatCannnel {
       type: 'newChat',
       info: ws.user.info,
       id: ws.user.id,
-      message: incoming.message,
+      data: {
+        message: incoming.data.message,
+      }
     };
 
     this.broadcast(wss, data);

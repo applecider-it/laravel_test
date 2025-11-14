@@ -49,10 +49,12 @@ class TestController extends Controller
     public function websocket_test(Request $request)
     {
         $data = [
-            "message" => "hello from Laravel",
+            "data" => [
+                "message" => "hello from Laravel",
+            ],
             "channel" => "chat",
         ];
-        
+
         $response = $this->webSocketSystemService->sendSystemData($data);
 
         Log::info('websocket_test response', [$response]);

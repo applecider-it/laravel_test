@@ -9,7 +9,7 @@ export default class ChatWebSocketClient {
     channel: string;
     room;
     setMessageList;
-    
+
     constructor(token, wsHost) {
         this.token = token;
         this.wsHost = wsHost;
@@ -28,7 +28,9 @@ export default class ChatWebSocketClient {
     initWebSocket() {
         console.log(`[DEBUG] Connecting WebSocket with token: ${this.token}`);
 
-        this.ws = new WebSocket(`ws://${this.wsHost}?token=${this.token}&channel=chat`);
+        this.ws = new WebSocket(
+            `ws://${this.wsHost}?token=${this.token}&channel=chat`
+        );
 
         this.ws.onopen = () => {
             console.log("[DEBUG] WebSocket connected");
@@ -52,7 +54,7 @@ export default class ChatWebSocketClient {
             return;
         }
 
-        const payload = { message, channel: this.channel };
+        const payload = { data: { message }, channel: this.channel };
         console.log("[DEBUG] Sending message", payload);
         this.ws.send(JSON.stringify(payload));
     }

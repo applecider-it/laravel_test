@@ -35,7 +35,9 @@ class WebSocketTest extends Command
     public function handle()
     {
         $data = [
-            "message" => "hello from Laravel Command",
+            "data" => [
+                "message" => "hello from Laravel Command",
+            ],
             "channel" => "chat",
         ];
         
