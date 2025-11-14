@@ -3,19 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-use WebSocket\Client;
-use Firebase\JWT\JWT;
 use Illuminate\Support\Facades\Route;
 
 use App\Services\WebSocket\SystemService as WebSocketSystemService;
 use App\Services\Channels\ChatChannel;
+use App\Services\AI\AiService;
 
 class TestController extends Controller
 {
     public function __construct(
-        private WebSocketSystemService $webSocketSystemService
+        private WebSocketSystemService $webSocketSystemService,
+        private AiService $aiService
     ) {}
 
     public function index()
@@ -34,14 +33,9 @@ class TestController extends Controller
     /** Laravelから、AIマイクロサービスへの送信テスト */
     public function ai_test(Request $request)
     {
-        $text = 'Hello AI';
+        $response = $this->aiService->testSend();
 
-        // FastAPIのエンドポイントにPOST
-        $response = Http::post('http://localhost:8090/predict', [
-            'text' => $text
-        ]);
-
-        Log::info('response', [$response->json()]);
+        Log::info('response', [$response]);
 
         return view('test.index');
     }
