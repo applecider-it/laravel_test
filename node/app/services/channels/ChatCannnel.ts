@@ -19,8 +19,8 @@ export default class ChatCannnel {
 
     const data = {
       type: 'newChat',
-      user: ws.user.name,
-      user_id: ws.user.id,
+      info: ws.user.info,
+      id: ws.user.id,
       message: incoming.message,
     };
 
@@ -32,10 +32,10 @@ export default class ChatCannnel {
     const str = JSON.stringify(data);
 
     wss.clients.forEach((client: any) => {
-      log(`broadcast: ${client.user?.name}`);
+      log(`broadcast:`, client.user.info);
 
       if (canBroadcast(client, 'chat')) {
-        log(`send: ${client.user?.name}`);
+        log(`send:`,  client.user.info);
         client.send(str);
       }
     });

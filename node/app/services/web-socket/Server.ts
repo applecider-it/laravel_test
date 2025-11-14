@@ -46,7 +46,7 @@ export default class Server {
     }
 
     ws.user = user;
-    log(`Authenticated: ${user.name}`);
+    log(`Authenticated:`, user.info);
 
     ws.on('message', (msg: any) => this.handleMessage(ws, msg));
 

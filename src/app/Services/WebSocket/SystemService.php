@@ -11,7 +11,7 @@ use WebSocket\Client;
 class SystemService
 {
     /** システムからの送信と判別するためのID。ユーザーの場合はIDが数値になる。 */
-    private const SYSTEM_ID = 'system';
+    public const SYSTEM_ID = 'system';
 
     public function __construct(
         private AuthService $authService
@@ -24,8 +24,7 @@ class SystemService
      */
     public function sendSystemData(array $data)
     {
-        $name = 'System';
-        $token = $this->authService->createJwt(self::SYSTEM_ID, $name);
+        $token = $this->authService->createSystemJwt();
 
         $host = env('WS_SERVER_HOST');
         $client = new Client("ws://{$host}?token={$token}");
