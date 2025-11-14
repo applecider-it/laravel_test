@@ -12,7 +12,7 @@ export async function sendToLaravel(ws: any, params: any, uri: string) {
   log('sendToLaravel', params, uri, ws.user.name);
 
   try {
-    const url = `${process.env.LARAVEL_API_URL}${uri}`;
+    const url = `http://${process.env.LARAVEL_API_HOST}${uri}`;
 
     log(`send: ${url} token ${ws.user.token}`);
 
