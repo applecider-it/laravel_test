@@ -6,16 +6,16 @@ use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
+use App\Models\User;
+
 class UserForm
 {
     public static function configure(Schema $schema): Schema
     {
+        $user = new User();
         return $schema
             ->components([
-                TextInput::make('name')
-                    ->required()
-                    ->minLength(3)
-                    ->maxLength(20),
+                $user->addAdminValidationName(TextInput::make('name')),
                 TextInput::make('email')
                     ->label('Email address')
                     ->email()

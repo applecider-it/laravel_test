@@ -67,4 +67,13 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->hasMany(Tweet::class);
     }
+
+    /** nameカラムの管理画面バリデーションを追加 */
+    public function addAdminValidationName($obj)
+    {
+        return $obj
+            ->required()
+            ->minLength(3)
+            ->maxLength(20);
+    }
 }

@@ -6,13 +6,16 @@ use App\Filament\Resources\Users\UserResource;
 use App\Models\User;
 use Filament\Resources\Pages\Page;
 use Filament\Notifications\Notification;
+use Filament\Actions\Action;
 
 class CustomActionUser extends Page
 {
     protected static string $resource = UserResource::class; // Resource に紐づけ
 
     protected string $view = 'filament.resources.users.pages.custom-action-user';
-    protected static ?string $slug = 'custom_action';
+    //protected static ?string $slug = 'custom_action';
+
+    protected static ?string $title = 'カスタムアクションページ';
 
     public User $user;
 
@@ -20,6 +23,16 @@ class CustomActionUser extends Page
     public function mount($record): void
     {
         $this->user = User::findOrFail($record); // IDで取得
+    }
+
+    public function getHeaderActions(): array
+    {
+        return [
+            Action::make('viewUser')
+                ->label('詳細ページへ')
+                ->url(fn(): string => route('filament.admin.resources.users.view', ['record' => $this->user->id]))
+                ->icon('heroicon-o-eye'),
+        ];
     }
 
     public function performAction()
