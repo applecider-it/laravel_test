@@ -3,6 +3,8 @@ import { log } from '@/services/system/log.ts';
 
 import Test from './chat-cannnel/Test.ts';
 
+const CHANNEL_ID = 'chat';
+
 /**
  * チャットチャンネル
  */
@@ -34,7 +36,7 @@ export default class ChatCannnel {
     wss.clients.forEach((client: any) => {
       log(`broadcast:`, client.user.info);
 
-      if (canBroadcast(client, 'chat')) {
+      if (canBroadcast(client, CHANNEL_ID)) {
         log(`send:`,  client.user.info);
         client.send(str);
       }
