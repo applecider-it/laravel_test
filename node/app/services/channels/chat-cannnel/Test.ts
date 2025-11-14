@@ -11,7 +11,7 @@ export default class Test {
   async callbackTest(ws: any, incoming: any) {
     if (ws.user.id === WS_SYSTEM_ID) return;
 
-    const params = { content: incoming.message };
+    const params = { content: incoming.data.message };
     const uri = '/api/chat/callback_test';
 
     const data = await sendToLaravel(ws, params, uri);
