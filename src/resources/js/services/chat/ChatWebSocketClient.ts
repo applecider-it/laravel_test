@@ -74,6 +74,6 @@ export default class ChatWebSocketClient {
 
     /** 新しいチャット受信時 */
     recieveNewChat(data) {
-        this.setMessageList((list) => [...list, data]);
+        this.setMessageList((list) => [data, ...list]);
     }
 }
