@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Redis;
 
 use App\Services\WebSocket\SystemService as WebSocketSystemService;
 use App\Services\Channels\ChatChannel;
@@ -26,6 +27,8 @@ class TestController extends Controller
         $currentRoute = Route::current(); // 現在のルート
         // 適用されている全ミドルウェア
         Log::info('gatherMiddleware', [print_r($currentRoute->gatherMiddleware(), true)]);
+
+        Redis::set('redis-test', 'TEST');
 
         return view('test.index');
     }
