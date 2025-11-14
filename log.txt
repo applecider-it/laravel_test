@@ -209,3 +209,9 @@ sudo apt install php-redis
 
 
 php artisan make:filament-page Users/CustomActionUser
+
+-----------------------------------
+
+composer require livewire/livewire
+
+php artisan make:livewire Counter
