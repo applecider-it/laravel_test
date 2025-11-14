@@ -19,29 +19,36 @@ export default class ChatCannnel {
   async handleMessage(wss: any, ws: any, incoming: any) {
     await this.test.callbackTest(ws, incoming);
 
-    const data = {
+    const targetToken = incoming.data.target_token ?? null;
+
+    log(`targetToken: `, targetToken);
+
+    const sendData = {
       type: 'newChat',
       info: ws.user.info,
       id: ws.user.id,
       data: {
         message: incoming.data.message,
-      }
+      },
     };
 
-    this.broadcast(wss, data);
+    this.broadcast(wss, sendData, targetToken);
   }
 
   /** 全体送信 */
-  private broadcast(wss: any, data: any) {
-    const str = JSON.stringify(data);
+  private broadcast(wss: any, sendData: any, targetToken: string | null) {
+    const sendDataStr = JSON.stringify(sendData);
 
     wss.clients.forEach((client: any) => {
       log(`broadcast:`, client.user.info);
 
-      if (canBroadcast(client, CHANNEL_ID)) {
-        log(`send:`,  client.user.info);
-        client.send(str);
-      }
+      if (!canBroadcast(client, CHANNEL_ID)) return;
+
+      log(`send:`, client.user.info);
+
+      if (targetToken && targetToken !== client.user.token) return;
+
+      client.send(sendDataStr);
     });
   }
 }

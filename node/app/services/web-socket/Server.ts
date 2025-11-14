@@ -51,7 +51,7 @@ export default class Server {
     ws.on('message', (msg: any) => this.handleMessage(ws, msg));
 
     ws.on('close', () => {
-      log(`Disconnected: ${ws.user?.name}`);
+      log(`Disconnected: ${ws.user.info.name}`);
     });
   }
 

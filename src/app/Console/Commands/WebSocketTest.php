@@ -14,7 +14,7 @@ class WebSocketTest extends Command
      *
      * @var string
      */
-    protected $signature = 'app:web-socket-test';
+    protected $signature = 'app:web-socket-test {--token=}';
 
     /**
      * The console command description.
@@ -34,14 +34,23 @@ class WebSocketTest extends Command
      */
     public function handle()
     {
+        $token = $this->option('token');
+        $this->info("TOKEN = {$token}");
+
         $data = [
-            "data" => [
-                "message" => "hello from Laravel Command",
-            ],
+            "message" => "hello from Laravel Command",
+        ];
+
+        if ($token) $data['target_token'] = $token;
+
+        $sendData = [
+            "data" => $data,
             "channel" => "chat",
         ];
+
+        $this->info("sendData: " . print_r($sendData, true));
         
-        $response = $this->webSocketSystemService->sendSystemData($data);
+        $response = $this->webSocketSystemService->sendSystemData($sendData);
 
         Log::info('websocket_test response', [$response]);
     }

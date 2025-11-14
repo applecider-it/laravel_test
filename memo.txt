@@ -74,6 +74,10 @@ admin / admin@localhost.com / adminadmin
 
 php artisan app:web-socket-test
 
+トークン指定する時
+
+php artisan app:web-socket-test --token=XXXXXXXXX
+
 -----------------------------------
 
 
