@@ -231,3 +231,10 @@ php artisan make:model AdminUser
 php artisan migrate
 
 php artisan migrate:rollback
+
+-----------------------------------
+
+php artisan make:migration rename_tweets_to_user_tweets
+
+php artisan migrate
+

@@ -2,8 +2,8 @@
 
 namespace App\Services\Tweet;
 
-use App\Models\Tweet;
 use App\Models\User;
+use App\Models\User\Tweet as UserTweet;
 
 /**
  * ツイートのフォーム関連
@@ -15,7 +15,7 @@ class FormService
      */
     public function newTweetValidation()
     {
-        $tweet = new Tweet();
+        $tweet = new UserTweet();
         return [
             'rules' => [
                 'content' => $tweet->validation_content(),

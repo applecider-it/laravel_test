@@ -1,11 +1,15 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\User;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\User;
+
 class Tweet extends Model
 {
+    protected $table = 'user_tweets';
+
     protected $fillable = [
         'content',
     ];

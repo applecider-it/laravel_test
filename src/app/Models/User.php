@@ -10,6 +10,8 @@ use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 
+use App\Models\User\Tweet as UserTweet;
+
 /**
  * ユーザーモデル
  * 
@@ -65,7 +67,7 @@ class User extends Authenticatable implements FilamentUser
     /** ツイートモデルのリレーション */
     public function tweets()
     {
-        return $this->hasMany(Tweet::class);
+        return $this->hasMany(UserTweet::class);
     }
 
     /** 名前のバリデーション */

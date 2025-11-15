@@ -2,7 +2,7 @@
 
 namespace App\Services\Tweet;
 
-use App\Models\Tweet;
+use App\Models\User\Tweet as UserTweet;
 
 /**
  * ツイートの一覧関連
@@ -14,7 +14,7 @@ class ListService
      */
     public function getTweetsForList(?string $searchWord, ?string $sort, ?string $sortType)
     {
-        $tweets = Tweet::with('user');
+        $tweets = UserTweet::with('user');
         
         if (!empty($searchWord)) {
             $tweets->where('content', 'like', "%{$searchWord}%");

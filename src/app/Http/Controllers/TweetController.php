@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Tweet;
+use App\Models\User\Tweet as UserTweet;
 
 use App\Services\Tweet\ListService as TweetListService;
 use App\Services\Tweet\FormService as TweetFormService;
@@ -66,7 +66,7 @@ class TweetController extends Controller
     /** 一覧ページ(React) */
     public function index_react()
     {
-        $tweets = Tweet::with('user')->latest()->get();
+        $tweets = UserTweet::with('user')->latest()->get();
         return view('tweets.index_react', compact('tweets'));
     }
 
