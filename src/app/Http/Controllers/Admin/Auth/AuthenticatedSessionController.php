@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\LoginRequest;
@@ -16,7 +16,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
-        return view('admin.login');
+        return view('admin.auth.login');
     }
 
     /**

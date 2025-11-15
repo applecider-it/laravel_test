@@ -3,21 +3,93 @@
 @tailwind utilities;
 
 @layer components {
+    /* ボタンの共通設定 */
     .app-btn {
         @apply px-4 py-2 rounded;
     }
+
     .app-btn-primary {
         @apply app-btn text-white bg-blue-500;
     }
+    .app-btn-secondary {
+        @apply app-btn bg-gray-500 hover:bg-gray-600 text-white;
+    }
+    .app-btn-danger {
+        @apply bg-red-500 hover:bg-red-600 text-white;
+    }
+    .app-btn-orange {
+        @apply bg-yellow-500 hover:bg-yellow-600 text-white;
+    }
+
+    .app-btn-small {
+        @apply px-3 py-1 rounded-md text-sm;
+    }
+
+    /* 入力項目エラー */
     .app-error-text {
         @apply text-red-500 text-sm;
     }
 
+    /* ヘッダーのタイトルの標準 */
     .app-header-title {
         @apply font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight;
     }
 
+    /* 通常のリンク */
     .app-link-normal {
         @apply text-blue-600 hover:underline;
+    }
+
+    /* フォーム全体 */
+    .app-form {
+        @apply bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-4;
+    }
+
+    /* テキストボックス */
+    .app-form-input {
+        @apply block w-full rounded-md;
+        @apply border-gray-300 dark:border-gray-600;
+        @apply dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm;
+        @apply focus:ring-blue-500 focus:border-blue-500 sm:text-sm;
+    }
+
+    /* フォームのラベル */
+    .app-form-label {
+        @apply block text-sm font-medium text-gray-700 dark:text-gray-200;
+    }
+
+    /* テーブルをレスポンシブ対応させるためのコンテナ */
+    .app-table-container {
+        @apply overflow-x-auto bg-white dark:bg-gray-800 shadow-md rounded-lg;
+    }
+
+    /* tableタグ用 */
+    .app-table {
+        @apply min-w-full divide-y divide-gray-200 dark:divide-gray-700;
+    }
+
+    /* テーブルのtheadタグ用 */
+    .app-table-thead {
+        @apply bg-gray-50 dark:bg-gray-700;
+    }
+
+    /* テーブルのtbodyタグ用 */
+    .app-table-tbody {
+        @apply bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700;
+    }
+
+    /* テーブルのthタグ用 */
+    .app-table-th {
+        @apply px-6 py-3 text-xs font-medium text-gray-500 dark:text-gray-300 tracking-wider;
+    }
+
+    /* テーブルのtdタグ用 */
+    .app-table-td {
+        @apply px-6 py-4 whitespace-nowrap;
+    }
+
+    /* 検索用の入力ボックス */
+    .app-search-input {
+        @apply px-3 py-1 rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-blue-500 focus:border-blue-500 sm:text-sm;
     }
 }

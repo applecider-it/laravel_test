@@ -49,3 +49,4 @@ Route::get('/test/websocket_test', [TestController::class, 'websocket_test'])->n
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/admin.php';
+require __DIR__ . '/admin_auth.php';
