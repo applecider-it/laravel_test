@@ -220,3 +220,14 @@ php artisan make:livewire Counter
 
 
 php artisan vendor:publish --tag=filament-config
+
+-----------------------------------
+
+
+php artisan make:migration create_admin_users_table
+
+php artisan make:model AdminUser
+
+php artisan migrate
+
+php artisan migrate:rollback
