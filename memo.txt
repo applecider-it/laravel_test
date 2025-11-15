@@ -109,3 +109,51 @@ php artisan route:list
 
 -----------------------------------
 
+メールキャッチャー
+
+
+dockerデスクトップ起動
+
+docker run -d --name mailhog -p 1025:1025 -p 8025:8025 mailhog/mailhog
+
+一度作った後は、Docker Desktopから起動できる
+
+
+状態確認
+docker ps -a
+
+再起動
+docker start mailhog
+
+
+http://localhost:8025/
+
+
+確認方法
+
+php artisan tinker
+
+Mail::raw('MailHog テスト', function($m){
+    $m->to('test@example.com')->subject('MailHog from WSL');
+});
+
+-----------------------------------
+
+ジョブ
+
+ワーカー起動
+
+php artisan queue:work
+
+ジョブ追加コマンド
+
+php artisan app:test-job-runner
+
+
+php artisan tinker
+
+$user = App\Models\User::first(); $obj = App\Jobs\TestJob::dispatch(date('H:i:s'), $user); unset($obj);
+
+dispatchは、PendingDispatchクラスインスタンスを作るだけ、実際に実行されるのはPendingDispatchクラスのデストラクタなので、unsetが必要。
+
+-----------------------------------

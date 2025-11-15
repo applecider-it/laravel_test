@@ -238,3 +238,11 @@ php artisan make:migration rename_tweets_to_user_tweets
 
 php artisan migrate
 
+-----------------------------------
+
+php artisan make:job TestJob
+
+php artisan queue:table
+
+php artisan make:command TestJobRunner
+
