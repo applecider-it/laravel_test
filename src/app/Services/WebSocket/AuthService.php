@@ -26,7 +26,7 @@ class AuthService
             'name' => $user->name,
             'iat' => time(),
             'exp' => time() + 60 * 60 * 12, // 12時間
-        ], env('WS_JWT_SECRET'), self::ALGORITHM);
+        ], env('APP_WS_JWT_SECRET'), self::ALGORITHM);
 
         return $token;
     }
@@ -45,7 +45,7 @@ class AuthService
             'name' => $name,
             'iat' => time(),
             'exp' => time() + 60, // 1分
-        ], env('WS_JWT_SECRET'), self::ALGORITHM);
+        ], env('APP_WS_JWT_SECRET'), self::ALGORITHM);
 
         return $token;
     }
@@ -58,7 +58,7 @@ class AuthService
     public function parseJwt($token)
     {
         try {
-            $payload = JWT::decode($token, new Key(env('WS_JWT_SECRET'), self::ALGORITHM));
+            $payload = JWT::decode($token, new Key(env('APP_WS_JWT_SECRET'), self::ALGORITHM));
             $sub = $payload->sub;
             $name = $payload->name;
 

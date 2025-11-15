@@ -31,7 +31,7 @@ class SystemService
 
         $token = $this->authService->createSystemJwt();
 
-        $host = env('WS_SERVER_HOST');
+        $host = env('APP_WS_SERVER_HOST');
         $client = new Client("ws://{$host}?token={$token}");
         $client->send(json_encode($sendData));
         $response = $client->receive();

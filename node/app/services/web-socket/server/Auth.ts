@@ -18,12 +18,11 @@ export default class Auth {
     log(`channel: ${channel}`);
 
     if (!token) return null;
-    log(`WS_JWT_SECRET: ${process.env.WS_JWT_SECRET}`);
 
     let payload: any = null;
 
     try {
-      payload = jwt.verify(token, process.env.WS_JWT_SECRET!);
+      payload = jwt.verify(token, process.env.APP_WS_JWT_SECRET!);
     } catch (e) {
       console.error(e);
       return null;
