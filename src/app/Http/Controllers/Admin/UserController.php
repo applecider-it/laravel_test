@@ -70,7 +70,7 @@ class UserController extends Controller
             rules: [
                 'name'  => $user->validationName(),
                 'email' => $user->validationEmail(),
-                'password' => $user->validationPassword(),
+                'password' => $user->validationPassword(true),
             ],
             attributes: [
                 'name' => __('models.user.columns.name'),

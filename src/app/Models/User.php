@@ -80,10 +80,17 @@ class User extends Authenticatable implements FilamentUser
         return ['required', 'email', 'unique:users,email' . ($this->exists ? ',' . $this->id : '')];
     }
 
-    /** メールアドレスのバリデーション */
-    public function validationPassword()
+    /**
+     * パスワードのバリデーション
+     * 
+     * 更新時にパスワードを変更しないときの空白を許可したいときは、$nullableをtrueにする。
+     */
+    public function validationPassword(bool $nullable = false)
     {
-        return ['required', 'string', 'min:8', 'confirmed'];
+        $arr = [];
+        $arr[] = $nullable ? 'nullable' : 'required';
+        $arr += ['string', 'min:8', 'confirmed'];
+        return $arr;
     }
 
     /** nameカラムの管理画面バリデーションを追加。動作確認用なので内容は適当。 */
