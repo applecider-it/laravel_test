@@ -9,8 +9,8 @@ export default defineConfig({
             input: [
                 "resources/css/app.css",
                 "resources/js/app.ts",
-                "resources/js/tweet.ts",
-                "resources/js/chat.ts",
+                "resources/js/entrypoints/tweet.ts",
+                "resources/js/entrypoints/chat.ts",
             ],
             refresh: true,
         }),

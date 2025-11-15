@@ -12,5 +12,5 @@
 
     {{-- Vite の JS 読み込み --}}
     @viteReactRefresh
-    @vite(['resources/js/chat.ts'])
+    @vite(['resources/js/entrypoints/chat.ts'])
 </x-app-layout>
