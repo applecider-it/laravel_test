@@ -39,7 +39,7 @@ class WebSocketTest extends Command
         $this->info("TOKEN = {$token}");
 
         $data = [
-            "message" => "hello from Laravel Command " . date('Y-m-d h:i:s'),
+            "message" => "システムからの送信（コマンド） " . date('Y-m-d h:i:s'),
         ];
 
         if ($token) $data['target_token'] = $token;

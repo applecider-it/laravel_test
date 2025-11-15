@@ -47,7 +47,7 @@ class TestController extends Controller
     public function websocket_test(Request $request)
     {
         $data = [
-            "message" => "hello from Laravel " . date('Y-m-d h:i:s'),
+            "message" => "システムからの送信 " . date('Y-m-d h:i:s'),
         ];
 
         $response = $this->webSocketSystemService->sendSystemData(ChatChannel::CHANNEL_ID, $data);

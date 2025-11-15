@@ -38,7 +38,7 @@ class AuthService
      */
     public function createSystemJwt()
     {
-        $name = 'System';
+        $name = 'システム';
         $id = SystemService::SYSTEM_ID;
         $token = JWT::encode([
             'sub' => $id,

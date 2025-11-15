@@ -93,6 +93,8 @@ App\Models\AdminUser::create(
 
 コマンド
 
+システムチャットのテスト送信
+
 php artisan app:web-socket-test
 
 トークン指定する時
