@@ -36,16 +36,17 @@ class UserController extends Controller
     // 作成処理
     public function store(Request $request)
     {
+        $user = new User();
         $validated = $request->validate(
             rules: [
-                'name'  => 'required|string|max:255',
-                'email' => 'required|email|unique:users,email',
-                'password' => 'required|string|min:8|confirmed',
+                'name'  => $user->validationName(),
+                'email' => $user->validationEmail(),
+                'password' => $user->validationPassword(),
             ],
             attributes: [
-                'name' => '名前',
-                'email' => 'メールアドレス',
-                'password' => 'パスワード',
+                'name' => __('models.user.columns.name'),
+                'email' => __('models.user.columns.email'),
+                'password' => __('models.user.columns.password'),
             ]
         );
 
@@ -67,14 +68,14 @@ class UserController extends Controller
     {
         $validated = $request->validate(
             rules: [
-                'name'  => 'required|string|max:255',
-                'email' => 'required|email|unique:users,email,' . $user->id,
-                'password' => 'nullable|string|min:8|confirmed',
+                'name'  => $user->validationName(),
+                'email' => $user->validationEmail(),
+                'password' => $user->validationPassword(),
             ],
             attributes: [
-                'name' => '名前',
-                'email' => 'メールアドレス',
-                'password' => 'パスワード',
+                'name' => __('models.user.columns.name'),
+                'email' => __('models.user.columns.email'),
+                'password' => __('models.user.columns.password'),
             ]
         );
 

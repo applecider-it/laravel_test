@@ -68,7 +68,25 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(Tweet::class);
     }
 
-    /** nameカラムの管理画面バリデーションを追加 */
+    /** 名前のバリデーション */
+    public function validationName()
+    {
+        return ['required', 'string', 'max:255'];
+    }
+
+    /** メールアドレスのバリデーション */
+    public function validationEmail()
+    {
+        return ['required', 'email', 'unique:users,email' . ($this->exists ? ',' . $this->id : '')];
+    }
+
+    /** メールアドレスのバリデーション */
+    public function validationPassword()
+    {
+        return ['required', 'string', 'min:8', 'confirmed'];
+    }
+
+    /** nameカラムの管理画面バリデーションを追加。動作確認用なので内容は適当。 */
     public function addAdminValidationName($obj)
     {
         return $obj
