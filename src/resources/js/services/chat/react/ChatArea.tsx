@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 /** チャットコンポーネント */
-export default function Chat({ chatClient }) {
+export default function ChatArea({ chatClient }) {
     const [message, setMessage] = useState("");
     const [messageList, setMessageList] = useState([]);
 

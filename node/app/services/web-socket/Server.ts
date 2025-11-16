@@ -3,13 +3,14 @@ import WebSocket, { WebSocketServer } from 'ws';
 import { log } from '@/services/system/log.ts';
 
 import ChatCannnel from '@/services/channels/ChatCannnel.ts';
+import TweetCannnel from '@/services/channels/TweetCannnel.ts';
 
 import Auth from './server/Auth.ts';
 
 type Options = {
   host: string;
   port: number;
-}
+};
 
 /**
  * WebSocket サーバー管理
@@ -27,6 +28,7 @@ export default class Server {
 
     this.channels = {};
     this.channels.chat = new ChatCannnel();
+    this.channels.tweet = new TweetCannnel();
 
     this.wss = new WebSocketServer({ host, port });
 
@@ -70,8 +72,9 @@ export default class Server {
     // これがないとLaravelでrecieveしたときに止まる
     ws.send(JSON.stringify({ type: 'sended', ok: true }));
 
-    if (incoming.channel == 'chat') {
-      this.channels.chat.handleMessage(this.wss, ws, incoming);
+    const handler = this.channels[incoming.channel];
+    if (handler) {
+      handler.handleMessage(this.wss, ws, incoming);
     }
   }
 }

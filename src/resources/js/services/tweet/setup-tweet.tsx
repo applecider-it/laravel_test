@@ -4,14 +4,19 @@
 
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import TweetApp from './TweetApp';
+import TweetArea from './react/TweetArea';
 
-const el = document.getElementById('tweet-app');
+import TweetClient from "./TweetClient";
+
+const el: any = document.getElementById('tweet-app');
 
 if (el) {
-    const initialTweets = JSON.parse(el.dataset.tweets);
-    const currentUser = JSON.parse(el.dataset.user);
+    const all = JSON.parse(el.dataset.all);
+
+    console.log(all);
+
+    const tweetClient = new TweetClient(all.token, all.wsHost);
 
     const root = createRoot(el);
-    root.render(<TweetApp initialTweets={initialTweets} currentUser={currentUser} />);
+    root.render(<TweetArea initialTweets={all.tweets} tweetClient={tweetClient} />);
 }

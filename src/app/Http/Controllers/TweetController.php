@@ -3,17 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
 use App\Models\User\Tweet as UserTweet;
 
 use App\Services\Tweet\ListService as TweetListService;
 use App\Services\Tweet\FormService as TweetFormService;
+use App\Services\Tweet\WebsocketService as TweetWebsocketService;
 use App\Http\Resources\User\TweetResource;
+use App\Services\WebSocket\AuthService as WebSocketAuthService;
 
 class TweetController extends Controller
 {
     public function __construct(
         private TweetListService $tweetListService,
-        private TweetFormService $tweetFormService
+        private TweetFormService $tweetFormService,
+        private TweetWebsocketService $tweetWebsocketService,
+        private WebSocketAuthService $webSocketAuthService
     ) {}
 
     /** 一覧ページ */
@@ -65,10 +71,14 @@ class TweetController extends Controller
     }
 
     /** 一覧ページ(React) */
-    public function index_react()
+    public function index_react(Request $request)
     {
-        $tweets = UserTweet::with('user')->latest()->get();
-        return view('tweets.index_react', compact('tweets'));
+        $user = $request->user();
+        $tweets = UserTweet::with('user')->latest()->take(20)->get();
+
+        $token = $this->webSocketAuthService->createUserJwt($user);
+
+        return view('tweets.index_react', compact('tweets', 'token'));
     }
 
     /** 追加処理API */
@@ -85,6 +95,15 @@ class TweetController extends Controller
 
         $tweet = $this->tweetFormService->newTweet($user, $content);
 
-        return new TweetResource($tweet->load('user'));
+        $tweetResource = new TweetResource($tweet->load('user'));
+
+        $tweetArray = $tweetResource->toArray(request());
+
+        Log::info('tweetResource', [$tweetResource]);
+        Log::info('tweetResource->toArray', [$tweetArray]);
+
+        $this->tweetWebsocketService->sendNewTweet($tweetArray);
+
+        return $tweetResource;
     }
 }
