@@ -145,7 +145,8 @@ Mail::raw('MailHog テスト', function($m){
 
 php artisan queue:work
 
-ジョブ追加コマンド
+
+ジョブ追加用テストコマンド
 
 php artisan app:test-job-runner
 

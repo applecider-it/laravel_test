@@ -11,6 +11,9 @@ use Illuminate\Queue\SerializesModels;
 
 use App\Models\User;
 
+/**
+ * ユーザー更新時メール
+ */
 class UserUpdatedMail extends Mailable
 {
     use Queueable, SerializesModels;
