@@ -1,8 +1,9 @@
 /**
- * ChatWebSocketClient
- * JWT認証付き WebSocket クライアント
+ * チャットクライアント
+ * 
+ * JWT認証付き WebSocket
  */
-export default class ChatWebSocketClient {
+export default class ChatClient {
     token;
     wsHost;
     ws;
