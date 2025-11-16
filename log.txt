@@ -246,3 +246,7 @@ php artisan queue:table
 
 php artisan make:command TestJobRunner
 
+-----------------------------------
+
+php artisan make:mail UserUpdatedMail
+
