@@ -2,7 +2,7 @@ import "./bootstrap";
 
 import Alpine from "alpinejs";
 
-import { initServiceWorker } from "./service-worker";
+import { initServiceWorker } from "@/services/service-worker/service-worker";
 
 window.Alpine = Alpine;
 

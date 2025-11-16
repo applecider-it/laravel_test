@@ -2,4 +2,4 @@
  * アプリケーションのエントリーポイント
  */
 
-import './services/app/setup-app';
+import "@/services/app/setup-app";

@@ -177,6 +177,8 @@ sudo service php8.3-fpm restart
 
 sudo vi /etc/nginx/sites-available/laravel_app
 
+http://localhost/
+
 -----------------------------------
 
 push通知
