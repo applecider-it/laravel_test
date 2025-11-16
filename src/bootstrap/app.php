@@ -15,12 +15,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        // 既存 'guest' を上書き
+        // 既存ミドルウェアを上書き
         $middleware->alias([
             'auth' => Authenticate::class,
             'guest' => RedirectIfAuthenticated::class,
         ]);
     })
+    ->withEvents(discover: false)
     ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->create();
