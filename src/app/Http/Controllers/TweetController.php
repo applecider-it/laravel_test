@@ -7,6 +7,7 @@ use App\Models\User\Tweet as UserTweet;
 
 use App\Services\Tweet\ListService as TweetListService;
 use App\Services\Tweet\FormService as TweetFormService;
+use App\Http\Resources\User\TweetResource;
 
 class TweetController extends Controller
 {
@@ -84,8 +85,6 @@ class TweetController extends Controller
 
         $tweet = $this->tweetFormService->newTweet($user, $content);
 
-        return response()->json(
-            $tweet->load('user')
-        );
+        return new TweetResource($tweet->load('user'));
     }
 }

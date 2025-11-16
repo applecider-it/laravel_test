@@ -14,7 +14,7 @@ export default function TweetApp({ initialTweets }) {
         try {
             const response = await axios.post('/tweets/api', { content });
             console.log('response.data', response.data);
-            setTweets([response.data, ...tweets]);
+            setTweets([response.data.data, ...tweets]);
             setContent('');
             setErrors({});
         } catch (error) {

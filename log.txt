@@ -258,5 +258,8 @@ php artisan make:event TestEvent
 
 php artisan make:listener TestListener --event=TestEvent
 
+-----------------------------------
+
+php artisan make:resource User/TweetResource
 
 
