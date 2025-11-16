@@ -21,6 +21,8 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::post('/push_notification', [TestController::class, 'push_notification']);
+
 Route::middleware('auth')->group(function () {
     // 認証必須
 

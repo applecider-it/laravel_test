@@ -325,3 +325,7 @@ sudo setfacl -R -m u:$(whoami):rwx storage bootstrap/cache
 sudo apt update
 sudo apt install acl
 
+
+-----------------------------------
+
+php artisan make:command PushNotificationTest

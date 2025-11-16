@@ -11,4 +11,8 @@
 <!-- Scripts -->
 @vite(['resources/css/app.css', 'resources/js/app.ts'])
 
+<link rel="manifest" href="/manifest.json">
+
+<meta name="vapid-public-key" content="{{ env('APP_VAPID_PUBLIC_KEY') }}">
+
 <title>{{ config('app.name', 'Laravel') }}</title>

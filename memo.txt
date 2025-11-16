@@ -177,4 +177,15 @@ sudo service php8.3-fpm restart
 
 sudo vi /etc/nginx/sites-available/laravel_app
 
+-----------------------------------
+
+push通知
+
+キー出力
+npx web-push generate-vapid-keys
+
+テスト送信コマンド
+
+php artisan app:push-notification-test
+
 

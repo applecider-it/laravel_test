@@ -60,4 +60,19 @@ class TestController extends Controller
 
         return view('test.index');
     }
+
+    /** プッシュ通知のテスト用登録処理 */
+    public function push_notification(Request $request)
+    {
+        $all = $request->all();
+
+        Log::info('push_notification push_notification-test', [Redis::get('push_notification-test')]);
+        Log::info('push_notification all', [$all]);
+
+        Redis::set('push_notification-test', json_encode($all));
+
+        return response()->json([
+            'status' => 'ok',
+        ]);
+    }
 }
