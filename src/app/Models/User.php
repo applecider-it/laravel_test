@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Validation\Rules;
 
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
@@ -73,13 +74,23 @@ class User extends Authenticatable implements FilamentUser
     /** 名前のバリデーション */
     public function validationName()
     {
-        return ['required', 'string', 'max:255'];
+        return [
+            'required',
+            'string',
+            'max:255'
+        ];
     }
 
     /** メールアドレスのバリデーション */
     public function validationEmail()
     {
-        return ['required', 'email', 'unique:users,email' . ($this->exists ? ',' . $this->id : '')];
+        return [
+            'required',
+            'email',
+            'lowercase',
+            'max:255',
+            'unique:users,email' . ($this->exists ? ',' . $this->id : '')
+        ];
     }
 
     /**
@@ -91,11 +102,11 @@ class User extends Authenticatable implements FilamentUser
     {
         $arr = [];
         $arr[] = $nullable ? 'nullable' : 'required';
-        $arr += ['string', 'min:8', 'confirmed'];
+        $arr += ['string', 'min:8', 'confirmed', Rules\Password::defaults()];
         return $arr;
     }
 
-    /** nameカラムの管理画面バリデーションを追加。動作確認用なので内容は適当。 */
+    /** nameカラムのfilament管理画面バリデーションを追加。動作確認用なので内容は適当。 */
     public function addAdminValidationName($obj)
     {
         return $obj

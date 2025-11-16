@@ -32,6 +32,14 @@ class LoginRequest extends FormRequest
         ];
     }
 
+    public function attributes()
+    {
+        return [
+            'email' => __('app.models.user.columns.email'),
+            'password' => __('app.models.user.columns.password'),
+        ];
+    }
+
     /**
      * Attempt to authenticate the request's credentials.
      *

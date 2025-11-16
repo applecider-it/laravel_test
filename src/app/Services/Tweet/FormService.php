@@ -21,7 +21,7 @@ class FormService
                 'content' => $tweet->validation_content(),
             ],
             'attributes' => [
-                'content' => __('models.tweet.columns.content')
+                'content' => __('app.models.user/tweet.columns.content')
             ]
         ];
     }

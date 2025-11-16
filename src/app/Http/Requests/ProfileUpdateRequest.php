@@ -15,16 +15,19 @@ class ProfileUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
+        $user = $this->user();
+
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => [
-                'required',
-                'string',
-                'lowercase',
-                'email',
-                'max:255',
-                Rule::unique(User::class)->ignore($this->user()->id),
-            ],
+            'name' => $user->validationName(),
+            'email' => $user->validationEmail(),
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'name' => __('app.models.user.columns.name'),
+            'email' => __('app.models.user.columns.email'),
         ];
     }
 }
