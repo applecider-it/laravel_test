@@ -32,6 +32,11 @@ class TestController extends Controller
 
         Redis::set('redis-test', 'TEST');
 
+        //Redis::rpush('rpush-test', 'RPUSH' . time());
+        //Log::info('rpush-test', [Redis::lpop('rpush-test')]);
+
+        //Redis::rpush('push_queue', Redis::get('push_notification-test'));
+
         event(new TestEvent($user));
 
         return view('test.index');

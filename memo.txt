@@ -40,7 +40,14 @@ nodeディレクトリに移動してから実行したほうが無難。
 
 cd /home/owner/workspace/tmp/laravel_test/node
 
-npx tsx watch ./app/entrypoints/server.js
+
+websocketサーバー起動
+
+npx tsx watch ./app/entrypoints/websocket-server.js
+
+Push通知まとめて送信
+
+npx tsx ./app/entrypoints/push-sender.js
 
 
 本番起動
@@ -184,10 +191,38 @@ http://localhost/
 push通知
 
 キー出力
+
 npx web-push generate-vapid-keys
+
+
+とりあえずの動作確認だけしか実装していない
+
 
 テスト送信コマンド
 
 php artisan app:push-notification-test
 
 
+nodeを使った送信
+
+TestController.indexのpush_queueをコメントアウトを有効にしてキューを追加してから、node実行
+
+-----------------------------------
+
+Redis
+
+redis-cli
+
+キー取得
+
+keys *
+
+値取得
+
+get key
+
+rpushの値の取得
+
+LRANGE key 0 -1
+
+-----------------------------------

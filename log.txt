@@ -329,3 +329,17 @@ sudo apt install acl
 -----------------------------------
 
 php artisan make:command PushNotificationTest
+
+
+# 本体
+npm install web-push
+
+# TypeScript 型定義（推奨）
+npm install -D @types/web-push
+
+
+npm install web-push
+
+npm install ioredis
+npm install -D @types/ioredis
+
