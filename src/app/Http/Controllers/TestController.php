@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Redis;
 use App\Services\WebSocket\SystemService as WebSocketSystemService;
 use App\Services\Channels\ChatChannel;
 use App\Services\AI\AiService;
+use App\Events\TestEvent;
 
 class TestController extends Controller
 {
@@ -18,8 +19,9 @@ class TestController extends Controller
         private AiService $aiService
     ) {}
 
-    public function index()
+    public function index(Request $request)
     {
+        $user = $request->user();
 
         Log::info('getMiddleware', [print_r(app('router')->getMiddleware(), true)]);
         Log::info('getMiddlewareGroups', [print_r(app('router')->getMiddlewareGroups(), true)]);
@@ -29,6 +31,8 @@ class TestController extends Controller
         Log::info('gatherMiddleware', [print_r($currentRoute->gatherMiddleware(), true)]);
 
         Redis::set('redis-test', 'TEST');
+
+        event(new TestEvent($user));
 
         return view('test.index');
     }

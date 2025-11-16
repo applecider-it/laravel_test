@@ -251,3 +251,12 @@ php artisan make:command TestJobRunner
 php artisan make:mail UserUpdatedMail
 
 php artisan make:job UserUpdatedMailJob
+
+-----------------------------------
+
+php artisan make:event TestEvent
+
+php artisan make:listener TestListener --event=TestEvent
+
+
+

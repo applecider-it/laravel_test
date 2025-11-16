@@ -158,3 +158,10 @@ $user = App\Models\User::first(); $obj = App\Jobs\TestJob::dispatch(date('H:i:s'
 dispatchは、PendingDispatchクラスインスタンスを作るだけ、実際に実行されるのはPendingDispatchクラスのデストラクタなので、unsetが必要。
 
 -----------------------------------
+
+イベント
+
+一覧
+
+php artisan event:list
+
