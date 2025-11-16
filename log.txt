@@ -266,3 +266,62 @@ php artisan make:resource User/TweetResource
 
 php artisan make:provider EventServiceProvider
 
+-----------------------------------
+
+
+# 更新
+sudo apt update && sudo apt upgrade -y
+
+# nginx と php-fpm をインストール
+sudo apt install -y nginx php-fpm
+
+sudo vi /etc/nginx/sites-available/laravel_app
+
+server {
+    listen 80;
+    server_name localhost;
+
+    root /home/owner/workspace/tmp/laravel_test/src/public;
+    index index.php index.html;
+
+    # Laravel のフロントコントローラーにリクエストを渡す
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    # PHP-FPM に渡す設定
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php8.3-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    # 静的ファイル（CSS / JS / 画像など）は直接配信
+    location ~* \.(jpg|jpeg|gif|png|css|js|ico|webp|tiff|ttf|woff|woff2|svg|eot)$ {
+        expires max;
+        log_not_found off;
+    }
+
+    # セキュリティ向上: .env 等の隠しファイルはアクセス禁止
+    location ~ /\. {
+        deny all;
+    }
+
+    # エラーログなど
+    error_log /home/owner/workspace/tmp/laravel_test/src/storage/logs/nginx_error.log;
+    access_log /home/owner/workspace/tmp/laravel_test/src/storage/logs/nginx_access.log;
+}
+
+
+sudo ln -s /etc/nginx/sites-available/laravel_app /etc/nginx/sites-enabled/
+
+ps aux | grep nginx
+ps aux | grep php-fpm
+
+sudo setfacl -R -m u:www-data:rwx storage bootstrap/cache
+sudo setfacl -R -m u:$(whoami):rwx storage bootstrap/cache
+
+sudo apt update
+sudo apt install acl
+

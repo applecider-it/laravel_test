@@ -165,3 +165,16 @@ dispatchは、PendingDispatchクラスインスタンスを作るだけ、実際
 
 php artisan event:list
 
+-----------------------------------
+
+nginx
+
+systemctl status nginx
+systemctl status php8.3-fpm
+
+sudo service nginx restart
+sudo service php8.3-fpm restart
+
+sudo vi /etc/nginx/sites-available/laravel_app
+
+
