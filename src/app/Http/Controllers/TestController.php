@@ -21,6 +21,57 @@ class TestController extends Controller
 
     public function index(Request $request)
     {
+        return view('test.index');
+    }
+
+    /** Laravelから、AIマイクロサービスへの送信テスト */
+    public function ai_test(Request $request)
+    {
+        $response = $this->aiService->testSend();
+
+        Log::info('response', [$response]);
+
+        return view('test.complate');
+    }
+
+    /** Laravelから、websocketマイクロサービスへの送信テスト */
+    public function websocket_test(Request $request)
+    {
+        $data = [
+            "message" => "システムからの送信 " . date('Y-m-d h:i:s'),
+        ];
+
+        $response = $this->webSocketSystemService->sendSystemData(ChatChannel::CHANNEL_ID, $data);
+
+        Log::info('websocket_test response', [$response]);
+
+        return view('test.complate');
+    }
+
+    /** プッシュ通知のテスト用登録処理 */
+    public function push_notification(Request $request)
+    {
+        $all = $request->all();
+
+        Log::info('push_notification push_notification-test', [Redis::get('push_notification-test')]);
+        Log::info('push_notification all', [$all]);
+
+        Redis::set('push_notification-test', json_encode($all));
+
+        return response()->json([
+            'status' => 'ok',
+        ]);
+    }
+
+    /** livewireテスト */
+    public function livewire_test(Request $request)
+    {
+        return view('test.livewire_test');
+    }
+
+    /** backendテスト */
+    public function backend_test(Request $request)
+    {
         $user = $request->user();
 
         Log::info('getMiddleware', [print_r(app('router')->getMiddleware(), true)]);
@@ -39,45 +90,6 @@ class TestController extends Controller
 
         event(new TestEvent($user));
 
-        return view('test.index');
-    }
-
-    /** Laravelから、AIマイクロサービスへの送信テスト */
-    public function ai_test(Request $request)
-    {
-        $response = $this->aiService->testSend();
-
-        Log::info('response', [$response]);
-
-        return view('test.index');
-    }
-
-    /** Laravelから、websocketマイクロサービスへの送信テスト */
-    public function websocket_test(Request $request)
-    {
-        $data = [
-            "message" => "システムからの送信 " . date('Y-m-d h:i:s'),
-        ];
-
-        $response = $this->webSocketSystemService->sendSystemData(ChatChannel::CHANNEL_ID, $data);
-
-        Log::info('websocket_test response', [$response]);
-
-        return view('test.index');
-    }
-
-    /** プッシュ通知のテスト用登録処理 */
-    public function push_notification(Request $request)
-    {
-        $all = $request->all();
-
-        Log::info('push_notification push_notification-test', [Redis::get('push_notification-test')]);
-        Log::info('push_notification all', [$all]);
-
-        Redis::set('push_notification-test', json_encode($all));
-
-        return response()->json([
-            'status' => 'ok',
-        ]);
+        return view('test.complate');
     }
 }

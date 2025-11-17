@@ -47,6 +47,8 @@ Route::middleware('auth')->group(function () {
 Route::get('/test', [TestController::class, 'index'])->name('test.index');
 Route::get('/test/ai_test', [TestController::class, 'ai_test'])->name('test.ai_test');
 Route::get('/test/websocket_test', [TestController::class, 'websocket_test'])->name('test.websocket_test');
+Route::get('/test/livewire_test', [TestController::class, 'livewire_test'])->name('test.livewire_test');
+Route::get('/test/backend_test', [TestController::class, 'backend_test'])->name('test.backend_test');
 
 
 require __DIR__ . '/auth.php';
