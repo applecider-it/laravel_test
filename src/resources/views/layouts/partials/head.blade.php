@@ -9,6 +9,7 @@
 <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
 
 <!-- Scripts -->
+@viteReactRefresh
 @vite(['resources/css/app.css', 'resources/js/app.ts'])
 
 <link rel="manifest" href="/manifest.json">

@@ -17,5 +17,4 @@
     </div>
 </x-app-layout>
 
-@viteReactRefresh
 @vite('resources/js/entrypoints/tweet.ts')
