@@ -92,4 +92,10 @@ class TestController extends Controller
 
         return view('test.complate');
     }
+
+    /** Reactテスト */
+    public function react_test(Request $request)
+    {
+        return view('test.react_test');
+    }
 }
