@@ -6,9 +6,9 @@ use Illuminate\Support\ServiceProvider;
 
 use Illuminate\Support\Facades\Event;
 
-use App\Listeners\TestListener;
-use App\Listeners\Test2Listener;
-use App\Events\TestEvent;
+use App\Listeners\SampleListener;
+use App\Listeners\Sample2Listener;
+use App\Events\SampleEvent;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -25,7 +25,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Event::listen(TestEvent::class,  TestListener::class,);
-        Event::listen(TestEvent::class, Test2Listener::class,);
+        Event::listen(SampleEvent::class, SampleListener::class);
+        Event::listen(SampleEvent::class, Sample2Listener::class);
     }
 }

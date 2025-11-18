@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 
 use App\Models\User;
 
-class TestJob implements ShouldQueue
+class SampleJob implements ShouldQueue
 {
     use Queueable;
 

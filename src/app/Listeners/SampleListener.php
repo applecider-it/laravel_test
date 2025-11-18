@@ -2,13 +2,13 @@
 
 namespace App\Listeners;
 
-use App\Events\TestEvent;
+use App\Events\SampleEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
 use Illuminate\Support\Facades\Log;
 
-class TestListener
+class SampleListener
 {
     /**
      * Create the event listener.
@@ -21,8 +21,8 @@ class TestListener
     /**
      * Handle the event.
      */
-    public function handle(TestEvent $event): void
+    public function handle(SampleEvent $event): void
     {
-        Log::info('TestListener handle', [$event->user->toArray()]);
+        Log::info('SampleListener handle', [$event->user->toArray()]);
     }
 }

@@ -10,9 +10,12 @@ use Illuminate\Support\Facades\Redis;
 use App\Services\WebSocket\SystemService as WebSocketSystemService;
 use App\Services\Channels\ChatChannel;
 use App\Services\AI\AiService;
-use App\Events\TestEvent;
+use App\Events\SampleEvent;
 
-class TestController extends Controller
+/**
+ * 開発者向けページ用コントローラー
+ */
+class DevelopmentController extends Controller
 {
     public function __construct(
         private WebSocketSystemService $webSocketSystemService,
@@ -21,7 +24,7 @@ class TestController extends Controller
 
     public function index(Request $request)
     {
-        return view('test.index');
+        return view('development.index');
     }
 
     /** Laravelから、AIマイクロサービスへの送信テスト */
@@ -31,7 +34,7 @@ class TestController extends Controller
 
         Log::info('response', [$response]);
 
-        return view('test.complate');
+        return view('development.complate');
     }
 
     /** Laravelから、websocketマイクロサービスへの送信テスト */
@@ -45,13 +48,13 @@ class TestController extends Controller
 
         Log::info('websocket_test response', [$response]);
 
-        return view('test.complate');
+        return view('development.complate');
     }
 
     /** livewireテスト */
     public function livewire_test(Request $request)
     {
-        return view('test.livewire_test');
+        return view('development.livewire_test');
     }
 
     /** backendテスト */
@@ -68,14 +71,14 @@ class TestController extends Controller
 
         Redis::set('redis-test', 'TEST');
 
-        event(new TestEvent($user));
+        event(new SampleEvent($user));
 
-        return view('test.complate');
+        return view('development.complate');
     }
 
     /** Reactテスト */
     public function react_test(Request $request)
     {
-        return view('test.react_test');
+        return view('development.react_test');
     }
 }

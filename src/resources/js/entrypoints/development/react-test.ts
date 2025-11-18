@@ -2,4 +2,4 @@
  * Reactテストのエントリーポイント
  */
 
-import '@/services/test/setup-react-test.tsx';
+import '@/services/development/setup-react-test.tsx';

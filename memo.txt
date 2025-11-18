@@ -148,14 +148,14 @@ Mail::raw('MailHog テスト', function($m){
 php artisan queue:work
 
 
-ジョブ追加用テストコマンド
+ジョブ追加サンプルのコマンド
 
-php artisan app:test-job-runner
+php artisan app:sample-job-runner
 
 
 php artisan tinker
 
-$user = App\Models\User::first(); $obj = App\Jobs\TestJob::dispatch(date('H:i:s'), $user); unset($obj);
+$user = App\Models\User::first(); $obj = App\Jobs\SampleJob::dispatch(date('H:i:s'), $user); unset($obj);
 
 dispatchは、PendingDispatchクラスインスタンスを作るだけ、実際に実行されるのはPendingDispatchクラスのデストラクタなので、unsetが必要。
 

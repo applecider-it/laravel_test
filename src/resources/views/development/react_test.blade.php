@@ -8,5 +8,5 @@
     <div id="test-root" data-all="{{ json_encode([
     ]) }}"></div>
 
-    @vite(['resources/js/entrypoints/test/react-test.ts'])
+    @vite(['resources/js/entrypoints/development/react-test.ts'])
 </x-app-layout>

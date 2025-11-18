@@ -12,7 +12,7 @@ use Illuminate\Queue\SerializesModels;
 
 use App\Models\User;
 
-class TestEvent
+class SampleEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 

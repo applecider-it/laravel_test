@@ -4,17 +4,17 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-use App\Jobs\TestJob;
+use App\Jobs\SampleJob;
 use App\Models\User;
 
-class TestJobRunner extends Command
+class SampleJobRunner extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:test-job-runner';
+    protected $signature = 'app:sample-job-runner';
 
     /**
      * The console command description.
@@ -29,6 +29,6 @@ class TestJobRunner extends Command
     public function handle()
     {
         $user = User::first();
-        TestJob::dispatch(date('H:i:s'), $user);
+        SampleJob::dispatch(date('H:i:s'), $user);
     }
 }

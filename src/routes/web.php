@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TweetController;
 use App\Http\Controllers\ChatController;
-use App\Http\Controllers\TestController;
+use App\Http\Controllers\DevelopmentController;
 use App\Http\Controllers\PushNotificationController;
 
 Route::get('/', function () {
@@ -44,13 +44,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
 });
 
-// Test
-Route::get('/test', [TestController::class, 'index'])->name('test.index');
-Route::get('/test/ai_test', [TestController::class, 'ai_test'])->name('test.ai_test');
-Route::get('/test/websocket_test', [TestController::class, 'websocket_test'])->name('test.websocket_test');
-Route::get('/test/livewire_test', [TestController::class, 'livewire_test'])->name('test.livewire_test');
-Route::get('/test/backend_test', [TestController::class, 'backend_test'])->name('test.backend_test');
-Route::get('/test/react_test', [TestController::class, 'react_test'])->name('test.react_test');
+// 開発者向けページ
+Route::get('/development', [DevelopmentController::class, 'index'])->name('development.index');
+Route::get('/development/ai_test', [DevelopmentController::class, 'ai_test'])->name('development.ai_test');
+Route::get('/development/websocket_test', [DevelopmentController::class, 'websocket_test'])->name('development.websocket_test');
+Route::get('/development/livewire_test', [DevelopmentController::class, 'livewire_test'])->name('development.livewire_test');
+Route::get('/development/backend_test', [DevelopmentController::class, 'backend_test'])->name('development.backend_test');
+Route::get('/development/react_test', [DevelopmentController::class, 'react_test'])->name('development.react_test');
 
 
 require __DIR__ . '/auth.php';
