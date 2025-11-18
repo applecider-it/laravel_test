@@ -348,3 +348,13 @@ npm install -D @types/ioredis
 composer remove filament/filament
 
 
+-----------------------------------
+
+php artisan make:migration create_push_notifications_table
+
+php artisan migrate
+
+php artisan make:model PushNotification
+
+php artisan make:controller PushNotificationController
+

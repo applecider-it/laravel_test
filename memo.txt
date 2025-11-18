@@ -200,7 +200,7 @@ php artisan app:push-notification-test
 
 nodeを使った送信
 
-TestController.indexのpush_queueをコメントアウトを有効にしてキューを追加してから、node実行
+TestController::backend_test()のpush_queueをコメントアウトを有効にしてキューを追加してから、node実行
 
 -----------------------------------
 

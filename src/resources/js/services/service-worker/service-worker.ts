@@ -2,6 +2,8 @@ import axios from "axios";
 
 const serviceWorkerUrl = "/service-worker.js";
 
+import { showToast } from "@/services/ui/message";
+
 /** サービスワーカーの初期化 */
 export async function initServiceWorker() {
     setEvent();
@@ -13,7 +15,7 @@ function setEvent() {
     navigator.serviceWorker.addEventListener("message", (event) => {
         console.log("Push received in window:", event.data);
         if (event.data.type === "push-received") {
-            alert("Message from SW: " + event.data.payload.title);
+            showToast("Message from SW: " + event.data.payload.title, "alert");
         }
     });
 }

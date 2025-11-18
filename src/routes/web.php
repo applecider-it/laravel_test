@@ -12,6 +12,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TweetController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\PushNotificationController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -21,7 +22,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::post('/push_notification', [TestController::class, 'push_notification']);
+Route::post('/push_notification', [PushNotificationController::class, 'store']);
 
 Route::middleware('auth')->group(function () {
     // 認証必須
