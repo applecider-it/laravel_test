@@ -42,7 +42,7 @@ export async function senderMain(): Promise<void> {
           endpoint: data.endpoint,
           keys: { p256dh: data.p256dh, auth: data.auth },
         },
-        JSON.stringify({ title: 'From Node' })
+        JSON.stringify({ title: data.message })
       );
       console.log('Sent:', data.endpoint);
     } catch (err: any) {

@@ -14,27 +14,22 @@ use App\Models\PushNotification;
 class SenderService
 {
     /**
-     * 全体送信
+     * PushNotificationモデルから送信
      */
-    public function sendAll($message)
+    public function send(string $message, PushNotification $notification): array
     {
-        $notifications = PushNotification::all();
-
-        foreach ($notifications as $notification) {
-
-            $this->send(
-                $message,
-                $notification->endpoint,
-                $notification->p256dh,
-                $notification->auth
-            );
-        }
+        return $this->execWebPush(
+            $message,
+            $notification->endpoint,
+            $notification->p256dh,
+            $notification->auth
+        );
     }
 
     /**
-     * 送信
+     * web-pushコマンド実行
      */
-    public function send($message, $endpoint, $p256dh, $auth)
+    private function execWebPush(string $message, string $endpoint, string $p256dh, string $auth): array
     {
         $payload = json_encode(['title' => $message]);
 
@@ -59,11 +54,19 @@ class SenderService
         $outputAll = implode("\n", $output);
 
         //print_r([$outputAll, $returnVar]);
+        Log::info("result: ", [$outputAll, $returnVar]);
 
+        $status = true;
         //if ($returnVar !== 0) {   // 失敗しても0になるのでこれは使えない
         if (Str::contains($outputAll, 'Error sending push message')) {
-
-            throw new \RuntimeException("Push notification failed: " . $outputAll);
+            $status = false;
         }
+
+        return [
+            'status' => $status,
+            'cmd' => $cmd,
+            'output' => $outputAll,
+            'returnVar' => $returnVar,
+        ];
     }
 }
