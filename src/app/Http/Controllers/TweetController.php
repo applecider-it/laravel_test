@@ -78,7 +78,7 @@ class TweetController extends Controller
 
         $token = $this->webSocketAuthService->createUserJwt($user);
 
-        return view('tweets.index_react', compact('tweets', 'token'));
+        return view('tweets.index_react', compact('tweets', 'token', 'user'));
     }
 
     /** 追加処理API */

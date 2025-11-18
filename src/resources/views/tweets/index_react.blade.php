@@ -10,10 +10,11 @@
         <div
             id="tweet-app"
             data-all="{{ json_encode([
-            'token' => $token,
-            'wsHost' => env('APP_WS_SERVER_HOST'),
-            'tweets' => App\Http\Resources\User\TweetResource::collection($tweets),
-        ]) }}"></div>
+                'user' => $user,
+                'token' => $token,
+                'wsHost' => env('APP_WS_SERVER_HOST'),
+                'tweets' => App\Http\Resources\User\TweetResource::collection($tweets),
+            ]) }}"></div>
     </div>
 </x-app-layout>
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import TweetForm from './tweet-area/TweetForm';
 import TweetList from './tweet-area/TweetList';
 import TweetClient from "../TweetClient";
+import { setIsLoading } from "@/services/ui/message";
 
 type Prop = {
     initialTweets: any;
@@ -29,7 +30,9 @@ export default function TweetApp({ initialTweets, tweetClient } : Prop) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            setIsLoading(true);
             await tweetClient.sendTweet(content);
+            setIsLoading(false);
             setContent('');
             setErrors({});
         } catch (error) {

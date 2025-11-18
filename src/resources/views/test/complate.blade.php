@@ -7,7 +7,7 @@
 
     <div class="py-6 max-w-2xl mx-auto">
         <p>
-            実行した
+            実行しました。
         </p>
     </div>
 </x-app-layout>

@@ -15,7 +15,7 @@ if (el) {
 
     console.log(all);
 
-    const tweetClient = new TweetClient(all.token, all.wsHost);
+    const tweetClient = new TweetClient(all.token, all.wsHost, all.user);
 
     const root = createRoot(el);
     root.render(<TweetArea initialTweets={all.tweets} tweetClient={tweetClient} />);

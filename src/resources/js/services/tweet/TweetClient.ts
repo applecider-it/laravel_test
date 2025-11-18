@@ -1,20 +1,24 @@
-import axios from 'axios';
+import axios from "axios";
+
+import { showToast } from "@/services/ui/message";
 
 /**
  * ツイートクライアント
- * 
+ *
  * JWT認証付き WebSocket
  */
 export default class TweetClient {
     token;
     wsHost;
+    user;
     ws;
     channel: string;
     setTweetContainers;
 
-    constructor(token, wsHost) {
+    constructor(token, wsHost, user) {
         this.token = token;
         this.wsHost = wsHost;
+        this.user = user;
 
         this.ws = null;
 
@@ -65,17 +69,20 @@ export default class TweetClient {
 
     /** 新しいツイート受信時 */
     recieveNewTweet(data) {
-        console.log('recieveNewTweet', data);
+        console.log("recieveNewTweet", data);
 
         const tweet = data.data.tweet;
-        console.log('recieveNewTweet tweet', tweet);
-        this.setTweetContainers((list) => [{tweet, isNew: true}, ...list]);
+        console.log("recieveNewTweet tweet", tweet);
+        this.setTweetContainers((list) => [{ tweet, isNew: true }, ...list]);
+
+        if (this.user.id !== tweet.user.id)
+            showToast("新しいツイートがあります。");
     }
 
     /** 新しいツイート送信 */
     async sendTweet(content) {
-        const response = await axios.post('/tweets/api', { content });
-        console.log('response.data', response.data);
+        const response = await axios.post("/tweets/api", { content });
+        console.log("response.data", response.data);
         return response.data.data;
     }
 }
