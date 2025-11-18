@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Redis;
 use App\Services\WebSocket\SystemService as WebSocketSystemService;
 use App\Services\Channels\ChatChannel;
 use App\Services\AI\AiService;
+use App\Services\Sample\SampleService;
 use App\Events\SampleEvent;
 
 /**
@@ -19,7 +20,8 @@ class DevelopmentController extends Controller
 {
     public function __construct(
         private WebSocketSystemService $webSocketSystemService,
-        private AiService $aiService
+        private AiService $aiService,
+        private SampleService $sampleService
     ) {}
 
     public function index(Request $request)
@@ -72,6 +74,8 @@ class DevelopmentController extends Controller
         Redis::set('redis-test', 'TEST');
 
         event(new SampleEvent($user));
+
+        $this->sampleService->testExec("backend_test");
 
         return view('development.complate');
     }
