@@ -46,8 +46,8 @@ class PushNotificationTest extends Command
             '--key=' . escapeshellarg($data['p256dh']),
             '--auth=' . escapeshellarg($data['auth']),
             '--vapid-subject=' . escapeshellarg('mailto:you@example.com'),
-            '--vapid-pubkey=' . escapeshellarg(env('APP_VAPID_PUBLIC_KEY')),
-            '--vapid-pvtkey=' . escapeshellarg(env('APP_VAPID_PRIVATE_KEY')),
+            '--vapid-pubkey=' . escapeshellarg(config('myapp.vapid_public_key')),
+            '--vapid-pvtkey=' . escapeshellarg(config('myapp.vapid_private_key')),
             '--payload=' . escapeshellarg($payload),
         ];
         

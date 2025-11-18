@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
 
-Route::prefix('admin_HandMade')->name('admin.')->group(function () {
+Route::prefix(config('myapp.admin_uri_prefix'))->name('admin.')->group(function () {
     Route::middleware('guest:admin')->group(function () {
         Route::get('login', [AuthenticatedSessionController::class, 'create'])
             ->name('login');

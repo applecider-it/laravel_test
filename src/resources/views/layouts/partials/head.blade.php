@@ -14,6 +14,6 @@
 
 <link rel="manifest" href="/manifest.json">
 
-<meta name="vapid-public-key" content="{{ env('APP_VAPID_PUBLIC_KEY') }}">
+<meta name="vapid-public-key" content="{{ config('myapp.vapid_public_key') }}">
 
 <title>{{ config('app.name', 'Laravel') }}</title>

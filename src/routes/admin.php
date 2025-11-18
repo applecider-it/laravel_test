@@ -7,6 +7,6 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\UserController;
 
-Route::prefix('admin_HandMade')->name('admin.')->middleware('auth:admin')->group(function () {
+Route::prefix(config('myapp.admin_uri_prefix'))->name('admin.')->middleware('auth:admin')->group(function () {
     Route::resource('users', UserController::class);
 });

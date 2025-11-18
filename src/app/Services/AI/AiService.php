@@ -16,7 +16,7 @@ class AiService
     {
         $text = 'Hello AI';
 
-        $host = env('APP_AI_SERVER_HOST');
+        $host = config('myapp.ai_server_host');
 
         // FastAPIのエンドポイントにPOST
         $response = Http::post("http://{$host}/predict", [

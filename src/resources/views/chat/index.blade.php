@@ -7,7 +7,7 @@
 
     <div id="chat-root" data-all="{{ json_encode([
         'token' => $token,
-        'wsHost' => env('APP_WS_SERVER_HOST'),
+        'wsHost' => config('myapp.ws_server_host'),
     ]) }}"></div>
 
     {{-- Vite の JS 読み込み --}}

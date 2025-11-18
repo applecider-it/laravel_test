@@ -12,7 +12,7 @@
             data-all="{{ json_encode([
                 'user' => $user,
                 'token' => $token,
-                'wsHost' => env('APP_WS_SERVER_HOST'),
+                'wsHost' => config('myapp.ws_server_host'),
                 'tweets' => App\Http\Resources\User\TweetResource::collection($tweets),
             ]) }}"></div>
     </div>
