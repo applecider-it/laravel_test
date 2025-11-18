@@ -9,6 +9,7 @@
 <link rel="icon" type="image/svg+xml" href="{{ asset('favicon-admin.svg') }}">
 
 <!-- Scripts -->
+@viteReactRefresh
 @vite(['resources/css/app.css', 'resources/js/app.ts'])
 
 <title>{{ config('app.name', 'Laravel') }}管理画面</title>

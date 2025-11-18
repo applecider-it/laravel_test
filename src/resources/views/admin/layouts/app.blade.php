@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
-        @include('admin.layouts.head')
+        @include('admin.layouts.partials.head')
     </head>
     <body class="font-sans antialiased">
+        @include('layouts.partials.common')
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            @include('admin.layouts.navigation')
+            @include('admin.layouts.partials.navigation')
 
             <!-- Page Heading -->
             @isset($header)
