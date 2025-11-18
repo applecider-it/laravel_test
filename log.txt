@@ -343,3 +343,8 @@ npm install web-push
 npm install ioredis
 npm install -D @types/ioredis
 
+-----------------------------------
+
+composer remove filament/filament
+
+

@@ -8,17 +8,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Validation\Rules;
 
-use Filament\Models\Contracts\FilamentUser;
-use Filament\Panel;
-
 use App\Models\User\Tweet as UserTweet;
 
 /**
  * ユーザーモデル
- * 
- * FilamentUserがあることで、filamentがcanAccessPanelを参照するようになる。
  */
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -56,14 +51,6 @@ class User extends Authenticatable implements FilamentUser
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
-    }
-
-    /** filamentで利用する管理者判別 */
-    public function canAccessPanel(Panel $panel): bool
-    {
-        return in_array($this->email, [
-            'admin@localhost.com',
-        ]);
     }
 
     /** ツイートモデルのリレーション */
@@ -105,14 +92,5 @@ class User extends Authenticatable implements FilamentUser
         $arr[] = $nullable ? 'nullable' : 'required';
         $arr += ['string', 'min:8', 'confirmed', Rules\Password::defaults()];
         return $arr;
-    }
-
-    /** nameカラムのfilament管理画面バリデーションを追加。動作確認用なので内容は適当。 */
-    public function addAdminValidationName($obj)
-    {
-        return $obj
-            ->required()
-            ->minLength(3)
-            ->maxLength(20);
     }
 }
