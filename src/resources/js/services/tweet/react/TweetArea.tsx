@@ -29,10 +29,11 @@ export default function TweetApp({ initialTweets, tweetClient } : Prop) {
     // handleSubmit も親で管理
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        setIsLoading(true);
         try {
-            setIsLoading(true);
             await tweetClient.sendTweet(content);
-            setIsLoading(false);
+            
             setContent('');
             setErrors({});
         } catch (error) {
@@ -40,6 +41,7 @@ export default function TweetApp({ initialTweets, tweetClient } : Prop) {
                 setErrors(error.response.data.errors);
             }
         }
+        setIsLoading(false);
     };
 
     return (
