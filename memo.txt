@@ -68,19 +68,14 @@ python ai_service.py
 -----------------------------------
 
 http://localhost:8000/
-http://localhost:8000/login
-http://localhost:8000/dashboard
 
-test / test@localhost.com / testtest
+test@localhost.com / testtest
 
-http://localhost:8000/admin_SecRet/login
+test2@localhost.com / test2test2
 
-admin / admin@localhost.com / adminadmin
+http://localhost:8000/admin_secrettext/login
 
-http://localhost:8000/admin_HandMade/login
-http://localhost:8000/admin_HandMade/dashboard
-
-admin2@localhost.com / admin2admin2
+admin@localhost.com / adminadmin
 
 ---
 
@@ -90,9 +85,9 @@ php artisan tinker
 
 App\Models\AdminUser::create(
   [
-    'name' => 'admin2',
-    'email' => 'admin2@localhost.com',
-    'password' => Hash::make('admin2admin2'),
+    'name' => 'admin',
+    'email' => 'admin@localhost.com',
+    'password' => Hash::make('adminadmin'),
   ]
 );
 
