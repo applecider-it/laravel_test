@@ -35,7 +35,8 @@ Route::middleware('auth')->group(function () {
     // Tweet
     Route::resource('tweets', TweetController::class)->only([
         'index',
-        'store'
+        'store',
+        'destroy',
     ]);
     Route::get('/tweets/react', [TweetController::class, 'index_react'])->name('tweets.index_react');
     Route::post('/tweets/api', [TweetController::class, 'store_api'])->name('tweets.store_api');

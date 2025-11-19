@@ -43,6 +43,16 @@ class User extends Authenticatable
         'email_verified_at',
     ];
 
+    protected static function booted()
+    {
+        parent::booted();
+        
+        // 削除前処理
+        static::deleting(function ($user) {
+            $user->tweets()->delete();
+        });
+    }
+
     /**
      * Get the attributes that should be cast.
      *

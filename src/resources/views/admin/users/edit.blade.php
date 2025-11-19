@@ -5,12 +5,15 @@
         </h2>
     </x-slot>
 
-    <div class="py-12 max-w-3xl mx-auto sm:px-6 lg:px-8">
+    <div class="py-12 max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="mb-6 flex justify-between items-center">
             <a href="{{ route('admin.users.index') }}" class="app-btn-secondary">
                 一覧に戻る
             </a>
         </div>
+    </div>
+
+    <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
 
         @include('partials.form.errors')
 
@@ -44,5 +47,11 @@
                 </button>
             </div>
         </form>
+    </div>
+
+    <div class="py-12 max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div>
+            @include('admin.users.partials.tweets')
+        </div>
     </div>
 </x-admin-layout>

@@ -31,7 +31,7 @@ class TweetController extends Controller
 
         $tweets = $this->tweetListService->getTweetsForList($searchWord, $sort, $sortType);
 
-        $tweets = $tweets->paginate(3)->onEachSide(1);
+        $tweets = $tweets->paginate(5)->onEachSide(1);
         /*
         $tweets->appends([
             'search_word' => $searchWord,
@@ -70,6 +70,16 @@ class TweetController extends Controller
         ]);
     }
 
+    /** 削除処理 */
+    public function destroy(Request $request, UserTweet $tweet)
+    {
+        if ($response = $this->ownerCheck($request, $tweet)) return $response;
+
+        $tweet->delete();
+
+        return redirect()->route('tweets.index')->with('success', 'ツイートを削除しました');
+    }
+
     /** 一覧ページ(React) */
     public function index_react(Request $request)
     {
@@ -105,5 +115,16 @@ class TweetController extends Controller
         $this->tweetWebsocketService->sendNewTweet($tweetArray);
 
         return $tweetResource;
+    }
+
+    /** オーナーチェック */
+    public function ownerCheck(Request $request, UserTweet $tweet)
+    {
+        if ($tweet->user_id !== $request->user()->id) {
+            return redirect()->route('tweets.index')
+                ->with('error', '権限がありません');
+        }
+
+        return null;
     }
 }

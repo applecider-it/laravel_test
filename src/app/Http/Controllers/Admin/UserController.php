@@ -62,7 +62,9 @@ class UserController extends Controller
     {
         $user = $this->getUser($id);
 
-        return view('admin.users.edit', compact('user'));
+        $tweets = $user->tweets()->latest()->withTrashed()->paginate(5)->onEachSide(2);
+
+        return view('admin.users.edit', compact('user', 'tweets'));
     }
 
     // 更新処理
