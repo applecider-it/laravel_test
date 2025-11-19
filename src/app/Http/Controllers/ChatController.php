@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\Route;
 
 use App\Services\WebSocket\AuthService as WebSocketAuthService;
 
+/**
+ * チャット管理コントローラー
+ * 
+ * ドキュメント
+ * /documents/features/chat.md
+ */
 class ChatController extends Controller
 {
     public function __construct(

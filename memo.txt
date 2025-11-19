@@ -43,6 +43,8 @@ cd /home/owner/workspace/tmp/laravel_test/node
 
 websocketサーバー起動
 
+cd /home/owner/workspace/tmp/laravel_test/node
+
 npx tsx watch ./app/entrypoints/websocket-server.js
 
 Push通知まとめて送信

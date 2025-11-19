@@ -13,6 +13,12 @@ use App\Services\Tweet\WebsocketService as TweetWebsocketService;
 use App\Http\Resources\User\TweetResource;
 use App\Services\WebSocket\AuthService as WebSocketAuthService;
 
+/**
+ * ツイート管理コントローラー
+ * 
+ * ドキュメント
+ * /documents/features/tweet.md
+ */
 class TweetController extends Controller
 {
     public function __construct(
