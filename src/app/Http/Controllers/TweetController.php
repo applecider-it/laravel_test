@@ -31,7 +31,7 @@ class TweetController extends Controller
 
         $tweets = $this->tweetListService->getTweetsForList($searchWord, $sort, $sortType);
 
-        $tweets = $tweets->paginate(3);
+        $tweets = $tweets->paginate(3)->onEachSide(1);
         /*
         $tweets->appends([
             'search_word' => $searchWord,

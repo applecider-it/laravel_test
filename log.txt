@@ -365,3 +365,6 @@ php artisan make:migration add_deleted_at_to_users_table --table=users
 
 php artisan migrate
 
+php artisan make:provider SqlLogServiceProvider
+
+

@@ -47,16 +47,25 @@
                             <td class="app-table-td">{{ $user->created_at }}</td>
                             <td class="app-table-td">{{ $user->deleted_at }}</td>
                             <td class="app-table-td flex space-x-2">
-                                <a href="{{ route('admin.users.edit', $user) }}" class="app-btn-orange app-btn-small">
+                                <a href="{{ route('admin.users.edit', $user) }}" class="app-btn-primary app-btn-small">
                                     編集
                                 </a>
-                                <form method="POST" action="{{ route('admin.users.destroy', $user) }}" onsubmit="return confirm('削除してもよろしいですか？')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="app-btn-danger app-btn-small">
-                                        削除
-                                    </button>
-                                </form>
+                                @if($user->deleted_at)
+                                    <form method="POST" action="{{ route('admin.users.restore', $user) }}" onsubmit="return confirm('復元してもよろしいですか？')">
+                                        @csrf
+                                        <button type="submit" class="app-btn-orange app-btn-small">
+                                            復元
+                                        </button>
+                                    </form>
+                                @else
+                                    <form method="POST" action="{{ route('admin.users.destroy', $user) }}" onsubmit="return confirm('削除してもよろしいですか？')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="app-btn-danger app-btn-small">
+                                            削除
+                                        </button>
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

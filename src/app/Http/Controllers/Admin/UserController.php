@@ -22,7 +22,7 @@ class UserController extends Controller
         $query = $this->listService->getUsers($search);
 
         // 検索条件を保持したままページネーション
-        $users = $query->paginate(5)->withQueryString();
+        $users = $query->paginate(5)->onEachSide(2)->withQueryString();
 
         return view('admin.users.index', compact('users', 'search'));
     }
@@ -58,14 +58,18 @@ class UserController extends Controller
     }
 
     // 編集フォーム
-    public function edit(User $user)
+    public function edit($id)
     {
+        $user = $this->getUser($id);
+
         return view('admin.users.edit', compact('user'));
     }
 
     // 更新処理
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
+        $user = $this->getUser($id);
+
         $validated = $request->validate(
             rules: [
                 'name'  => $user->validationName(),
@@ -91,10 +95,28 @@ class UserController extends Controller
     }
 
     // 削除処理
-    public function destroy(User $user)
+    public function destroy($id)
     {
+        $user = $this->getUser($id);
+
         $user->delete();
 
         return redirect()->route('admin.users.index')->with('success', 'ユーザーを削除しました');
+    }
+
+    /** 復元 */
+    public function restore($id)
+    {
+        $user = $this->getUser($id);
+
+        $user->restore();
+
+        return redirect()->route('admin.users.index')->with('success', 'ユーザーを復元しました');
+    }
+
+    /** 論理削除されたユーザーを含んで取得 */
+    private function getUser($id)
+    {
+        return User::withTrashed()->findOrFail($id);
     }
 }
