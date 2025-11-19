@@ -6,23 +6,23 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+use App\Services\Admin\User\ListService;
+
 class UserController extends Controller
 {
+    public function __construct(
+        private ListService $listService
+    ) {}
+
     // ユーザー一覧
     public function index(Request $request)
     {
-        $query = User::query();
+        $search = $request->input('search');
 
-        // フリーワード検索
-        if ($search = $request->input('search')) {
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                    ->orWhere('email', 'like', "%{$search}%");
-            });
-        }
+        $query = $this->listService->getUsers($search);
 
         // 検索条件を保持したままページネーション
-        $users = $query->latest()->paginate(1)->withQueryString();
+        $users = $query->paginate(5)->withQueryString();
 
         return view('admin.users.index', compact('users', 'search'));
     }

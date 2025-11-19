@@ -33,6 +33,8 @@
                         <th class="app-table-th">ID</th>
                         <th class="app-table-th">Name</th>
                         <th class="app-table-th">Email</th>
+                        <th class="app-table-th">作成日時</th>
+                        <th class="app-table-th">退会日時</th>
                         <th class="app-table-th">操作</th>
                     </tr>
                 </thead>
@@ -42,6 +44,8 @@
                             <td class="app-table-td">{{ $user->id }}</td>
                             <td class="app-table-td">{{ $user->name }}</td>
                             <td class="app-table-td">{{ $user->email }}</td>
+                            <td class="app-table-td">{{ $user->created_at }}</td>
+                            <td class="app-table-td">{{ $user->deleted_at }}</td>
                             <td class="app-table-td flex space-x-2">
                                 <a href="{{ route('admin.users.edit', $user) }}" class="app-btn-orange app-btn-small">
                                     編集

@@ -358,3 +358,10 @@ php artisan make:model PushNotification
 
 php artisan make:controller PushNotificationController
 
+
+-----------------------------------
+
+php artisan make:migration add_deleted_at_to_users_table --table=users
+
+php artisan migrate
+
