@@ -60,20 +60,32 @@ class TweetController extends Controller
         );
 
         $user = $request->user();
+
         $content = $request->input('content');
+
         $commit = $request->input('commit');
+        $confirm = $request->input('confirm');
+
+        Log::info('store', [$commit, $confirm]);
 
         if ($commit) {
             // 確定時
-            
+
             $this->tweetFormService->newTweet($user, $content);
 
-            return redirect()->back()->with('success', '投稿が作成されました');    
-        }
+            return redirect()->back()->with('success', '投稿が作成されました');
+        } else if ($confirm) {
+            // 確認画面
 
-        return view('tweets.confirm', [
-            'data' => $validated,
-        ]);
+            return view('tweets.confirm', [
+                'data' => $validated,
+            ]);
+        } else {
+            // 戻るとき
+
+            return redirect()->route('tweets.index')
+                ->withInput($validated);
+        }
     }
 
     /** 削除処理 */

@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="app-header-title">
-            Tweets
+            Tweets確認
         </h2>
     </x-slot>
 
@@ -13,8 +13,8 @@
                 {!! nl2br(e($data['content'])) !!}
                 <input type="hidden" name="content" value="{{ $data['content'] }}">
             </div>
-            <input type="hidden" name="commit" value="yes!!">
-            <button type="submit" class="mt-2 app-btn-primary">Commit!!</button>
+            <button type="submit" class="mt-2 app-btn-secondary" name="back" value="on">戻る</button>
+            <button type="submit" class="mt-2 app-btn-primary" name="commit" value="on">確定</button>
         </form>
     </div>
 </x-app-layout>
