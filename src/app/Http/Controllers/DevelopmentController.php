@@ -56,7 +56,8 @@ class DevelopmentController extends Controller
     /** livewireテスト */
     public function livewire_test(Request $request)
     {
-        return view('development.livewire_test');
+        $id = 2;
+        return view('development.livewire_test', compact('id'));
     }
 
     /** backendテスト */

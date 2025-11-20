@@ -10,7 +10,7 @@
 
     <div class="py-6 max-w-2xl mx-auto">
         <p>
-            <livewire:counter />
+            <livewire:test-component :id="$id" />
         </p>
     </div>
 </x-app-layout>
