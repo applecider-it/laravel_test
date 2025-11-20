@@ -13,6 +13,9 @@ use App\Models\User\Tweet as UserTweet;
 
 /**
  * ユーザーモデル
+ * 
+ * ドキュメント
+ * /documents/Models/User.md
  */
 class User extends Authenticatable
 {

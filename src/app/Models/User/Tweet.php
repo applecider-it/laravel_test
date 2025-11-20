@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\User;
 
+/**
+ * ユーザーツイートモデル
+ * 
+ * ドキュメント
+ * /documents/Models/User/Tweet.md
+ */
 class Tweet extends Model
 {
     use SoftDeletes;
