@@ -370,3 +370,9 @@ php artisan make:provider SqlLogServiceProvider
 
 php artisan make:migration add_deleted_at_to_user_tweets_table --table=user_tweets
 
+-----------------------------------
+
+
+npm install vue@3 vue-loader@^17 @vitejs/plugin-vue --save-dev
+
+

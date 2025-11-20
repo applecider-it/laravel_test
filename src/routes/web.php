@@ -51,7 +51,7 @@ Route::get('/development/ai_test', [DevelopmentController::class, 'ai_test'])->n
 Route::get('/development/websocket_test', [DevelopmentController::class, 'websocket_test'])->name('development.websocket_test');
 Route::get('/development/livewire_test', [DevelopmentController::class, 'livewire_test'])->name('development.livewire_test');
 Route::get('/development/backend_test', [DevelopmentController::class, 'backend_test'])->name('development.backend_test');
-Route::get('/development/react_test', [DevelopmentController::class, 'react_test'])->name('development.react_test');
+Route::get('/development/frontend_test', [DevelopmentController::class, 'frontend_test'])->name('development.frontend_test');
 
 
 require __DIR__ . '/auth.php';

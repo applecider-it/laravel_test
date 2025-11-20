@@ -81,9 +81,9 @@ class DevelopmentController extends Controller
         return view('development.complate');
     }
 
-    /** Reactテスト */
-    public function react_test(Request $request)
+    /** frontendテスト */
+    public function frontend_test(Request $request)
     {
-        return view('development.react_test');
+        return view('development.frontend_test');
     }
 }

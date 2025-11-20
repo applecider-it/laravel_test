@@ -10,6 +10,6 @@
         <p><a href="{{ route('development.websocket_test') }}" class="app-link-normal">Websocket Test</a></p>
         <p><a href="{{ route('development.livewire_test') }}" class="app-link-normal">livewire_test</a></p>
         <p><a href="{{ route('development.backend_test') }}" class="app-link-normal">backend_test</a></p>
-        <p><a href="{{ route('development.react_test') }}" class="app-link-normal">react_test</a></p>
+        <p><a href="{{ route('development.frontend_test') }}" class="app-link-normal">frontend_test</a></p>
     </div>
 </x-app-layout>
