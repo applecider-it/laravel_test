@@ -53,13 +53,6 @@ class DevelopmentController extends Controller
         return view('development.complate');
     }
 
-    /** livewireテスト */
-    public function livewire_test(Request $request)
-    {
-        $id = 2;
-        return view('development.livewire_test', compact('id'));
-    }
-
     /** backendテスト */
     public function backend_test(Request $request)
     {

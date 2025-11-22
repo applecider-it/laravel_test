@@ -375,4 +375,7 @@ php artisan make:migration add_deleted_at_to_user_tweets_table --table=user_twee
 
 npm install vue@3 vue-loader@^17 @vitejs/plugin-vue --save-dev
 
+-----------------------------------
 
+
+composer remove livewire/livewire
