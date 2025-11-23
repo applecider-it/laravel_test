@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 import { showToast, setIsLoading } from "@/services/ui/message";
 
@@ -7,6 +7,7 @@ let cnt2 = 0;
 /** テスト用コンポーネント */
 export default function TestArea({}) {
     const [cnt, setCnt] = useState(0);
+    const refCnt = useRef(0);
 
     useEffect(() => {}, []);
 
@@ -19,9 +20,13 @@ export default function TestArea({}) {
     };
 
     const toastTest = (type) => {
-        showToast(`トーストテスト ${type} ${cnt} ${cnt2}`, type);
-        setCnt(cnt + 1);
+        refCnt.current++;
+        setCnt(refCnt.current);
         cnt2++;
+
+        const msg = `トーストテスト type:${type} cnt:${cnt} refCnt:${refCnt.current} cnt2:${cnt2}`;
+        console.log(msg);
+        showToast(msg, type);
     };
 
     return (
@@ -59,6 +64,7 @@ export default function TestArea({}) {
                 >
                     Toast 2
                 </button>
+                cnt: {cnt}
             </div>
         </div>
     );
