@@ -2,7 +2,7 @@
 
 namespace App\Services\Admin\User;
 
-use App\Models\User as User;
+use App\Models\User;
 
 /**
  * 管理画面のユーザー管理の一覧関連

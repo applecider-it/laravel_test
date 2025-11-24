@@ -7,14 +7,19 @@ use App\Models\User;
 use Illuminate\Http\Request;
 
 use App\Services\Admin\User\ListService;
+use App\Services\Admin\User\EditService;
 
+/**
+ * ユーザー管理コントローラー
+ */
 class UserController extends Controller
 {
     public function __construct(
-        private ListService $listService
+        private ListService $listService,
+        private EditService $editService
     ) {}
 
-    // ユーザー一覧
+    /** 一覧 */
     public function index(Request $request)
     {
         $search = $request->input('search');
@@ -27,13 +32,13 @@ class UserController extends Controller
         return view('admin.users.index', compact('users', 'search'));
     }
 
-    // 作成フォーム
+    /** 新規作成 */
     public function create()
     {
         return view('admin.users.create');
     }
 
-    // 作成処理
+    /** 登録処理 */
     public function store(Request $request)
     {
         $user = new User();
@@ -57,21 +62,19 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')->with('success', 'ユーザーを作成しました');
     }
 
-    // 編集フォーム
+    /** 編集 */
     public function edit($id)
     {
         $user = $this->getUser($id);
 
-        $tweets = $user->tweets()
-            ->latest()
-            ->withTrashed()
-            ->paginate(5, pageName: 'tweets_page')
-            ->onEachSide(2);
+        $tweets = $this->editService->getTweets($user);
+
+        $tweets = $tweets->paginate(5, pageName: 'tweets_page')->onEachSide(2);
 
         return view('admin.users.edit', compact('user', 'tweets'));
     }
 
-    // 更新処理
+    /** 更新処理 */
     public function update(Request $request, $id)
     {
         $user = $this->getUser($id);
@@ -100,7 +103,7 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')->with('success', 'ユーザーを更新しました');
     }
 
-    // 削除処理
+    /** 論理削除 */
     public function destroy($id)
     {
         $user = $this->getUser($id);
@@ -120,7 +123,11 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')->with('success', 'ユーザーを復元しました');
     }
 
-    /** 論理削除されたユーザーを含んで取得 */
+    /**
+     * 論理削除されたユーザーを含んで取得
+     * 
+     * 論理削除されたユーザーを含まないといけないため、パラメーターからの取得はできないので、これが必要。
+     */
     private function getUser($id)
     {
         return User::withTrashed()->findOrFail($id);

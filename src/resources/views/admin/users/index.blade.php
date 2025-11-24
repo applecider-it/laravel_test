@@ -40,7 +40,7 @@
                 </thead>
                 <tbody class="app-table-tbody">
                     @foreach($users as $user)
-                        <tr>
+                        <tr @class(['bg-gray-200' => $user->deleted_at])>
                             <td class="app-table-td">{{ $user->id }}</td>
                             <td class="app-table-td">{{ $user->name }}</td>
                             <td class="app-table-td">{{ $user->email }}</td>

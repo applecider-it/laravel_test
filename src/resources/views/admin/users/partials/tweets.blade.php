@@ -15,7 +15,7 @@
             </thead>
             <tbody class="app-table-tbody">
                 @foreach($tweets as $tweet)
-                    <tr>
+                    <tr @class(['bg-gray-200' => $tweet->deleted_at])>
                         <td class="app-table-td">{{ $tweet->id }}</td>
                         <td class="app-table-td">{{ $tweet->content }}</td>
                         <td class="app-table-td">{{ $tweet->created_at }}</td>
