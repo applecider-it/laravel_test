@@ -15,10 +15,10 @@
         @apply app-btn bg-gray-500 hover:bg-gray-600 text-white;
     }
     .app-btn-danger {
-        @apply bg-red-500 hover:bg-red-600 text-white;
+        @apply app-btn bg-red-500 hover:bg-red-600 text-white;
     }
     .app-btn-orange {
-        @apply bg-yellow-500 hover:bg-yellow-600 text-white;
+        @apply app-btn bg-yellow-500 hover:bg-yellow-600 text-black;
     }
 
     .app-btn-small {
