@@ -197,7 +197,26 @@ npx web-push generate-vapid-keys
 
 テスト送信コマンド
 
-php artisan app:push-notification-test
+
+help
+
+php artisan help app:push-notification-test
+
+
+nodeの一斉送信用に、Redisに追加
+
+php artisan app:push-notification-test node
+
+redisのクリアをしないとき
+
+php artisan app:push-notification-test node --noclear
+
+
+数件だけLaravelから送信
+
+php artisan app:push-notification-test take
+
+
 
 
 nodeを使った送信

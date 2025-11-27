@@ -3,10 +3,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Services\PushNotification\SenderService;
-use App\Services\PushNotification\NodeService;
 
-use App\Models\PushNotification;
+use App\Services\Commands\PushNotificationTestService;
 
 class PushNotificationTest extends Command
 {
@@ -15,7 +13,10 @@ class PushNotificationTest extends Command
      *
      * @var string
      */
-    protected $signature = 'app:push-notification-test';
+    protected $signature = 'app:push-notification-test 
+                        {type : 実行タイプ (take = 数件だけLaravelから送信 / node = nodeの一斉送信用に、Redisに追加)}
+                        {--noclear : typeがnodeの場合、redisをクリアをしたくないときに指定する}
+                        ';
 
     /**
      * The console command description.
@@ -25,8 +26,7 @@ class PushNotificationTest extends Command
     protected $description = 'プッシュ通知関連のテスト用';
 
     public function __construct(
-        private SenderService $senderService,
-        private NodeService $nodeService
+        private PushNotificationTestService $pushNotificationTestService
     ) {
         parent::__construct();
     }
@@ -36,46 +36,6 @@ class PushNotificationTest extends Command
      */
     public function handle()
     {
-        $this->execNodeTest();
-        //$this->execAllTest();
-    }
-
-    /**
-     * nodeの連携テスト
-     */
-    private function execNodeTest()
-    {
-        $pushNotification = PushNotification::first();
-
-        //$this->info('pushNotification' . print_r($pushNotification, true));
-
-        if (!$pushNotification) return;
-
-        $this->nodeService->clear();
-
-        $message = 'プッシュ通知テスト(node)';
-
-        $cnt = $this->nodeService->push($message, $pushNotification);
-
-        $this->info('cnt: ' . $cnt);
-    }
-
-    /**
-     * 全件送信テスト
-     */
-    private function execAllTest()
-    {
-        $message = "テスト通知";
-
-        $notifications = PushNotification::all();
-
-        foreach ($notifications as $notification) {
-            $result = $this->senderService->send(
-                $message,
-                $notification
-            );
-
-            $this->info('result: ' . print_r($result, true));
-        }
+        $this->pushNotificationTestService->exec($this);
     }
 }
