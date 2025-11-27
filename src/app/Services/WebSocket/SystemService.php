@@ -26,13 +26,12 @@ class SystemService
     {
         $sendData = [
             "data" => $data,
-            "channel" => $channel,
         ];
 
         $token = $this->authService->createSystemJwt();
 
         $host = config('myapp.ws_server_host');
-        $client = new Client("ws://{$host}?token={$token}");
+        $client = new Client("ws://{$host}?token={$token}&channel={$channel}");
         $client->send(json_encode($sendData));
         $response = $client->receive();
         $client->close();

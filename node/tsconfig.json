@@ -9,7 +9,7 @@
     // See also https://aka.ms/tsconfig/module
     "module": "esnext",
     "target": "es2022",
-    "types": [],
+    "types": ["node", "ws"],
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],
@@ -33,20 +33,25 @@
     // "noPropertyAccessFromIndexSignature": true,
 
     // Recommended Options
-    //"strict": true,
+    "strict": true,
     "jsx": "react-jsx",
     //"verbatimModuleSyntax": true,
     //"isolatedModules": true,
     //"noUncheckedSideEffectImports": true,
     //"moduleDetection": "force",
     //"skipLibCheck": true,
-    "baseUrl": ".",
+    "baseUrl": "./app", // プロジェクトルートからの相対パス
     "paths": {
-      "@/*": ["./app/*"]
+      "@/*": ["*"]
     },
     "noEmit": true,
     "allowImportingTsExtensions": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
-  }
+  },
+  "include": [
+    "app/**/*",
+    "app/**/*.ts",
+    "app/types/**/*.d.ts"
+  ]
 }

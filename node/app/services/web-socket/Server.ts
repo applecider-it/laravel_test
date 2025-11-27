@@ -1,4 +1,5 @@
-import WebSocket, { WebSocketServer } from 'ws';
+import { WebSocket, WebSocketServer, type RawData } from 'ws';
+import { IncomingMessage } from 'http';
 
 import { log } from '@/services/system/log.ts';
 
@@ -7,9 +8,16 @@ import TweetCannnel from '@/services/channels/TweetCannnel.ts';
 
 import Auth from './server/Auth.ts';
 
+import { WebSocketUser, Incoming } from '@/types/types';
+
 type Options = {
   host: string;
   port: number;
+};
+
+type Channels = {
+  chat: ChatCannnel;
+  tweet: TweetCannnel;
 };
 
 /**
@@ -19,16 +27,17 @@ export default class Server {
   /** 権限管理サブクラス */
   auth;
   /** 全てのチャンネルクラスを集めたハッシュ */
-  channels: any;
+  channels: Channels;
   /** WebSockerサーバーインスタンス */
-  wss;
+  wss: WebSocketServer;
 
   constructor({ host = '0.0.0.0', port = 8080 }: Options) {
     this.auth = new Auth();
 
-    this.channels = {};
-    this.channels.chat = new ChatCannnel();
-    this.channels.tweet = new TweetCannnel();
+    this.channels = {
+      chat: new ChatCannnel(),
+      tweet: new TweetCannnel(),
+    };
 
     this.wss = new WebSocketServer({ host, port });
 
@@ -38,7 +47,7 @@ export default class Server {
   }
 
   /** コネクション時 */
-  handleConnection(ws: any, req: any) {
+  handleConnection(ws: WebSocket, req: IncomingMessage) {
     const user = this.auth.authenticate(req);
 
     if (!user) {
@@ -50,31 +59,36 @@ export default class Server {
     ws.user = user;
     log(`Authenticated:`, user.info);
 
-    ws.on('message', (msg: any) => this.handleMessage(ws, msg));
+    ws.on('message', (msg) => this.handleMessage(ws, msg));
 
     ws.on('close', () => {
-      log(`Disconnected: ${ws.user.info.name}`);
+      log(`Disconnected: ${ws.user?.info.name}`);
     });
   }
 
   /** メッセージ取得時 */
-  async handleMessage(ws: any, msg: any) {
-    let incoming;
+  async handleMessage(senderWs: WebSocket, msg: RawData) {
+    let incoming: Incoming;
+    const sender = senderWs.user as WebSocketUser;
 
     try {
-      incoming = JSON.parse(msg);
+      incoming = JSON.parse(String(msg));
     } catch {
       return;
     }
 
     log('incoming', incoming);
+    log('sender', senderWs.user);
 
     // これがないとLaravelでrecieveしたときに止まる
-    ws.send(JSON.stringify({ type: 'sended', ok: true }));
+    // Laravelでrecieveしない場合はいらない
+    senderWs.send(JSON.stringify({ type: 'sended', ok: true }));
 
-    const handler = this.channels[incoming.channel];
+    const channel = sender.channel as 'chat'|'tweet';
+
+    const handler = this.channels[channel];
     if (handler) {
-      handler.handleMessage(this.wss, ws, incoming);
+      handler.handleMessage(this.wss, senderWs, incoming);
     }
   }
 }

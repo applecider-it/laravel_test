@@ -55,7 +55,7 @@ export default class ChatClient {
             return;
         }
 
-        const payload = { data: { message }, channel: this.channel };
+        const payload = { data: { message } };
         console.log("[DEBUG] Sending message", payload);
         this.ws.send(JSON.stringify(payload));
     }
