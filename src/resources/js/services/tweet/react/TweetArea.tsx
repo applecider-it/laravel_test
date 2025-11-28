@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import TweetForm from './tweet-area/TweetForm';
-import TweetList from './tweet-area/TweetList';
+import React, { useEffect, useState } from "react";
+import TweetForm from "./tweet-area/TweetForm";
+import TweetList from "./tweet-area/TweetList";
 import TweetClient from "../TweetClient";
 import { setIsLoading } from "@/services/ui/message";
 
 type Prop = {
     initialTweets: any;
     tweetClient: TweetClient;
-}
+};
 
-export default function TweetApp({ initialTweets, tweetClient } : Prop) {
+export default function TweetApp({ initialTweets, tweetClient }: Prop) {
     const [tweetContainers, setTweetContainers] = useState([]);
-    const [content, setContent] = useState('');
+    const [content, setContent] = useState("");
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
@@ -20,8 +20,8 @@ export default function TweetApp({ initialTweets, tweetClient } : Prop) {
         for (const tweet of initialTweets) {
             list.push({
                 tweet,
-                isNew: false
-            })
+                isNew: false,
+            });
         }
         setTweetContainers(list);
     }, []);
@@ -33,8 +33,8 @@ export default function TweetApp({ initialTweets, tweetClient } : Prop) {
         setIsLoading(true);
         try {
             await tweetClient.sendTweet(content);
-            
-            setContent('');
+
+            setContent("");
             setErrors({});
         } catch (error) {
             if (error.response?.status === 422) {

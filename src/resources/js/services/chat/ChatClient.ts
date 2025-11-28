@@ -1,6 +1,6 @@
 /**
  * チャットクライアント
- * 
+ *
  * JWT認証付き WebSocket
  */
 export default class ChatClient {

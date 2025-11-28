@@ -2,4 +2,4 @@
  * チャットのエントリーポイント
  */
 
-import '@/services/chat/setup-chat';
+import "@/services/chat/setup-chat";

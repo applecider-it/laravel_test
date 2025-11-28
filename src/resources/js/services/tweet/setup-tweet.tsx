@@ -2,13 +2,13 @@
  * ツイートのエントリーポイント
  */
 
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import TweetArea from './react/TweetArea';
+import React from "react";
+import { createRoot } from "react-dom/client";
+import TweetArea from "./react/TweetArea";
 
 import TweetClient from "./TweetClient";
 
-const el: any = document.getElementById('tweet-app');
+const el: any = document.getElementById("tweet-app");
 
 if (el) {
     const all = JSON.parse(el.dataset.all);
@@ -18,5 +18,7 @@ if (el) {
     const tweetClient = new TweetClient(all.token, all.wsHost, all.user);
 
     const root = createRoot(el);
-    root.render(<TweetArea initialTweets={all.tweets} tweetClient={tweetClient} />);
+    root.render(
+        <TweetArea initialTweets={all.tweets} tweetClient={tweetClient} />
+    );
 }

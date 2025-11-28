@@ -6,8 +6,8 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import TestArea from "./react/TestArea";
 
-import { createApp } from 'vue';
-import TestAreaVue from './vue/TestAreaVue.vue';
+import { createApp } from "vue";
+import TestAreaVue from "./vue/TestAreaVue.vue";
 
 let el: any;
 
@@ -30,5 +30,5 @@ if (el) {
     console.log(all);
 
     const app = createApp(TestAreaVue, all);
-    app.mount('#vue-test-root');
+    app.mount("#vue-test-root");
 }

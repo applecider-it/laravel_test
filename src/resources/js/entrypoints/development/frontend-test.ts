@@ -2,4 +2,4 @@
  * Reactテストのエントリーポイント
  */
 
-import '@/services/development/setup-frontend-test.tsx';
+import "@/services/development/setup-frontend-test.tsx";

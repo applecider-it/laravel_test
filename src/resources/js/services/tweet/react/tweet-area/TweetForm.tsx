@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export default function TweetForm({ content, setContent, errors, onSubmit }) {
     return (
@@ -10,8 +10,12 @@ export default function TweetForm({ content, setContent, errors, onSubmit }) {
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
             />
-            {errors.content && <p className="app-error-text">{errors.content[0]}</p>}
-            <button type="submit" className="mt-2 app-btn-primary">Tweet</button>
+            {errors.content && (
+                <p className="app-error-text">{errors.content[0]}</p>
+            )}
+            <button type="submit" className="mt-2 app-btn-primary">
+                Tweet
+            </button>
         </form>
     );
 }
