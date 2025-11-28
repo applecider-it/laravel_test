@@ -65,7 +65,7 @@ cd /home/owner/workspace/tmp/laravel_test/python
 
 source venv/bin/activate
 
-python ai_service.py
+python -m app.entrypoints.main
 
 -----------------------------------
 
