@@ -13,7 +13,7 @@ import { WebSocketUser, Incoming } from '@/types/types';
 export default class Test {
   /** 実験的にnodeからlaravelにapi送信するロジック */
   async callbackTest(senderWs: WebSocket, incoming: Incoming) {
-    const sender = senderWs.user as WebSocketUser
+    const sender = senderWs.user as WebSocketUser;
 
     if (sender.id === WS_SYSTEM_ID) return;
 

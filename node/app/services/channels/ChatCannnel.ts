@@ -21,7 +21,7 @@ type SendData = {
 
 /**
  * チャットチャンネル
- * 
+ *
  * target_tokenが指定されているときは、対象のtarget_tokenにだけ送信。
  */
 export default class ChatCannnel {
@@ -32,11 +32,15 @@ export default class ChatCannnel {
   }
 
   /** メッセージ取得時 */
-  async handleMessage(wss: WebSocketServer, senderWs: WebSocket, incoming: Incoming) {
+  async handleMessage(
+    wss: WebSocketServer,
+    senderWs: WebSocket,
+    incoming: Incoming
+  ) {
     await this.test.callbackTest(senderWs, incoming);
 
     const targetToken = incoming.data.target_token ?? null;
-    const sender = senderWs.user as WebSocketUser
+    const sender = senderWs.user as WebSocketUser;
 
     log(`targetToken: `, targetToken);
 
@@ -53,11 +57,15 @@ export default class ChatCannnel {
   }
 
   /** 全体送信 */
-  private broadcast(wss: WebSocketServer, sendData: SendData, targetToken: string | null) {
+  private broadcast(
+    wss: WebSocketServer,
+    sendData: SendData,
+    targetToken: string | null
+  ) {
     const sendDataStr = JSON.stringify(sendData);
 
     wss.clients.forEach((client: WebSocket) => {
-      const user = client.user as WebSocketUser
+      const user = client.user as WebSocketUser;
       log(`broadcast:`, user.info);
 
       if (!canBroadcast(client, CHANNEL_ID)) return;

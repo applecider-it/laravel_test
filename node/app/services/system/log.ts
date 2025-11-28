@@ -1,4 +1,3 @@
-
 import { getFullTimeStr } from '@/services/data/date.ts';
 
 /** ログを出力 */

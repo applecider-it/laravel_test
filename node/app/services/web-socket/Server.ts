@@ -84,7 +84,7 @@ export default class Server {
     // Laravelでrecieveしない場合はいらない
     senderWs.send(JSON.stringify({ type: 'sended', ok: true }));
 
-    const channel = sender.channel as 'chat'|'tweet';
+    const channel = sender.channel as 'chat' | 'tweet';
 
     const handler = this.channels[channel];
     if (handler) {

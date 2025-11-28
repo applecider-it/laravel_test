@@ -12,7 +12,7 @@ export interface WebSocketUser {
 /** 送信されてくるデータ */
 export type Incoming = {
   data: any;
-}
+};
 
 /** 何らかのJsonを表す型 */
 export type AnyJson = Record<string, any>;

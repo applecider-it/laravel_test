@@ -1,4 +1,3 @@
-
 /** 日付型を、YYYY-MM-DD HH:MM:SS の文字列に変換 */
 export function getFullTimeStr(now: Date) {
   const formatted =

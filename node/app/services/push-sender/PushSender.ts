@@ -19,7 +19,7 @@ export default class PushSender {
   privateKey;
   redisKey;
 
-  constructor(mailto: string, publicKey: string, privateKey: string){
+  constructor(mailto: string, publicKey: string, privateKey: string) {
     this.mailto = mailto;
     this.publicKey = publicKey;
     this.privateKey = privateKey;
@@ -37,11 +37,7 @@ export default class PushSender {
   /** プッシュ通知セットアップ */
   setupWebPush() {
     // VAPID キー設定
-    webpush.setVapidDetails(
-      this.mailto,
-      this.publicKey,
-      this.privateKey
-    );
+    webpush.setVapidDetails(this.mailto, this.publicKey, this.privateKey);
   }
 
   /** Redisにあるデータをすべて送信 */
