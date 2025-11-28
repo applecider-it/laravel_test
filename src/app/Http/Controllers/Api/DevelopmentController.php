@@ -8,21 +8,20 @@ use Illuminate\Support\Facades\Route;
 
 use App\Services\WebSocket\AuthService as WebSocketAuthService;
 use App\Http\Controllers\Controller;
+use App\Services\Development\TraceService;
 
 /**
- * チャット管理コントローラー
- * 
- * ドキュメント
- * /documents/features/chat.md
+ * 開発者向けAPI管理コントローラー
  */
-class ChatController extends Controller
+class DevelopmentController extends Controller
 {
     public function __construct(
-        private WebSocketAuthService $webSocketAuthService
+        private WebSocketAuthService $webSocketAuthService,
+        private TraceService $traceService
     ) {}
 
-    /** nodeからのコールバックテスト用のAPI */
-    public function callback_test(Request $request)
+    /** node chatからのコールバックテスト用のAPI */
+    public function chat_callback_test(Request $request)
     {
         // 確認用のトレース
 
@@ -33,11 +32,7 @@ class ChatController extends Controller
         $content = $request->input('content');
         Log::info('$content', [$content]);
 
-        Log::info('getMiddleware', [print_r(app('router')->getMiddleware(), true)]);
-        Log::info('getMiddlewareGroups', [print_r(app('router')->getMiddlewareGroups(), true)]);
-
-        // 適用されている全ミドルウェア
-        Log::info('gatherMiddleware', [print_r(Route::current()->gatherMiddleware(), true)]);
+        $this->traceService->traceMiddlewareInfo();
 
         // ここからロジック
 

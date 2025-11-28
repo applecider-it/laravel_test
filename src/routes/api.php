@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Api\ChatController;
+use App\Http\Controllers\Api\DevelopmentController;
 
-// プロファイル
-Route::post('/chat/callback_test', [ChatController::class, 'callback_test'])->name('chat.callback_test');
+// 動作確認用API
+Route::post('/development/chat_callback_test', [DevelopmentController::class, 'chat_callback_test'])->name('development.chat_callback_test');

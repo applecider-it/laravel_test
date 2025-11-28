@@ -11,6 +11,8 @@ use App\Services\WebSocket\SystemService as WebSocketSystemService;
 use App\Services\Channels\ChatChannel;
 use App\Services\AI\AiService;
 use App\Services\Sample\SampleService;
+use App\Services\Development\TraceService;
+
 use App\Events\SampleEvent;
 
 /**
@@ -21,7 +23,8 @@ class DevelopmentController extends Controller
     public function __construct(
         private WebSocketSystemService $webSocketSystemService,
         private AiService $aiService,
-        private SampleService $sampleService
+        private SampleService $sampleService,
+        private TraceService $traceService
     ) {}
 
     public function index(Request $request)
@@ -58,12 +61,7 @@ class DevelopmentController extends Controller
     {
         $user = $request->user();
 
-        Log::info('getMiddleware', [print_r(app('router')->getMiddleware(), true)]);
-        Log::info('getMiddlewareGroups', [print_r(app('router')->getMiddlewareGroups(), true)]);
-
-        $currentRoute = Route::current(); // 現在のルート
-        // 適用されている全ミドルウェア
-        Log::info('gatherMiddleware', [print_r($currentRoute->gatherMiddleware(), true)]);
+        $this->traceService->traceMiddlewareInfo();
 
         Redis::set('redis-test', 'TEST');
 
