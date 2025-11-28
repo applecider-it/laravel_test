@@ -9,6 +9,7 @@ import Test from './chat-cannnel/Test.ts';
 
 const CHANNEL_ID = 'chat';
 
+/** ブロードキャスト用送信データ */
 type SendData = {
   type: string;
   info: any;
@@ -20,6 +21,8 @@ type SendData = {
 
 /**
  * チャットチャンネル
+ * 
+ * target_tokenが指定されているときは、対象のtarget_tokenにだけ送信。
  */
 export default class ChatCannnel {
   test;
@@ -61,6 +64,7 @@ export default class ChatCannnel {
 
       log(`send:`, user.info);
 
+      // target_tokenが指定されているときは、対象のtarget_tokenにだけ送信
       if (targetToken && targetToken !== user.token) return;
 
       client.send(sendDataStr);

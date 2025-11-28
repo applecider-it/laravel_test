@@ -7,6 +7,7 @@ import { WebSocketUser, Incoming } from '@/types/types';
 
 const CHANNEL_ID = 'tweet';
 
+/** ブロードキャスト用送信データ */
 type SendData = {
   type: string;
   info: any;

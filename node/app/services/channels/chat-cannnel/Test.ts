@@ -1,6 +1,6 @@
 import { type WebSocket } from 'ws';
 
-import { sendToLaravel } from '@/services/system/laravel.js';
+import { sendToLaravel } from '@/services/http/laravel.js';
 import { log } from '@/services/system/log.ts';
 
 import { WS_SYSTEM_ID } from '@/services/web-socket/system.ts';
