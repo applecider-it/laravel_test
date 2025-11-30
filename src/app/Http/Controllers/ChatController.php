@@ -27,4 +27,13 @@ class ChatController extends Controller
 
         return view('chat.index', compact('token'));
     }
+
+    public function workerman_index()
+    {
+        $user = auth()->user();
+
+        $token = $this->webSocketAuthService->createUserJwt($user);
+
+        return view('chat.workerman_index', compact('token'));
+    }
 }

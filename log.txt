@@ -379,3 +379,11 @@ npm install vue@3 vue-loader@^17 @vitejs/plugin-vue --save-dev
 
 
 composer remove livewire/livewire
+
+-----------------------------------
+
+composer require workerman/workerman
+
+composer audit
+
+php artisan make:command WorkermanStart

@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function () {
 
     // Chat
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+    Route::get('/workerman_index', [ChatController::class, 'workerman_index'])->name('chat.workerman_index');
 });
 
 // 開発者向けページ

@@ -9,6 +9,9 @@
         <x-responsive-nav-link :href="route('chat.index')" :active="request()->routeIs('chat.index')">
             Chat
         </x-responsive-nav-link>
+        <x-responsive-nav-link :href="route('chat.workerman_index')" :active="request()->routeIs('chat.workerman_index')">
+            Chat (Workerman)
+        </x-responsive-nav-link>
     </div>
 
     <!-- Responsive Settings Options -->

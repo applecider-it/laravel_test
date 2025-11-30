@@ -33,6 +33,13 @@ php artisan serve
 
 -------
 
+php (workerman)
+
+php ./workerman/server start
+
+
+-------
+
 node
 
 srcディレクトリで実行すると、node関連の設定の読み込みが混乱してしまうことがあったので、

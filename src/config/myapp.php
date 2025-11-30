@@ -13,6 +13,9 @@ return [
     // WebSocketサーバーのホスト名
     'ws_server_host' => env('MYAPP_WS_SERVER_HOST'),
 
+    // Workermanサーバーのホスト名
+    'workerman_server_host' => env('MYAPP_WORKERMAN_SERVER_HOST'),
+
     // AIサーバーのホスト名
     'ai_server_host' => env('MYAPP_AI_SERVER_HOST'),
 
