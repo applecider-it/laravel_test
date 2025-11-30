@@ -9,12 +9,10 @@ import { WebSocketUser, AnyJson } from '@/types/types';
  * 認証情報付きで、LaravelにAPI送信する。
  */
 export async function sendToLaravel(
-  ws: WebSocket,
+  sender: WebSocketUser,
   params: AnyJson,
   uri: string
 ) {
-  const sender = ws.user as WebSocketUser;
-
   log('sendToLaravel', params, uri, sender.info.name);
 
   const url = `http://${process.env.APP_LARAVEL_API_HOST}${uri}`;

@@ -12,15 +12,13 @@ import { WebSocketUser, Incoming } from '@/types/types';
  */
 export default class Test {
   /** 実験的にnodeからlaravelにapi送信するロジック */
-  async callbackTest(senderWs: WebSocket, incoming: Incoming) {
-    const sender = senderWs.user as WebSocketUser;
-
+  async callbackTest(sender: WebSocketUser, incoming: Incoming) {
     if (sender.id === WS_SYSTEM_ID) return;
 
     const params = { content: incoming.data.message };
     const uri = '/api/development/chat_callback_test';
 
-    const data = await sendToLaravel(senderWs, params, uri);
+    const data = await sendToLaravel(sender, params, uri);
 
     log('Laravelからの返却:', data);
   }

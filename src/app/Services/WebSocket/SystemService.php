@@ -18,6 +18,23 @@ class SystemService
     ) {}
 
     /**
+     * RedisにWebSocketサーバー連携情報出力
+     * 
+     * LaravelのRedisでは動かなかったので、PHPの組み込みのRedisを使用している。
+     */
+    public function publish(string $channel, array $data)
+    {
+        $sendData = [
+            'channel' => $channel,
+            'data' => $data,
+        ];
+        $redis = new \Redis();
+        $redis->connect('127.0.0.1', 6379);
+        
+        $redis->publish('broadcast', json_encode($sendData));
+    }
+
+    /**
      * WebSocketにシステム管理者からの送信
      * 
      * 接続後すぐに閉じる

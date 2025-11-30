@@ -34,13 +34,12 @@ export default class ChatCannnel {
   /** メッセージ取得時 */
   async handleMessage(
     wss: WebSocketServer,
-    senderWs: WebSocket,
+    sender: WebSocketUser,
     incoming: Incoming
   ) {
-    await this.test.callbackTest(senderWs, incoming);
+    await this.test.callbackTest(sender, incoming);
 
     const targetToken = incoming.data.target_token ?? null;
-    const sender = senderWs.user as WebSocketUser;
 
     log(`targetToken: `, targetToken);
 

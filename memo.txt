@@ -112,6 +112,11 @@ php artisan app:web-socket-test
 
 php artisan app:web-socket-test --token=XXXXXXXXX
 
+
+redis pub/subのシステムチャットのテスト送信
+
+php artisan app:web-socket-redis-test
+
 -----------------------------------
 
 ルート一覧

@@ -25,8 +25,7 @@ export default class TweetCannnel {
   }
 
   /** メッセージ取得時 */
-  async handleMessage(wss: WebSocketServer, senderWs: WebSocket, incoming: Incoming) {
-    const sender = senderWs.user as WebSocketUser
+  async handleMessage(wss: WebSocketServer, sender: WebSocketUser, incoming: Incoming) {
     const sendData: SendData = {
       type: 'newTweet',
       info: sender.info,
