@@ -9,14 +9,14 @@ use App\Models\PushNotification;
 
 class PushNotificationController extends Controller
 {
-    /** プッシュ通知のテスト用登録処理 */
+    /** プッシュ通知の登録処理 */
     public function store(Request $request)
     {
         $all = $request->all();
 
         Log::info('push_notification all', [$all]);
 
-        PushNotification::create([
+        auth()->user()->pushNotifications()->create([
             'endpoint' => $all['endpoint'],
             'p256dh' => $all['p256dh'],
             'auth' => $all['auth'],

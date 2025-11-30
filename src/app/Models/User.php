@@ -44,6 +44,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
         'email_verified_at',
+        'deleted_at',
     ];
 
     protected static function booted()
@@ -66,6 +67,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'push_notification' => 'boolean',
         ];
     }
 
@@ -73,6 +75,12 @@ class User extends Authenticatable
     public function tweets()
     {
         return $this->hasMany(UserTweet::class);
+    }
+
+    /** プッシュ通知モデルのリレーション */
+    public function pushNotifications()
+    {
+        return $this->hasMany(PushNotification::class);
     }
 
     /** 名前のバリデーション */

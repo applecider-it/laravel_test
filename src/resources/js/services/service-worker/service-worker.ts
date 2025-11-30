@@ -3,15 +3,20 @@ import axios from "axios";
 const serviceWorkerUrl = "/service-worker.js";
 
 import { showToast } from "@/services/ui/message";
+import { User } from "@/services/app/types";
 
 /** サービスワーカーの初期化 */
-export async function initServiceWorker() {
-    setEvent();
-    setupServiceWorker();
+export async function initServiceWorker(user: User) {
+    if (user && user.push_notification) {
+        // ログインしていて、通知が有効な場合
+        
+        setServiceWorkerEvent();
+        setupServiceWorker();
+    }
 }
 
 /** サービスワーカー用イベント追加 */
-function setEvent() {
+function setServiceWorkerEvent() {
     navigator.serviceWorker.addEventListener("message", (event) => {
         console.log("Push received in window:", event.data);
         if (event.data.type === "push-received") {

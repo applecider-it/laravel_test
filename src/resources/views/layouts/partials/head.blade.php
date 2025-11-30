@@ -16,4 +16,8 @@
 
 <meta name="vapid-public-key" content="{{ config('myapp.vapid_public_key') }}">
 
+@auth
+    <meta name="user" data-json="{{ json_encode(auth()->user()) }}">
+@endauth
+
 <title>{{ config('app.name', 'Laravel') }}</title>

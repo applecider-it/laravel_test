@@ -17,4 +17,9 @@ class PushNotification extends Model
         'p256dh',
         'auth',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

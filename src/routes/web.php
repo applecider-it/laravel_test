@@ -22,15 +22,16 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::post('/push_notification', [PushNotificationController::class, 'store']);
-
 Route::middleware('auth')->group(function () {
     // 認証必須
+
+    Route::post('/push_notification', [PushNotificationController::class, 'store']);
 
     // プロファイル
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/profile/toggle_push_notification', [ProfileController::class, 'toggle_push_notification'])->name('profile.toggle_push_notification');
 
     // Tweet
     Route::resource('tweets', TweetController::class)->only([

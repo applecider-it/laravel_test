@@ -387,3 +387,15 @@ composer require workerman/workerman
 composer audit
 
 php artisan make:command WorkermanStart
+
+-----------------------------------
+
+
+php artisan make:migration add_push_notification_id_to_users_table --table=users
+
+php artisan make:migration add_user_id_to_push_notifications_table --table=push_notifications
+
+php artisan migrate
+
+php artisan migrate:rollback
+

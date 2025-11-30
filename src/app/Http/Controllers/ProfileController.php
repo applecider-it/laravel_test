@@ -62,4 +62,16 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    /**
+     * プッシュ通知の有効無効のきりかえ
+     */
+    public function toggle_push_notification(Request $request): RedirectResponse
+    {
+        $user = $request->user();
+        $user->push_notification = ! $user->push_notification;
+        $user->save();
+
+        return Redirect::route('profile.edit')->with('status', 'push-toggle');
+    }
 }
