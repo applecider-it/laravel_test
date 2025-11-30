@@ -29,6 +29,7 @@ type Channels = {
 export default class Server {
   /** 権限管理サブクラス */
   auth;
+  /** Pub/Subで利用するRedisクラス */
   redis;
   /** 全てのチャンネルクラスを集めたハッシュ */
   channels: Channels;
@@ -48,49 +49,16 @@ export default class Server {
 
     this.wss.on('connection', (ws, req) => this.handleConnection(ws, req));
 
-    // Redis subscribe
-    this.redis.subscribe('broadcast', (err, count) => this.handleRedisSubscribe(err, count));
+    // Redisの連携用チャンネルをsubscribeする
+    this.redis.subscribe('broadcast', (err, count) =>
+      this.handleRedisSubscribe(err, count)
+    );
 
-    this.redis.on('message', (channel, message) => this.handleRedisMessage(channel, message));
+    this.redis.on('message', (channel, message) =>
+      this.handleRedisMessage(channel, message)
+    );
 
     log(`WebSocket server running on ws://${host}:${port}`);
-  }
-
-  /** Redisサブスクライブ時 */
-  handleRedisSubscribe(err: Error | null | undefined, count: unknown) {
-    if (err) console.error(err);
-    else console.log(`Subscribed to ${count} channel(s)`);
-  }
-
-  /** Redisメッセージ受信時 */
-  async handleRedisMessage(channel: string, message: string) {
-    console.log(`Received from Redis: ${channel}: ${message}`);
-
-    let ret = null;
-    try {
-      ret = JSON.parse(message);
-    } catch {
-      return;
-    }
-
-    const sender: WebSocketUser = {
-      id: WS_SYSTEM_ID,
-      info: {
-        name: WS_SYSTEM_NAME,
-      },
-      token: '',
-      channel: ret.channel,
-      channelData: null,
-    };
-
-    const incoming: Incoming = {
-      data: ret.data,
-    }
-    
-    log('incoming', incoming);
-    log('sender', sender);
-
-    await this.sendCommon(sender, incoming);
   }
 
   /** コネクション時 */
@@ -127,6 +95,43 @@ export default class Server {
     // これがないとLaravelでrecieveしたときに止まる
     // Laravelでrecieveしない場合はいらない
     senderWs.send(JSON.stringify({ type: 'sended', ok: true }));
+
+    await this.sendCommon(sender, incoming);
+  }
+
+  /** Redisサブスクライブ時 */
+  handleRedisSubscribe(err: Error | null | undefined, count: unknown) {
+    if (err) console.error(err);
+    else console.log(`Subscribed to ${count} channel(s)`);
+  }
+
+  /** Redisメッセージ受信時 */
+  async handleRedisMessage(redisChannel: string, message: string) {
+    console.log(`Received from Redis: ${redisChannel}: ${message}`);
+
+    let ret = null;
+    try {
+      ret = JSON.parse(message);
+    } catch {
+      return;
+    }
+
+    const sender: WebSocketUser = {
+      id: WS_SYSTEM_ID,
+      info: {
+        name: WS_SYSTEM_NAME,
+      },
+      token: '',
+      channel: ret.channel,
+      channelData: null,
+    };
+
+    const incoming: Incoming = {
+      data: ret.data,
+    };
+
+    log('incoming', incoming);
+    log('sender', sender);
 
     await this.sendCommon(sender, incoming);
   }
