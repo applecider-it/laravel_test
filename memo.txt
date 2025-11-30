@@ -117,6 +117,11 @@ redis pub/subのシステムチャットのテスト送信
 
 php artisan app:web-socket-redis-test
 
+
+システムチャットのテスト送信(workerman)
+
+php artisan app:web-socket-workerman-test
+
 -----------------------------------
 
 ルート一覧

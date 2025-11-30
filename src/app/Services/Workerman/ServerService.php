@@ -8,6 +8,7 @@ use Workerman\Connection\TcpConnection;
 use Workerman\Protocols\Http\Request;
 
 use App\Services\WebSocket\AuthService;
+use App\Services\WebSocket\SystemService as WebSocketSystemService;
 
 use App\Models\User;
 
@@ -124,6 +125,9 @@ class ServerService
 
         // 全クライアントにメッセージを送信（ブロードキャスト）
         foreach ($this->clients as $client) {
+            // システムに対しては送信しない
+            if ($client->user['id'] === WebSocketSystemService::SYSTEM_ID) continue;
+
             echo "Send to {$client->user['name']} \n";
             $sendData = [
                 'type' => 'newChat',
