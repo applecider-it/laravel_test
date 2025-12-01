@@ -17,7 +17,7 @@ class SenderService
     /**
      * Userモデルから送信
      */
-    public function sendByUser(string $message, User $user): array
+    public function sendByUser(string $message, User $user, array $options = []): array
     {
         $pushNotifications = $user->pushNotifications()->take(3)->get();
 
@@ -25,8 +25,9 @@ class SenderService
         foreach ($pushNotifications as $pushNotification) {
             $results[] = $this->sendByPushNotification(
                 $message,
-                $pushNotification
-            );    
+                $pushNotification,
+                $options
+            );
         }
 
         return $results;
@@ -35,22 +36,26 @@ class SenderService
     /**
      * PushNotificationモデルから送信
      */
-    private function sendByPushNotification(string $message, PushNotification $pushNotification): array
+    private function sendByPushNotification(string $message, PushNotification $pushNotification, array $options): array
     {
         return $this->execWebPush(
             $message,
             $pushNotification->endpoint,
             $pushNotification->p256dh,
-            $pushNotification->auth
+            $pushNotification->auth,
+            $options
         );
     }
 
     /**
      * web-pushコマンド実行
      */
-    private function execWebPush(string $message, string $endpoint, string $p256dh, string $auth): array
+    private function execWebPush(string $message, string $endpoint, string $p256dh, string $auth, array $options): array
     {
-        $payload = json_encode(['title' => $message]);
+        $payload = json_encode([
+            'title' => $message,
+            'options' => $options,
+        ]);
 
         $cmdParts = [
             'web-push',

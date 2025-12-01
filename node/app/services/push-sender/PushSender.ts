@@ -8,6 +8,7 @@ interface PushData {
   p256dh: string;
   auth: string;
   message: string;
+  options: any;
 }
 
 /**
@@ -70,7 +71,10 @@ export default class PushSender {
           endpoint: data.endpoint,
           keys: { p256dh: data.p256dh, auth: data.auth },
         },
-        JSON.stringify({ title: data.message })
+        JSON.stringify({
+          title: data.message,
+          options: data.options,
+        })
       );
       console.log('Sent:', data.endpoint);
     } catch (err: any) {

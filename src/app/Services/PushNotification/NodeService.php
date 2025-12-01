@@ -20,7 +20,7 @@ class NodeService
      * 
      * 現在のキューの数を返す。
      */
-    public function pushByUser($message, User $user): int
+    public function pushByUser($message, User $user, array $options = []): int
     {
         $pushNotifications = $user->pushNotifications()->take(3)->get();
 
@@ -28,7 +28,8 @@ class NodeService
         foreach ($pushNotifications as $pushNotification) {
             $cnt = $this->pushByPushNotification(
                 $message,
-                $pushNotification
+                $pushNotification,
+                $options
             );
         }
 
@@ -40,10 +41,11 @@ class NodeService
      * 
      * 現在のキューの数を返す。
      */
-    private function pushByPushNotification($message, PushNotification $notification): int
+    private function pushByPushNotification($message, PushNotification $notification, array $options): int
     {
         $data = [
             'message' => $message,
+            'options' => $options,
             'endpoint' => $notification->endpoint,
             'p256dh' => $notification->p256dh,
             'auth' => $notification->auth

@@ -11,14 +11,21 @@ self.addEventListener("push", async (event) => {
 
     console.log("Service Worker push data.", data);
 
-    event.waitUntil(
-        Promise.all([
-            // 1. 通知を表示
-            self.registration.showNotification(data.title),
+    const options = data.options;
 
-            // 2. クライアント（window）にメッセージ送信
-            sendClient("push-received", data),
-        ])
+    const notice = options.notice ?? null;
+    const message = options.message ?? null;
+
+    const list = [];
+
+    // 通知を表示
+    if (notice) list.push(self.registration.showNotification(data.title));
+
+    // クライアント（window）にメッセージ送信
+    if (message) list.push(sendClient("push-received", data));
+
+    event.waitUntil(
+        Promise.all(list)
     );
 });
 

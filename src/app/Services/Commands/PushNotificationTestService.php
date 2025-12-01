@@ -44,9 +44,17 @@ class PushNotificationTestService
 
         $this->cmd->info("user name: {$user->name}");
 
+        $options = [
+            'type' => 'progress',
+            'notice' => true,
+            //'message' => true,
+        ];
+
+        $this->cmd->info("options: " . json_encode($options, JSON_UNESCAPED_UNICODE));
+
         match ($type) {
-            'redis' => $this->execRedisTest($user),
-            'laravel' => $this->execLaravelTest($user),
+            'redis' => $this->execRedisTest($user, $options),
+            'laravel' => $this->execLaravelTest($user, $options),
             default => $this->cmd->error('invalide type ' . $type),
         };
     }
@@ -54,7 +62,7 @@ class PushNotificationTestService
     /**
      * nodeの一斉送信用に、Redisに追加
      */
-    private function execRedisTest(User $user)
+    private function execRedisTest(User $user, array $options)
     {
         $noclear = $this->cmd->option('noclear');
 
@@ -67,7 +75,8 @@ class PushNotificationTestService
 
         $cnt = $this->nodeService->pushByUser(
             $message,
-            $user
+            $user,
+            $options
         );
 
         $this->cmd->info('redisの送信対象件数: ' . $cnt);
@@ -76,13 +85,14 @@ class PushNotificationTestService
     /**
      * Laravelから送信
      */
-    private function execLaravelTest(User $user)
+    private function execLaravelTest(User $user, array $options)
     {
         $message = "テスト通知";
 
         $result = $this->senderService->sendByUser(
             $message,
-            $user
+            $user,
+            $options
         );
 
         $this->cmd->info('result: ' . print_r($result, true));
