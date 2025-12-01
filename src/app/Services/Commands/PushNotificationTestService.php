@@ -7,6 +7,7 @@ use Illuminate\Console\Command;
 use App\Services\PushNotification\SenderService;
 use App\Services\PushNotification\NodeService;
 
+use App\Models\User;
 use App\Models\PushNotification;
 
 /**
@@ -24,14 +25,28 @@ class PushNotificationTestService
     /**
      * 実行
      */
-    public function exec(Command $cmd) {
+    public function exec(Command $cmd)
+    {
         $this->cmd = $cmd;
 
         $type = $this->cmd->argument('type');
+        $userId = (int) $this->cmd->argument('user_id');
 
-        match($type){
-            'node' => $this->execNodeTest(),
-            'take' => $this->execTakeTest(),
+        $this->cmd->info("type: {$type}");
+        $this->cmd->info("userId: {$userId}");
+
+        $user = User::find($userId);
+
+        if (! $user) {
+            $this->cmd->info('対象のユーザーが見つかりません。');
+            return;
+        }
+
+        $this->cmd->info("user name: {$user->name}");
+
+        match ($type) {
+            'redis' => $this->execRedisTest($user),
+            'laravel' => $this->execLaravelTest($user),
             default => $this->cmd->error('invalide type ' . $type),
         };
     }
@@ -39,44 +54,37 @@ class PushNotificationTestService
     /**
      * nodeの一斉送信用に、Redisに追加
      */
-    private function execNodeTest()
+    private function execRedisTest(User $user)
     {
-        $pushNotification = PushNotification::first();
-
-        //$this->info('pushNotification' . print_r($pushNotification, true));
-
-        if (!$pushNotification) return;
-
         $noclear = $this->cmd->option('noclear');
 
         if (! $noclear) {
             $this->nodeService->clear();
-            $this->cmd->info('redisをclearしました');    
+            $this->cmd->info('redisをclearしました');
         }
 
         $message = 'プッシュ通知テスト(node)';
 
-        $cnt = $this->nodeService->push($message, $pushNotification);
+        $cnt = $this->nodeService->pushByUser(
+            $message,
+            $user
+        );
 
         $this->cmd->info('redisの送信対象件数: ' . $cnt);
     }
 
     /**
-     * 数件だけLaravelから送信
+     * Laravelから送信
      */
-    private function execTakeTest()
+    private function execLaravelTest(User $user)
     {
         $message = "テスト通知";
 
-        $notifications = PushNotification::take(2)->get();
+        $result = $this->senderService->sendByUser(
+            $message,
+            $user
+        );
 
-        foreach ($notifications as $notification) {
-            $result = $this->senderService->send(
-                $message,
-                $notification
-            );
-
-            $this->cmd->info('result: ' . print_r($result, true));
-        }
+        $this->cmd->info('result: ' . print_r($result, true));
     }
 }

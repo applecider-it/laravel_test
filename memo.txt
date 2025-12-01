@@ -102,28 +102,6 @@ App\Models\AdminUser::create(
 
 -----------------------------------
 
-コマンド
-
-システムチャットのテスト送信
-
-php artisan app:web-socket-test websocket
-
-ユーザーを指定する時
-
-php artisan app:web-socket-test websocket --user_id=1
-
-
-redis pub/subのシステムチャットのテスト送信
-
-php artisan app:web-socket-test redis
-
-
-システムチャットのテスト送信(workerman)
-
-php artisan app:web-socket-test workerman
-
------------------------------------
-
 ルート一覧
 
 php artisan route:list
@@ -202,14 +180,42 @@ http://localhost/
 
 -----------------------------------
 
+WebSocket
+
+
+テスト送信コマンド
+
+
+help
+
+php artisan help app:web-socket-test
+
+
+システムチャットのテスト送信
+
+php artisan app:web-socket-test websocket
+
+ユーザーを指定する時
+
+php artisan app:web-socket-test websocket --user_id=1
+
+
+redis pub/subのシステムチャットのテスト送信
+
+php artisan app:web-socket-test redis
+
+
+システムチャットのテスト送信(workerman)
+
+php artisan app:web-socket-test workerman
+
+-----------------------------------
+
 push通知
 
 キー出力
 
 npx web-push generate-vapid-keys
-
-
-とりあえずの動作確認だけしか実装していない
 
 
 テスト送信コマンド
@@ -222,16 +228,16 @@ php artisan help app:push-notification-test
 
 nodeの一斉送信用に、Redisに追加
 
-php artisan app:push-notification-test node
+php artisan app:push-notification-test redis 1
 
 redisのクリアをしないとき
 
-php artisan app:push-notification-test node --noclear
+php artisan app:push-notification-test redis 1 --noclear
 
 
-数件だけLaravelから送信
+Laravelから送信
 
-php artisan app:push-notification-test take
+php artisan app:push-notification-test laravel 1
 
 
 

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
 
+use App\Models\User;
 use App\Models\PushNotification;
 
 /**
@@ -14,15 +15,33 @@ use App\Models\PushNotification;
 class SenderService
 {
     /**
+     * Userモデルから送信
+     */
+    public function sendByUser(string $message, User $user): array
+    {
+        $pushNotifications = $user->pushNotifications()->take(3)->get();
+
+        $results = [];
+        foreach ($pushNotifications as $pushNotification) {
+            $results[] = $this->sendByPushNotification(
+                $message,
+                $pushNotification
+            );    
+        }
+
+        return $results;
+    }
+
+    /**
      * PushNotificationモデルから送信
      */
-    public function send(string $message, PushNotification $notification): array
+    private function sendByPushNotification(string $message, PushNotification $pushNotification): array
     {
         return $this->execWebPush(
             $message,
-            $notification->endpoint,
-            $notification->p256dh,
-            $notification->auth
+            $pushNotification->endpoint,
+            $pushNotification->p256dh,
+            $pushNotification->auth
         );
     }
 

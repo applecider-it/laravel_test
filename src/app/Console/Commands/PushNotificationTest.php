@@ -14,7 +14,8 @@ class PushNotificationTest extends Command
      * @var string
      */
     protected $signature = 'app:push-notification-test 
-                        {type : 実行タイプ (take = 数件だけLaravelから送信 / node = nodeの一斉送信用に、Redisに追加)}
+                        {type : 実行タイプ (laravel = Laravelから送信 / redis = nodeの一斉送信用に、Redisに追加)}
+                        {user_id : 対象のユーザーID}
                         {--noclear : typeがnodeの場合、redisをクリアをしたくないときに指定する}
                         ';
 

@@ -5,6 +5,7 @@ namespace App\Services\PushNotification;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 
+use App\Models\User;
 use App\Models\PushNotification;
 
 /**
@@ -15,11 +16,31 @@ class NodeService
     const string PUSH_QUEUE_REDIS_KEY = 'push_queue';
 
     /**
+     * Userモデルからnode用のRedisに積む
+     * 
+     * 現在のキューの数を返す。
+     */
+    public function pushByUser($message, User $user): int
+    {
+        $pushNotifications = $user->pushNotifications()->take(3)->get();
+
+        $cnt = 0;
+        foreach ($pushNotifications as $pushNotification) {
+            $cnt = $this->pushByPushNotification(
+                $message,
+                $pushNotification
+            );
+        }
+
+        return $cnt;
+    }
+
+    /**
      * PushNotificationモデルからnode用のRedisに積む
      * 
      * 現在のキューの数を返す。
      */
-    public function push($message, PushNotification $notification): int
+    private function pushByPushNotification($message, PushNotification $notification): int
     {
         $data = [
             'message' => $message,
