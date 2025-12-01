@@ -103,4 +103,15 @@ Laravelと双方向APIで連携。
 }
 ```
 
+## Redis Pub/Sub連携
+
+Pub/Subのチャンネル名: broadcast
+
+```
+{
+  channel: string, <- WebSocketチャンネル名
+  data: hash, <- 上記の、「メッセージ送信時」のdataの部分
+
+}
+```
 
