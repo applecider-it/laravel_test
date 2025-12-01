@@ -3,10 +3,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
 
-use App\Services\WebSocket\SystemService as WebSocketSystemService;
-use App\Services\Channels\ChatChannel;
+use App\Services\Commands\WebSocketTestService;
 
 class WebSocketTest extends Command
 {
@@ -15,7 +13,10 @@ class WebSocketTest extends Command
      *
      * @var string
      */
-    protected $signature = 'app:web-socket-test {--token=}';
+    protected $signature = 'app:web-socket-test
+                                {type : 実行タイプ (websocket = WebSocketで送信 / redis = redis Puh/Sub経由 / workerman = Workerman用)}
+                                {--user_id= : 送信ユーザーを限定する時}
+    ';
 
     /**
      * The console command description.
@@ -25,7 +26,7 @@ class WebSocketTest extends Command
     protected $description = 'WebSocketの動作確認用';
 
     public function __construct(
-        private WebSocketSystemService $webSocketSystemService
+        private WebSocketTestService $webSocketTestService
     ) {
         parent::__construct();
     }
@@ -35,19 +36,6 @@ class WebSocketTest extends Command
      */
     public function handle()
     {
-        $token = $this->option('token');
-        $this->info("TOKEN = {$token}");
-
-        $data = [
-            "message" => "システムからの送信（コマンド） " . date('Y-m-d h:i:s'),
-        ];
-
-        if ($token) $data['target_token'] = $token;
-
-        $this->info("data: " . print_r($data, true));
-        
-        $response = $this->webSocketSystemService->sendSystemData(ChatChannel::CHANNEL_ID, $data);
-
-        Log::info('websocket_test response', [$response]);
+        $this->webSocketTestService->exec($this);
     }
 }

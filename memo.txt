@@ -106,21 +106,21 @@ App\Models\AdminUser::create(
 
 システムチャットのテスト送信
 
-php artisan app:web-socket-test
+php artisan app:web-socket-test websocket
 
-トークン指定する時
+ユーザーを指定する時
 
-php artisan app:web-socket-test --token=XXXXXXXXX
+php artisan app:web-socket-test websocket --user_id=1
 
 
 redis pub/subのシステムチャットのテスト送信
 
-php artisan app:web-socket-redis-test
+php artisan app:web-socket-test redis
 
 
 システムチャットのテスト送信(workerman)
 
-php artisan app:web-socket-workerman-test
+php artisan app:web-socket-test workerman
 
 -----------------------------------
 

@@ -39,9 +39,9 @@ export default class ChatCannnel {
   ) {
     await this.test.callbackTest(sender, incoming);
 
-    const targetToken = incoming.data.target_token ?? null;
+    const targetUserId = incoming.data.target_user_id ?? null;
 
-    log(`targetToken: `, targetToken);
+    log(`targetUserId: `, targetUserId);
 
     const sendData: SendData = {
       type: 'newChat',
@@ -52,14 +52,14 @@ export default class ChatCannnel {
       },
     };
 
-    this.broadcast(wss, sendData, targetToken);
+    this.broadcast(wss, sendData, targetUserId);
   }
 
   /** 全体送信 */
   private broadcast(
     wss: WebSocketServer,
     sendData: SendData,
-    targetToken: string | null
+    targetUserId: number | null
   ) {
     const sendDataStr = JSON.stringify(sendData);
 
@@ -72,7 +72,7 @@ export default class ChatCannnel {
       log(`send:`, user.info);
 
       // target_tokenが指定されているときは、対象のtarget_tokenにだけ送信
-      if (targetToken && targetToken !== user.token) return;
+      if (targetUserId && targetUserId !== user.id) return;
 
       client.send(sendDataStr);
     });
