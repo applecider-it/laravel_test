@@ -13,6 +13,8 @@ use App\Services\AI\AiService;
 use App\Services\Sample\SampleService;
 use App\Services\Development\TraceService;
 
+use App\Jobs\SampleJob;
+
 use App\Events\SampleEvent;
 
 /**
@@ -76,5 +78,15 @@ class DevelopmentController extends Controller
     public function frontend_test(Request $request)
     {
         return view('development.frontend_test');
+    }
+
+    /** スロージョブテスト */
+    public function slow_job_test(Request $request)
+    {
+        $user = $request->user();
+        SampleJob::dispatch(date('H:i:s'), $user);
+        return response()->json([
+            'status' => 'ok',
+        ]);
     }
 }

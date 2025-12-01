@@ -6,18 +6,24 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Log;
 
+use App\Services\Jobs\SampleJobService;
+
 use App\Models\User;
 
 class SampleJob implements ShouldQueue
 {
     use Queueable;
 
+    private SampleJobService $sampleJobService;
+
     /**
      * Create a new job instance.
      */
-    public function __construct(private string $time, private User $user)
-    {
-        //
+    public function __construct(
+        private string $time,
+        private User $user
+    ) {
+        $this->sampleJobService = app(SampleJobService::class);
     }
 
     /**
@@ -25,6 +31,6 @@ class SampleJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Log::info('startJob!!! ' . $this->time . ' ' . $this->user->name);
+        $this->sampleJobService->exec($this->time, $this->user);
     }
 }

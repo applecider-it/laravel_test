@@ -1,26 +1,39 @@
 import axios from "axios";
 
-const serviceWorkerUrl = "/service-worker.js";
-
 import { showToast } from "@/services/ui/message";
 import { User } from "@/services/app/types";
+
+const serviceWorkerUrl = "/service-worker.js";
+
+let pushCallback: Function | null = null;
 
 /** サービスワーカーの初期化 */
 export async function initServiceWorker(user: User) {
     if (user && user.push_notification) {
         // ログインしていて、通知が有効な場合
         
-        setServiceWorkerEvent();
+        setupServiceWorkerEvent();
         setupServiceWorker();
     }
 }
 
+/** Push通知のコールバック指定 */
+export async function setPushCallback(func: Function | null) {
+    pushCallback = func;
+}
+
 /** サービスワーカー用イベント追加 */
-function setServiceWorkerEvent() {
+function setupServiceWorkerEvent() {
     navigator.serviceWorker.addEventListener("message", (event) => {
         console.log("Push received in window:", event.data);
         if (event.data.type === "push-received") {
-            showToast("Message from SW: " + event.data.payload.title, "alert");
+            // サービスワーカーからのプッシュ通知を受け取った時
+
+            const payload = event.data.payload;
+
+            console.log("Message from SW: ", payload);
+
+            if (pushCallback) pushCallback(payload);
         }
     });
 }
