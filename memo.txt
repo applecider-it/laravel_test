@@ -13,6 +13,10 @@ laravel
 
 foreman start
 
+ログクリア
+
+echo "" > ./storage/logs/laravel.log
+
 --
 
 個別

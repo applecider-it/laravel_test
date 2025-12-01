@@ -34,6 +34,23 @@ Laravelと双方向APIで連携。
 |--------|--------|--------|--------|
 | data | チャンネルごとの情報ハッシュ | hash |  |
 
+### チャットの場合のdata
+
+```
+{
+  message: string,
+  target_user_id: integer, <- 送信先を絞り込むとき
+}
+```
+
+### Tweetの場合のdata
+
+```
+{
+  content: string,
+}
+```
+
 
 ## メッセージ送信直後のレスポンス
 
@@ -56,7 +73,7 @@ Laravelと双方向APIで連携。
 }
 ```
 
-チャットの場合
+### チャットの場合
 
 ```
 {
@@ -67,6 +84,21 @@ Laravelと双方向APIで連携。
   id: number | string,
   data: {
     message: string,
+  }
+}
+```
+
+### Tweetの場合
+
+```
+{
+  type: string,
+  info: {
+    name: string,
+  }
+  id: number | string,
+  data: {
+    content: string,
   }
 }
 ```
