@@ -17,8 +17,10 @@ class SenderService
     /**
      * Userモデルから送信
      */
-    public function sendByUser(string $message, User $user, array $options = []): array
+    public function sendByUser(string $message, User $user, array $options = []): array|null
     {
+        if (! $user->push_notification) return null;
+
         $pushNotifications = $user->pushNotifications()->take(3)->get();
 
         $results = [];

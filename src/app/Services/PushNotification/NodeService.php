@@ -20,8 +20,10 @@ class NodeService
      * 
      * 現在のキューの数を返す。
      */
-    public function pushByUser($message, User $user, array $options = []): int
+    public function pushByUser($message, User $user, array $options = []): int|null
     {
+        if (! $user->push_notification) return null;
+
         $pushNotifications = $user->pushNotifications()->take(3)->get();
 
         $cnt = 0;

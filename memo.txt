@@ -52,10 +52,6 @@ cd /home/owner/workspace/tmp/laravel_test/node
 
 npx tsx watch ./app/entrypoints/websocket-server.js
 
-Push通知まとめて送信
-
-npx tsx ./app/entrypoints/push-sender.js
-
 
 本番起動
 
@@ -231,6 +227,14 @@ php artisan app:push-notification-test redis 1 --noclear
 Laravelから送信
 
 php artisan app:push-notification-test laravel 1
+
+
+
+nodeで、Push通知まとめて送信
+
+cd /home/owner/workspace/tmp/laravel_test/node
+
+npx tsx ./app/entrypoints/push-sender.js
 
 
 
