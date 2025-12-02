@@ -14,7 +14,7 @@ class WebSocketTest extends Command
      * @var string
      */
     protected $signature = 'app:web-socket-test
-                                {type : 実行タイプ (websocket = WebSocketで送信 / redis = redis Puh/Sub経由 / workerman = Workerman用)}
+                                {type : 実行タイプ (websocket = WebSocketで送信 / redis = redis Puh/Sub経由)}
                                 {--user_id= : 送信ユーザーを限定する時}
     ';
 

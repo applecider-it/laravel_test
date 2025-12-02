@@ -19,9 +19,6 @@
                 <x-nav-link href="{{ route('chat.index') }}" :active="request()->routeIs('chat.index')">
                     Chat
                 </x-nav-link>
-                <x-nav-link href="{{ route('chat.workerman_index') }}" :active="request()->routeIs('chat.workerman_index')">
-                    Chat (WM)
-                </x-nav-link>
             </div>
         </div>
 

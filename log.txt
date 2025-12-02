@@ -399,3 +399,11 @@ php artisan migrate
 
 php artisan migrate:rollback
 
+-----------------------------------
+
+
+
+composer remove workerman/workerman
+
+composer dump-autoload
+

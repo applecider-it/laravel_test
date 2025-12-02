@@ -6,7 +6,6 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
 use App\Services\WebSocket\SystemService as WebSocketSystemService;
-use App\Services\Workerman\SystemService as WorkermanSystemService;
 use App\Services\Channels\ChatChannel;
 
 /**
@@ -19,7 +18,6 @@ class WebSocketTestService
 
     public function __construct(
         private WebSocketSystemService $webSocketSystemService,
-        private WorkermanSystemService $workermanSystemService,
     ) {}
 
     /**
@@ -38,7 +36,6 @@ class WebSocketTestService
         match($type){
             'websocket' => $this->execWebsocketTest(),
             'redis' => $this->execRedisTest(),
-            'workerman' => $this->execWorkermanTest(),
             default => $this->cmd->error('invalide type ' . $type),
         };
     }
@@ -75,24 +72,6 @@ class WebSocketTestService
         $this->cmd->info("data: " . print_r($data, true));
         
         $response = $this->webSocketSystemService->publish(ChatChannel::CHANNEL_ID, $data);
-
-        Log::info('websocket_test response', [$response]);
-    }
-
-    /**
-     * Workerman用
-     */
-    private function execWorkermanTest()
-    {
-        $data = [
-            "message" => "システムからの送信（WM） " . date('Y-m-d h:i:s'),
-        ];
-
-        if ($this->userId) $data['target_user_id'] = $this->userId;
-
-        $this->cmd->info("data: " . print_r($data, true));
-        
-        $response = $this->workermanSystemService->sendSystemData(ChatChannel::CHANNEL_ID, $data);
 
         Log::info('websocket_test response', [$response]);
     }
