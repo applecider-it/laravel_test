@@ -35,8 +35,12 @@ export default class Server {
   channels: Channels;
   /** WebSockerサーバーインスタンス */
   wss: WebSocketServer;
+  redisKey;
 
   constructor({ host = '0.0.0.0', port = 8080 }: Options) {
+    const redisPrefix = process.env.APP_REDIS_PREFIX as string;
+    this.redisKey = redisPrefix + 'broadcast';
+
     this.auth = new Auth();
     this.redis = new Redis({ host: '127.0.0.1', port: 6379, db: 0 });
 
@@ -50,7 +54,7 @@ export default class Server {
     this.wss.on('connection', (ws, req) => this.handleConnection(ws, req));
 
     // Redisの連携用チャンネルをsubscribeする
-    this.redis.subscribe('broadcast', (err, count) =>
+    this.redis.subscribe(this.redisKey, (err, count) =>
       this.handleRedisSubscribe(err, count)
     );
 

@@ -25,7 +25,8 @@ export default class PushSender {
     this.publicKey = publicKey;
     this.privateKey = privateKey;
 
-    this.redisKey = 'laravel-test-database-push_queue';
+    const redisPrefix = process.env.APP_REDIS_PREFIX as string;
+    this.redisKey = redisPrefix + 'push_queue';
   }
 
   /** プッシュ通知送信起動 */

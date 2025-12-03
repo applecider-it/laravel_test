@@ -2,6 +2,8 @@
 
 namespace App\Services\WebSocket;
 
+use Illuminate\Support\Facades\Redis;
+
 use Firebase\JWT\JWT;
 use WebSocket\Client;
 
@@ -19,8 +21,6 @@ class SystemService
 
     /**
      * RedisにWebSocketサーバー連携情報出力
-     * 
-     * LaravelのRedisでは動かなかったので、PHPの組み込みのRedisを使用している。
      */
     public function publish(string $channel, array $data)
     {
@@ -28,10 +28,8 @@ class SystemService
             'channel' => $channel,
             'data' => $data,
         ];
-        $redis = new \Redis();
-        $redis->connect('127.0.0.1', 6379);
-        
-        $redis->publish('broadcast', json_encode($sendData));
+
+        Redis::publish('broadcast', json_encode($sendData));
     }
 
     /**

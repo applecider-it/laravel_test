@@ -198,6 +198,15 @@ redis pub/subのシステムチャットのテスト送信
 
 php artisan app:web-socket-test redis
 
+ユーザーを指定する時
+
+php artisan app:web-socket-test redis --user_id=1
+
+
+受信テスト
+
+php artisan app:redis-subscribe
+
 -----------------------------------
 
 push通知
