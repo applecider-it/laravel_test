@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('push_notifications', function (Blueprint $table) {
-            $table->integer('failure_count')->after('auth')->default(0);
+            $table->tinyInteger('failure_count')->after('auth')->default(0);
             $table->softDeletes(); // deleted_at カラムとインデックスを追加
         });
     }

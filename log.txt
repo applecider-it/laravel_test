@@ -416,3 +416,4 @@ php artisan migrate
 
 php artisan migrate:rollback
 
+php artisan migrate:rollback --step=1
