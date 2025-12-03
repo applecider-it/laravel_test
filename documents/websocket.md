@@ -105,7 +105,7 @@ Laravelと双方向APIで連携。
 
 ## Redis Pub/Sub連携
 
-Pub/Subのチャンネル名: broadcast
+Pub/Subのチャンネル名: `[redis_prefix]broadcast`
 
 ```
 {

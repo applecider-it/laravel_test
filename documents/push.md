@@ -1,6 +1,6 @@
 # Push通知
 
-# Payload
+## Payload
 
 ```
 {
@@ -17,9 +17,9 @@
 }
 ```
 
-# Redisへの格納
+## Redisへの格納
 
-rpushでpush_queueに追加される
+rpushで`[redis_prefix]push_queue`に追加される
 
 ```
 {
