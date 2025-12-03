@@ -57,9 +57,9 @@ class UserController extends Controller
 
         $validated['password'] = bcrypt($validated['password']);
 
-        User::create($validated);
+        $user = User::create($validated);
 
-        return redirect()->route('admin.users.index')->with('success', 'ユーザーを作成しました');
+        return redirect()->route('admin.users.edit', $user)->with('success', 'ユーザーを作成しました');
     }
 
     /** 編集 */
@@ -100,7 +100,7 @@ class UserController extends Controller
 
         $user->update($validated);
 
-        return redirect()->route('admin.users.index')->with('success', 'ユーザーを更新しました');
+        return redirect()->route('admin.users.edit', $user)->with('success', 'ユーザーを更新しました');
     }
 
     /** 論理削除 */
@@ -110,7 +110,7 @@ class UserController extends Controller
 
         $user->delete();
 
-        return redirect()->route('admin.users.index')->with('success', 'ユーザーを削除しました');
+        return redirect()->route('admin.users.edit', $user)->with('success', 'ユーザーを削除しました');
     }
 
     /** 復元 */
@@ -120,7 +120,7 @@ class UserController extends Controller
 
         $user->restore();
 
-        return redirect()->route('admin.users.index')->with('success', 'ユーザーを復元しました');
+        return redirect()->route('admin.users.edit', $user)->with('success', 'ユーザーを復元しました');
     }
 
     /**
