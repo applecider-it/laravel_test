@@ -33,7 +33,7 @@ class SampleJobService
             Log::info('SampleJob: Progress ' . $i);
 
             $this->checkPoint('遅いジョブの経過:', 'progress', [
-                'cursor' => $i,
+                'cursor' => $i + 1,
                 'total' => 10,
             ]);
         }

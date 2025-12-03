@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState, useRef } from "react";
 
 import { showToast, setIsLoading } from "@/services/ui/message";
+import ProgressBar from "@/services/ui/react/message/ProgressBar";
 
 import { setPushCallback } from "@/services/service-worker/service-worker";
 
@@ -12,9 +13,10 @@ let cnt2 = 0;
 export default function TestArea({}) {
     const [cnt, setCnt] = useState(0);
     const refCnt = useRef(0);
+    const [progress, setProgress] = useState(0); // 0〜100
 
     useEffect(() => {
-        setPushCallback(progress);
+        setPushCallback(onProgress);
 
         return () => {
             setPushCallback(null);
@@ -22,7 +24,7 @@ export default function TestArea({}) {
     }, []);
 
     /** 遅いジョブの経過表示 */
-    const progress = (data) => {
+    const onProgress = (data) => {
         const options = data.options;
 
         console.log(data);
@@ -36,11 +38,16 @@ export default function TestArea({}) {
 
         if (detailType === "progress") {
             message += ` (${detail.cursor} / ${detail.total})`;
+
+            const p = (detail.cursor / detail.total) * 100;
+
+            setProgress(p);
         }
 
         showToast(message, detailType === "end" ? "alert" : "notice");
     };
 
+    /** ロード画面の動作確認 */
     const loadingTest = () => {
         console.log("Loading");
         setIsLoading(true);
@@ -49,6 +56,7 @@ export default function TestArea({}) {
         }, 2000);
     };
 
+    /** トーストの動作確認 */
     const toastTest = (type) => {
         refCnt.current++;
         setCnt(refCnt.current);
@@ -59,16 +67,17 @@ export default function TestArea({}) {
         showToast(msg, type);
     };
 
+    /** 遅いジョブの開始 */
     const SlowJobTest = async () => {
         console.log("SlowJobTest");
+        setProgress(0);
         const response = await axios.post("/development/slow_job_test", {});
         console.log("response.data", response.data);
-        showToast('送信しました。');
-        return response.data.data;
+        showToast("送信しました。");
     };
 
     return (
-        <div className="py-6 border-gray-500 border-2 p-5">
+        <div className="py-6 border-gray-500 border-2 p-5 space-y-3">
             <div className="mb-6 text-lg">react動作確認</div>
 
             <div>
@@ -80,7 +89,7 @@ export default function TestArea({}) {
                 </button>
             </div>
 
-            <div className="mt-5">
+            <div>
                 <button
                     className="app-btn-primary mr-2"
                     onClick={() => toastTest("notice")}
@@ -105,9 +114,19 @@ export default function TestArea({}) {
                 cnt: {cnt}
             </div>
 
-            <div className="mt-5">
-                <button className="app-btn-orange mr-2" onClick={SlowJobTest}>
+            <div className="space-y-2">
+                <button className="app-btn-orange" onClick={SlowJobTest}>
                     遅いジョブ
+                </button>
+
+                <ProgressBar progress={progress} />
+
+                {/* ボタン */}
+                <button
+                    onClick={() => setProgress(progress + 10)}
+                    className="app-btn-secondary"
+                >
+                    進める
                 </button>
             </div>
         </div>
