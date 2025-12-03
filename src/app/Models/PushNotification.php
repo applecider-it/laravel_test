@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * プッシュ通知登録情報モデル
@@ -12,6 +13,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class PushNotification extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'endpoint',
         'p256dh',

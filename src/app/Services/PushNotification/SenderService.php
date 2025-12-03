@@ -14,6 +14,8 @@ use App\Models\PushNotification;
  */
 class SenderService
 {
+    private const FAILURE_LIMIT = 5;
+
     /**
      * Userモデルから送信
      */
@@ -40,13 +42,42 @@ class SenderService
      */
     private function sendByPushNotification(string $message, PushNotification $pushNotification, array $options): array
     {
-        return $this->execWebPush(
+        $result = $this->execWebPush(
             $message,
             $pushNotification->endpoint,
             $pushNotification->p256dh,
             $pushNotification->auth,
             $options
         );
+
+        $this->autoDelete($pushNotification, $result['status']);
+
+        return $result;
+    }
+
+    /**
+     * オート削除
+     * 
+     * 失敗したときは、失敗数を数えて、リミットを超えたら削除。
+     * 成功時には、リミットをリセットする。
+     */
+    private function autoDelete(PushNotification $pushNotification, bool $status)
+    {
+        if ($status) {
+            if ($pushNotification->failure_count > 0) {
+                $pushNotification->failure_count = 0;
+                $pushNotification->save();
+            }
+        } else {
+            Log::info("sendByPushNotification: status ng !!!!!");
+
+            if ($pushNotification->failure_count >= self::FAILURE_LIMIT) {
+                $pushNotification->delete();
+            } else {
+                $pushNotification->failure_count++;
+                $pushNotification->save();
+            }
+        }
     }
 
     /**
@@ -73,14 +104,14 @@ class SenderService
 
         $cmd = implode(' ', $cmdParts);
 
-        Log::info("cmd: " . $cmd);
+        Log::info("execWebPush: cmd: " . $cmd);
 
         exec($cmd, $output, $returnVar);
 
         $outputAll = implode("\n", $output);
 
         //print_r([$outputAll, $returnVar]);
-        Log::info("result: ", [$outputAll, $returnVar]);
+        Log::info("execWebPush: result: ", [$outputAll, $returnVar]);
 
         $status = true;
         //if ($returnVar !== 0) {   // 失敗しても0になるのでこれは使えない

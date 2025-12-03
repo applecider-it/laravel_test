@@ -407,3 +407,12 @@ composer remove workerman/workerman
 
 composer dump-autoload
 
+-----------------------------------
+
+
+php artisan make:migration add_deleted_at_to_push_notifications_table --table=push_notifications
+
+php artisan migrate
+
+php artisan migrate:rollback
+
