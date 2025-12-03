@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-12 max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="py-12 max-w-7xl mx-auto px-6">
         <div class="flex justify-between items-center mb-4">
             <a href="{{ route('admin.users.create') }}" class="app-btn-primary">
                 新規作成
