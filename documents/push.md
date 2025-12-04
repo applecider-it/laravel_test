@@ -27,6 +27,18 @@ rpushで`[redis_prefix]push_queue`に追加される
   options: array, <- Payloadのoptionsと同じ値
   endpoint: string,
   p256dh: string,
-  auth: string
+  auth: string,
+  id: integer <- PushNotification.id,
+}
+```
+
+## 送信結果のRedisへの格納
+
+rpushで`[redis_prefix]push_queue_result`に追加される
+
+```
+{
+  status: boolean,
+  id: integer <- PushNotification.id,
 }
 ```

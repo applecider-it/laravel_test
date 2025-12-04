@@ -14,7 +14,9 @@ use App\Models\PushNotification;
  */
 class SenderService
 {
-    private const FAILURE_LIMIT = 5;
+    public function __construct(
+        private UpdateService $updateService,
+    ) {}
 
     /**
      * Userモデルから送信
@@ -50,34 +52,9 @@ class SenderService
             $options
         );
 
-        $this->autoDelete($pushNotification, $result['status']);
+        $this->updateService->autoDelete($pushNotification, $result['status']);
 
         return $result;
-    }
-
-    /**
-     * オート削除
-     * 
-     * 失敗したときは、失敗数を数えて、リミットを超えたら削除。
-     * 成功時には、リミットをリセットする。
-     */
-    private function autoDelete(PushNotification $pushNotification, bool $status)
-    {
-        if ($status) {
-            if ($pushNotification->failure_count > 0) {
-                $pushNotification->failure_count = 0;
-                $pushNotification->save();
-            }
-        } else {
-            Log::info("sendByPushNotification: status ng !!!!!");
-
-            if ($pushNotification->failure_count >= self::FAILURE_LIMIT) {
-                $pushNotification->delete();
-            } else {
-                $pushNotification->failure_count++;
-                $pushNotification->save();
-            }
-        }
     }
 
     /**

@@ -2,11 +2,14 @@ import webpush from 'web-push';
 import Redis from 'ioredis';
 import { send } from 'process';
 
+import { log } from '@/services/system/log';
+
 // Push データの型定義
 interface PushData {
   endpoint: string;
   p256dh: string;
   auth: string;
+  id: number;
   message: string;
   options: any;
 }
@@ -19,6 +22,7 @@ export default class PushSender {
   publicKey;
   privateKey;
   redisKey;
+  redisKeyResult;
 
   constructor(mailto: string, publicKey: string, privateKey: string) {
     this.mailto = mailto;
@@ -27,6 +31,7 @@ export default class PushSender {
 
     const redisPrefix = process.env.APP_REDIS_PREFIX as string;
     this.redisKey = redisPrefix + 'push_queue';
+    this.redisKeyResult = redisPrefix + 'push_queue_result';
   }
 
   /** プッシュ通知送信起動 */
@@ -51,12 +56,12 @@ export default class PushSender {
       const item = await redis.lpop(this.redisKey);
       if (!item) break; // キューが空になったら終了
 
-      await this.pushOne(item);
+      await this.pushOne(item, redis);
     }
   }
 
   /** Redisにあるデータを１つ送信 */
-  async pushOne(item: string) {
+  async pushOne(item: string, redis: Redis) {
     let data: PushData;
 
     try {
@@ -66,6 +71,9 @@ export default class PushSender {
       return;
     }
 
+    log('id:', data.id);
+
+    let status = false;
     try {
       await webpush.sendNotification(
         {
@@ -77,9 +85,24 @@ export default class PushSender {
           options: data.options,
         })
       );
-      console.log('Sent:', data.endpoint);
+
+      status = true;
+
+      log('Sent:', data.endpoint);
     } catch (err: any) {
-      console.error('Failed:', data.endpoint, err.statusCode || err);
+      log('Failed:', data.endpoint, err);
+      //console.error('Failed:', data.endpoint, err.statusCode || err);
     }
+
+    // 結果をredisに保存
+    const cnt = await redis.rpush(
+      this.redisKeyResult,
+      JSON.stringify({
+        id: data.id,
+        status: status,
+      })
+    );
+
+    log('redis cnt:', cnt);
   }
 }

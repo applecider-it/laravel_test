@@ -21,4 +21,8 @@ return [
 
     // プッシュ通知用のプライベートキー
     'vapid_private_key' => env('MYAPP_VAPID_PRIVATE_KEY'),
+
+    // プッシュ通知の失敗の上限
+    // 上限に到達してから失敗したら削除される
+    'push_notification_failure_limit' => 5,
 ];

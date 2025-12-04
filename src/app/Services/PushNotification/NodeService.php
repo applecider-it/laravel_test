@@ -15,6 +15,12 @@ class NodeService
 {
     const string PUSH_QUEUE_REDIS_KEY = 'push_queue';
 
+    const string PUSH_QUEUE_REDIS_KEY_RESULT = 'push_queue_result';
+
+    public function __construct(
+        private UpdateService $updateService,
+    ) {}
+
     /**
      * Userモデルからnode用のRedisに積む
      * 
@@ -50,7 +56,8 @@ class NodeService
             'options' => $options,
             'endpoint' => $notification->endpoint,
             'p256dh' => $notification->p256dh,
-            'auth' => $notification->auth
+            'auth' => $notification->auth,
+            'id' => $notification->id
         ];
 
         //print_r($data);
@@ -64,5 +71,34 @@ class NodeService
     public function clear(): void
     {
         Redis::del(self::PUSH_QUEUE_REDIS_KEY);
+    }
+
+    /**
+     * プッシュ通知の結果を処理する
+     */
+    public function revievePushNotificationResults()
+    {
+        $results = [];
+        foreach (range(1, 1000) as $num) {
+            $val = Redis::lpop(self::PUSH_QUEUE_REDIS_KEY_RESULT);
+
+            // 空になったら終了
+            if (! $val) break;
+
+            Log::info("popPushNotificationResults: loop: num: {$num}: val: {$val}");
+
+            $data = json_decode($val, true);
+
+            $results[] = $data;
+
+            $id = $data['id'];
+            $status = $data['status'];
+
+            $pushNotification = PushNotification::find($id);
+
+            $this->updateService->autoDelete($pushNotification, $status);
+        }
+
+        return $results;
     }
 }
