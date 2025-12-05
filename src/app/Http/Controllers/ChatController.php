@@ -23,7 +23,7 @@ class ChatController extends Controller
     {
         $user = auth()->user();
 
-        $token = $this->webSocketAuthService->createUserJwt($user);
+        $token = $this->webSocketAuthService->createUserJwt($user, \App\Services\Channels\ChatChannel::CHANNEL_ID);
 
         return view('chat.index', compact('token'));
     }

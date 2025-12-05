@@ -17,10 +17,8 @@ export default class Auth {
 
     const params = new URLSearchParams(url.replace('/?', ''));
     const token = params.get('token');
-    const channel = params.get('channel') as string;
 
     log(`token: ${token}`);
-    log(`channel: ${channel}`);
 
     if (!token) return null;
 
@@ -39,7 +37,7 @@ export default class Auth {
         name: payload.name,
       },
       token,
-      channel,
+      channel: payload.channel,
       channelData: {},
     };
   }

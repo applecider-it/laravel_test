@@ -12,7 +12,6 @@ export default class TweetClient {
     wsHost;
     user;
     ws;
-    channel: string;
     setTweetContainers;
 
     constructor(token, wsHost, user) {
@@ -21,8 +20,6 @@ export default class TweetClient {
         this.user = user;
 
         this.ws = null;
-
-        this.channel = "tweet";
 
         this.setTweetContainers = null;
 
@@ -33,9 +30,7 @@ export default class TweetClient {
     initWebSocket() {
         console.log(`[DEBUG] Connecting WebSocket with token: ${this.token}`);
 
-        this.ws = new WebSocket(
-            `ws://${this.wsHost}?token=${this.token}&channel=${this.channel}`
-        );
+        this.ws = new WebSocket(`ws://${this.wsHost}?token=${this.token}`);
 
         this.ws.onopen = () => {
             console.log("[DEBUG] WebSocket connected");

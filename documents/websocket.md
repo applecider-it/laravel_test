@@ -11,7 +11,6 @@ Laravelと双方向APIで連携。
 | 項目名 | 内容 | 型 | 詳細 |
 |--------|--------|--------|--------|
 | token | 認証情報を含むJWTトークン | string |  |
-| channel | 接続するチャンネル | string | つまり、同時に複数のチャンネルには接続できない。 |
 
 ## token
 
@@ -19,6 +18,7 @@ Laravelと双方向APIで連携。
 |--------|--------|--------|--------|
 | sub | ID | string \| integer | idに相当する項目。laravel内部ではidとして管理し、送受信時はsubとして送受信する。システムからの接続は、`system` |
 | name | 表示名 | string |  |
+| channel | 接続するチャンネル | string | つまり、同時に複数のチャンネルには接続できない。 |
 | iat | 現在日時 | integer |  |
 | exp | 有効期限 | integer |  |
 

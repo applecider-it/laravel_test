@@ -19,11 +19,12 @@ class AuthService
     /**
      * ユーザー用のWebSocket用のJWT生成
      */
-    public function createUserJwt(User $user)
+    public function createUserJwt(User $user, string $channel)
     {
         $token = JWT::encode([
             'sub' => $user->id,
             'name' => $user->name,
+            'channel' => $channel,
             'iat' => time(),
             'exp' => time() + 60 * 60 * 12, // 12時間
         ], config('myapp.ws_jwt_secret'), self::ALGORITHM);
@@ -36,13 +37,14 @@ class AuthService
      * 
      * システム用ではすぐにクローズするので有効期限は短くしている。
      */
-    public function createSystemJwt()
+    public function createSystemJwt(string $channel)
     {
         $name = 'システム';
         $id = SystemService::SYSTEM_ID;
         $token = JWT::encode([
             'sub' => $id,
             'name' => $name,
+            'channel' => $channel,
             'iat' => time(),
             'exp' => time() + 60, // 1分
         ], config('myapp.ws_jwt_secret'), self::ALGORITHM);
@@ -61,10 +63,12 @@ class AuthService
             $payload = JWT::decode($token, new Key(config('myapp.ws_jwt_secret'), self::ALGORITHM));
             $sub = $payload->sub;
             $name = $payload->name;
+            $channel = $payload->channel;
 
             return [
                 'id' => $sub,
                 'name' => $name,
+                'channel' => $channel,
             ];
         } catch (\Exception $e) {
             return null;

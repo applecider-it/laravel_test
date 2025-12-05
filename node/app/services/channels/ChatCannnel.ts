@@ -22,7 +22,7 @@ type SendData = {
 /**
  * チャットチャンネル
  *
- * target_tokenが指定されているときは、対象のtarget_tokenにだけ送信。
+ * target_user_idが指定されているときは、対象のuser_idにだけ送信。
  */
 export default class ChatCannnel {
   test;
@@ -71,7 +71,7 @@ export default class ChatCannnel {
 
       log(`send:`, user.info);
 
-      // target_tokenが指定されているときは、対象のtarget_tokenにだけ送信
+      // target_user_idが指定されているときは、対象のuser_idにだけ送信。
       if (targetUserId && targetUserId !== user.id) return;
 
       client.send(sendDataStr);

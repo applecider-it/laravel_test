@@ -104,7 +104,7 @@ class TweetController extends Controller
         $user = $request->user();
         $tweets = UserTweet::with('user')->latest()->take(20)->get();
 
-        $token = $this->webSocketAuthService->createUserJwt($user);
+        $token = $this->webSocketAuthService->createUserJwt($user, \App\Services\Channels\TweetChannel::CHANNEL_ID);
 
         return view('tweets.index_react', compact('tweets', 'token', 'user'));
     }

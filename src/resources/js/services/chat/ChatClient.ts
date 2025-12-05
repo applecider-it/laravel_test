@@ -7,8 +7,6 @@ export default class ChatClient {
     token;
     wsHost;
     ws;
-    channel: string;
-    room;
     setMessageList;
 
     constructor(token, wsHost) {
@@ -16,9 +14,6 @@ export default class ChatClient {
         this.wsHost = wsHost;
 
         this.ws = null;
-
-        this.channel = "chat";
-        this.room = "room1";
 
         this.setMessageList = null;
 
@@ -29,9 +24,7 @@ export default class ChatClient {
     initWebSocket() {
         console.log(`[DEBUG] Connecting WebSocket with token: ${this.token}`);
 
-        this.ws = new WebSocket(
-            `ws://${this.wsHost}?token=${this.token}&channel=chat`
-        );
+        this.ws = new WebSocket(`ws://${this.wsHost}?token=${this.token}`);
 
         this.ws.onopen = () => {
             console.log("[DEBUG] WebSocket connected");
