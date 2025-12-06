@@ -51,6 +51,17 @@ Laravelと双方向APIで連携。
 }
 ```
 
+## Redis Pub/Sub連携
+
+Pub/Subのチャンネル名: `[redis_prefix]broadcast`
+
+```
+{
+  channel: string, <- WebSocketチャンネル名
+  data: hash, <- 上記の、「メッセージ送信時」のdataの部分
+
+}
+```
 
 ## メッセージ送信直後のレスポンス
 
@@ -61,57 +72,32 @@ Laravelと双方向APIで連携。
 }
 ```
 
-
-## ブロードキャスト時
-
-```
-{
-  type: 'sended以外の任意',
-  ・
-  ・他は任意
-  ・
-}
-```
-
-### チャットの場合
+## ブロードキャスト時のレスポンス
 
 ```
 {
-  type: string,
+  type: 'message',
   info: {
     name: string,
   }
-  id: number | string,
-  data: {
-    message: string,
-  }
+  id: number | 'system',
+  data: hash, <- チャンネルごとに任意
 }
 ```
 
-### Tweetの場合
+### チャットの場合のdata
 
 ```
 {
-  type: string,
-  info: {
-    name: string,
-  }
-  id: number | string,
-  data: {
-    content: string,
-  }
+  message: string,
 }
 ```
 
-## Redis Pub/Sub連携
-
-Pub/Subのチャンネル名: `[redis_prefix]broadcast`
+### Tweetの場合のdata
 
 ```
 {
-  channel: string, <- WebSocketチャンネル名
-  data: hash, <- 上記の、「メッセージ送信時」のdataの部分
-
+  content: string,
 }
 ```
 

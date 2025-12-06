@@ -5,7 +5,7 @@ import { log } from '@/services/system/log.ts';
 
 import Auth from './Auth.ts';
 
-import { WebSocketUser, Incoming } from '@/types/types';
+import { WebSocketUser, Incoming } from '../types';
 
 /**
  * WebSocket サーバーのWebSocket管理

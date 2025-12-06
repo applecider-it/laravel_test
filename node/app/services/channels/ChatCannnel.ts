@@ -1,23 +1,8 @@
-import { type WebSocket, type WebSocketServer } from 'ws';
-
-import { canBroadcast } from '@/services/web-socket/broadcast.ts';
 import { log } from '@/services/system/log.ts';
 
-import { WebSocketUser, Incoming } from '@/types/types';
+import { WebSocketUser, Incoming } from '@/services/web-socket/types';
 
 import Test from './chat-cannnel/Test.ts';
-
-const CHANNEL_ID = 'chat';
-
-/** ブロードキャスト用送信データ */
-type SendData = {
-  type: string;
-  info: any;
-  id: number | string;
-  data: {
-    message: any;
-  };
-};
 
 /**
  * チャットチャンネル
@@ -31,50 +16,28 @@ export default class ChatCannnel {
     this.test = new Test();
   }
 
-  /** メッセージ取得時 */
-  async handleMessage(
-    wss: WebSocketServer,
-    sender: WebSocketUser,
-    incoming: Incoming
-  ) {
+  /** メッセージ取得時のデータ生成 */
+  async callbackCreateData(sender: WebSocketUser, incoming: Incoming) {
     await this.test.callbackTest(sender, incoming);
 
-    const targetUserId = incoming.data.target_user_id ?? null;
-
-    log(`targetUserId: `, targetUserId);
-
-    const sendData: SendData = {
-      type: 'newChat',
-      info: sender.info,
-      id: sender.id,
-      data: {
-        message: incoming.data.message,
-      },
+    return {
+      message: incoming.data.message,
     };
-
-    this.broadcast(wss, sendData, targetUserId);
   }
 
-  /** 全体送信 */
-  private broadcast(
-    wss: WebSocketServer,
-    sendData: SendData,
-    targetUserId: number | null
+  /** メッセージをブロードキャストしていいか返す */
+  async callbackCheckSend(
+    sender: WebSocketUser,
+    user: WebSocketUser,
+    incoming: Incoming
   ) {
-    const sendDataStr = JSON.stringify(sendData);
+    const targetUserId = incoming.data.target_user_id ?? null;
 
-    wss.clients.forEach((client: WebSocket) => {
-      const user = client.user as WebSocketUser;
-      log(`broadcast:`, user.info);
+    log('targetUserId', [targetUserId], user);
 
-      if (!canBroadcast(client, CHANNEL_ID)) return;
+    // target_user_idが指定されているときは、対象のuser_idにだけ送信。
+    if (targetUserId && targetUserId !== user.id) return false;
 
-      log(`send:`, user.info);
-
-      // target_user_idが指定されているときは、対象のuser_idにだけ送信。
-      if (targetUserId && targetUserId !== user.id) return;
-
-      client.send(sendDataStr);
-    });
+    return true;
   }
 }

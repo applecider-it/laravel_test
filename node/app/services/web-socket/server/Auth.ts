@@ -3,7 +3,7 @@ import { type IncomingMessage } from 'http';
 
 import { log } from '@/services/system/log.ts';
 
-import { WebSocketUser } from '@/types/types';
+import { WebSocketUser } from '../types';
 
 /**
  * 認証管理

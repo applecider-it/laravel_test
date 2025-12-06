@@ -59,7 +59,7 @@ export default class TweetClient {
 
         console.log("[DEBUG] Received message", data);
 
-        if (data.type == "newTweet") this.recieveNewTweet(data);
+        if (data.type == "message") this.recieveNewTweet(data);
     }
 
     /** 新しいツイート受信時 */

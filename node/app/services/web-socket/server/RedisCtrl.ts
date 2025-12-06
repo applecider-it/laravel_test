@@ -2,7 +2,7 @@ import Redis from 'ioredis';
 
 import { log } from '@/services/system/log.ts';
 
-import { WebSocketUser, Incoming } from '@/types/types';
+import { WebSocketUser, Incoming } from '../types';
 
 import { WS_SYSTEM_ID, WS_SYSTEM_NAME } from '../system';
 

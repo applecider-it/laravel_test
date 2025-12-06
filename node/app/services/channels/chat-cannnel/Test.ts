@@ -5,7 +5,7 @@ import { log } from '@/services/system/log.ts';
 
 import { WS_SYSTEM_ID } from '@/services/web-socket/system.ts';
 
-import { WebSocketUser, Incoming } from '@/types/types';
+import { WebSocketUser, Incoming } from '@/services/web-socket/types';
 
 /**
  * チャットチャンネルのテスト用クラス

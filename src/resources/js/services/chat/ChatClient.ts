@@ -65,7 +65,7 @@ export default class ChatClient {
 
         console.log("[DEBUG] Received message", data);
 
-        if (data.type == "newChat") this.recieveNewChat(data);
+        if (data.type == "message") this.recieveNewChat(data);
     }
 
     /** 新しいチャット受信時 */

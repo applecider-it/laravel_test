@@ -5,12 +5,13 @@ import { log } from '@/services/system/log.ts';
 
 import ChatCannnel from '@/services/channels/ChatCannnel.ts';
 import TweetCannnel from '@/services/channels/TweetCannnel.ts';
+import { canBroadcast } from '@/services/web-socket/broadcast.ts';
 
 import Auth from './server/Auth.ts';
 import RedisCtrl from './server/RedisCtrl.ts';
 import WebSocketCtrl from './server/WebSocketCtrl.ts';
 
-import { WebSocketUser, Incoming } from '@/types/types';
+import { WebSocketUser, Incoming, SendData } from './types';
 
 type Options = {
   host: string;
@@ -57,8 +58,6 @@ export default class Server {
       chat: new ChatCannnel(),
       tweet: new TweetCannnel(),
     };
-
-    log(`WebSocket server running on ws://${host}:${port}`);
   }
 
   /** WebSocket, Redis共通の送信処理 */
@@ -66,11 +65,59 @@ export default class Server {
     log('incoming', incoming);
     log('sender', sender);
 
-    const channel = sender.channel as 'chat' | 'tweet';
+    this.handleMessage(sender, incoming);
+  }
 
-    const handler = this.channels[channel];
-    if (handler) {
-      handler.handleMessage(this.webSocketCtrl.wss, sender, incoming);
-    }
+  /** チャンネルごとのインスタンス */
+  getChannel(channel: string) {
+    return this.channels[channel as 'chat' | 'tweet'];
+  }
+
+  /** メッセージ取得時 */
+  async handleMessage(sender: WebSocketUser, incoming: Incoming) {
+    const data = await this.getChannel(sender.channel).callbackCreateData(
+      sender,
+      incoming
+    );
+
+    const sendData: SendData = {
+      type: 'message',
+      info: sender.info,
+      id: sender.id,
+      data: data,
+    };
+
+    this.broadcast(sendData, sender, incoming);
+  }
+
+  /** 全体送信 */
+  private broadcast(
+    sendData: SendData,
+    sender: WebSocketUser,
+    incoming: Incoming
+  ) {
+    const wss = this.webSocketCtrl.wss;
+    const sendDataStr = JSON.stringify(sendData);
+
+    wss.clients.forEach(async (client: WebSocket) => {
+      const user = client.user as WebSocketUser;
+      log(`broadcast:`, user.info);
+
+      if (!canBroadcast(client, sender.channel)) return;
+
+      log(`canBroadcast:`, user.info);
+
+      const sendable = await this.getChannel(sender.channel).callbackCheckSend(
+        sender,
+        user,
+        incoming
+      );
+
+      if (!sendable) return;
+
+      log(`sendable:`, user.info);
+
+      client.send(sendDataStr);
+    });
   }
 }
