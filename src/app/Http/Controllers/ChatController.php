@@ -24,8 +24,16 @@ class ChatController extends Controller
     {
         $user = auth()->user();
 
-        $token = $this->webSocketAuthService->createUserJwt($user, ChatChannel::getChannel($request->input('room')));
+        $rooms = [
+            null,
+            'room1',
+            'room2',
+        ];
 
-        return view('chat.index', compact('token'));
+        $room = $request->input('room');
+
+        $token = $this->webSocketAuthService->createUserJwt($user, ChatChannel::getChannel($room));
+
+        return view('chat.index', compact('token', 'room', 'rooms'));
     }
 }
