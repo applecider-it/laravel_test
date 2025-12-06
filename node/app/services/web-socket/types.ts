@@ -1,12 +1,16 @@
+import {
+  BroadcastDataTweet,
+  BroadcastDataChat,
+} from '@/services/channels/types';
+
 /** WebSocketオブジェクトに追加するユーザー情報 */
 export interface WebSocketUser {
-  id: any;
+  id: number | 'system';
   info: {
     name: string;
   };
   token: string;
   channel: string;
-  channelData: any;
 }
 
 /** 送信されてくるデータ */
@@ -15,9 +19,9 @@ export type Incoming = {
 };
 
 /** ブロードキャスト用送信データ */
-export type SendData = {
+export type BroadcastSendData = {
   type: string;
   info: any;
-  id: number | string;
-  data: any;
+  id: number | 'system';
+  data: BroadcastDataTweet | BroadcastDataChat;
 };

@@ -11,7 +11,7 @@ import Auth from './server/Auth.ts';
 import RedisCtrl from './server/RedisCtrl.ts';
 import WebSocketCtrl from './server/WebSocketCtrl.ts';
 
-import { WebSocketUser, Incoming, SendData } from './types';
+import { WebSocketUser, Incoming, BroadcastSendData } from './types';
 
 type Options = {
   host: string;
@@ -80,7 +80,7 @@ export default class Server {
       incoming
     );
 
-    const sendData: SendData = {
+    const sendData: BroadcastSendData = {
       type: 'message',
       info: sender.info,
       id: sender.id,
@@ -92,7 +92,7 @@ export default class Server {
 
   /** 全体送信 */
   private broadcast(
-    sendData: SendData,
+    sendData: BroadcastSendData,
     sender: WebSocketUser,
     incoming: Incoming
   ) {

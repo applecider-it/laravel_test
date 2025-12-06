@@ -38,7 +38,6 @@ export default class Auth {
       },
       token,
       channel: payload.channel,
-      channelData: {},
     };
   }
 }

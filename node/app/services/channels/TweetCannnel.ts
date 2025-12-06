@@ -1,4 +1,5 @@
 import { WebSocketUser, Incoming } from '@/services/web-socket/types';
+import { BroadcastDataTweet } from './types.ts';
 
 /**
  * ツイートチャンネル
@@ -10,7 +11,7 @@ export default class TweetCannnel {
   async callbackCreateData(sender: WebSocketUser, incoming: Incoming) {
     return {
       tweet: incoming.data.tweet,
-    };
+    } as BroadcastDataTweet;
   }
 
   /** メッセージをブロードキャストしていいか返す */

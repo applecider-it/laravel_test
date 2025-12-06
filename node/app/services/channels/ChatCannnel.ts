@@ -2,6 +2,7 @@ import { log } from '@/services/system/log.ts';
 
 import { WebSocketUser, Incoming } from '@/services/web-socket/types';
 
+import { BroadcastDataChat } from './types.ts';
 import Test from './chat-cannnel/Test.ts';
 
 /**
@@ -22,7 +23,7 @@ export default class ChatCannnel {
 
     return {
       message: incoming.data.message,
-    };
+    } as BroadcastDataChat;
   }
 
   /** メッセージをブロードキャストしていいか返す */

@@ -57,7 +57,6 @@ export default class RedisCtrl {
       },
       token: '',
       channel: ret.channel,
-      channelData: null,
     };
 
     const incoming: Incoming = {
