@@ -30,7 +30,7 @@ class WebsocketService
             "tweet" => $tweetArray,
         ];
 
-        $response = $this->webSocketSystemService->sendSystemData(TweetChannel::CHANNEL_ID, $data);
+        $response = $this->webSocketSystemService->sendSystemData(TweetChannel::getChannel(), $data);
 
         Log::info('websocket_test response', [$response]);
 

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 use App\Services\WebSocket\AuthService as WebSocketAuthService;
+use App\Services\Channels\ChatChannel;
 
 /**
  * チャット管理コントローラー
@@ -19,11 +20,11 @@ class ChatController extends Controller
         private WebSocketAuthService $webSocketAuthService
     ) {}
 
-    public function index()
+    public function index(Request $request)
     {
         $user = auth()->user();
 
-        $token = $this->webSocketAuthService->createUserJwt($user, \App\Services\Channels\ChatChannel::CHANNEL_ID);
+        $token = $this->webSocketAuthService->createUserJwt($user, ChatChannel::getChannel($request->input('room')));
 
         return view('chat.index', compact('token'));
     }

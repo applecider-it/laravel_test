@@ -6,12 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 use App\Models\User\Tweet as UserTweet;
-
 use App\Services\Tweet\ListService as TweetListService;
 use App\Services\Tweet\FormService as TweetFormService;
 use App\Services\Tweet\WebsocketService as TweetWebsocketService;
 use App\Http\Resources\User\TweetResource;
 use App\Services\WebSocket\AuthService as WebSocketAuthService;
+use App\Services\Channels\TweetChannel;
 
 /**
  * ツイート管理コントローラー
@@ -104,7 +104,7 @@ class TweetController extends Controller
         $user = $request->user();
         $tweets = UserTweet::with('user')->latest()->take(20)->get();
 
-        $token = $this->webSocketAuthService->createUserJwt($user, \App\Services\Channels\TweetChannel::CHANNEL_ID);
+        $token = $this->webSocketAuthService->createUserJwt($user, TweetChannel::getChannel());
 
         return view('tweets.index_react', compact('tweets', 'token', 'user'));
     }

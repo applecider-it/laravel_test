@@ -69,7 +69,8 @@ export default class Server {
   }
 
   /** チャンネルごとのインスタンス */
-  getChannel(channel: string) {
+  getChannel(channelStr: string) {
+    const [channel, paramsStr] = channelStr.split(":");
     return this.channels[channel as 'chat' | 'tweet'];
   }
 

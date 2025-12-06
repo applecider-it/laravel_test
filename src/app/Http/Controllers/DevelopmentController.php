@@ -51,7 +51,7 @@ class DevelopmentController extends Controller
             "message" => "システムからの送信 " . date('Y-m-d h:i:s'),
         ];
 
-        $response = $this->webSocketSystemService->sendSystemData(ChatChannel::CHANNEL_ID, $data);
+        $response = $this->webSocketSystemService->sendSystemData(ChatChannel::getChannel(), $data);
 
         Log::info('websocket_test response', [$response]);
 

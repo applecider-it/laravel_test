@@ -3,5 +3,10 @@
 namespace App\Services\Channels;
 
 class ChatChannel{
-    public const CHANNEL_ID = 'chat';
+    private const CHANNEL_ID = 'chat';
+
+    /** チャンネル名を返す */
+    public static function getChannel(?string $room = null) {
+        return self::CHANNEL_ID . ':' . $room;
+    }
 }
