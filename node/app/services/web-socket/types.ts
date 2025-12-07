@@ -6,10 +6,8 @@ import {
 
 /** WebSocketオブジェクトに追加するユーザー情報 */
 export interface WebSocketUser {
+  name: string;
   id: number | 'system';
-  info: {
-    name: string;
-  };
   token: string;
   channel: string;
 }
@@ -22,7 +20,9 @@ export type Incoming = {
 /** ブロードキャスト用送信データ */
 export type BroadcastSendData = {
   type: string;
-  info: any;
-  id: number | 'system';
+  sender: {
+    id: number | 'system';
+    name: string;
+  };
   data: BroadcastDataTweet | BroadcastDataChat | BroadcastDataProgress;
 };

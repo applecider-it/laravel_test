@@ -33,9 +33,7 @@ export default class Auth {
 
     return {
       id: payload.sub,
-      info: {
-        name: payload.name,
-      },
+      name: payload.name,
       token,
       channel: payload.channel,
     };

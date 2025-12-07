@@ -40,7 +40,7 @@ export default function ChatArea({ chatClient }) {
             <div className="border p-2 mb-2 h-80 overflow-y-auto">
                 {messageList.map((data, index) => (
                     <p key={index}>
-                        <strong>{data.info.name}</strong>: {data.data.message}
+                        <strong>{data.sender.name}</strong>: {data.data.message}
                     </p>
                 ))}
             </div>

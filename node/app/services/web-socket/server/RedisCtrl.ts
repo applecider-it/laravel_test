@@ -52,9 +52,7 @@ export default class RedisCtrl {
 
     const sender: WebSocketUser = {
       id: WS_SYSTEM_ID,
-      info: {
-        name: WS_SYSTEM_NAME,
-      },
+      name: WS_SYSTEM_NAME,
       token: '',
       channel: ret.channel,
     };

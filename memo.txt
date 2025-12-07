@@ -193,15 +193,6 @@ php artisan app:web-socket-test redis
 
 php artisan app:web-socket-test redis --user_id=1
 
-
-受信テスト
-
-php artisan app:redis-subscribe
-
-AIサーバー接続の動作確認用
-
-php artisan app:ai-test
-
 -----------------------------------
 
 push通知
@@ -261,6 +252,19 @@ LRANGE laravel-test-database-push_queue 0 -1
 
 LRANGE laravel-test-database-push_queue_result 0 -1
 
+
+-----------------------------------
+
+その他のコマンド
+
+
+Redis受信テスト
+
+php artisan app:redis-subscribe
+
+AIサーバー接続の動作確認用
+
+php artisan app:ai-test
 
 -----------------------------------
 

@@ -23,7 +23,7 @@ type Options = {
 type Channels = {
   chat: ChatCannnel;
   tweet: TweetCannnel;
-  progress: ProgressCannnel,
+  progress: ProgressCannnel;
 };
 
 /**
@@ -69,17 +69,6 @@ export default class Server {
     log('incoming', incoming);
     log('sender', sender);
 
-    this.handleMessage(sender, incoming);
-  }
-
-  /** チャンネルごとのインスタンス */
-  getChannel(channelStr: string) {
-    const [channel, paramsStr] = channelStr.split(":");
-    return this.channels[channel as 'chat' | 'tweet' | 'progress'];
-  }
-
-  /** メッセージ取得時 */
-  async handleMessage(sender: WebSocketUser, incoming: Incoming) {
     const data = await this.getChannel(sender.channel).callbackCreateData(
       sender,
       incoming
@@ -87,8 +76,10 @@ export default class Server {
 
     const sendData: BroadcastSendData = {
       type: 'message',
-      info: sender.info,
-      id: sender.id,
+      sender: {
+        name: sender.name,
+        id: sender.id,
+      },
       data: data,
     };
 
@@ -106,11 +97,11 @@ export default class Server {
 
     wss.clients.forEach(async (client: WebSocket) => {
       const user = client.user as WebSocketUser;
-      log(`broadcast:`, user.info);
+      log(`broadcast:`, user.name);
 
       if (!canBroadcast(client, sender.channel)) return;
 
-      log(`canBroadcast:`, user.info);
+      log(`canBroadcast:`, user.name);
 
       const sendable = await this.getChannel(sender.channel).callbackCheckSend(
         sender,
@@ -120,9 +111,15 @@ export default class Server {
 
       if (!sendable) return;
 
-      log(`sendable:`, user.info);
+      log(`sendable:`, user.name);
 
       client.send(sendDataStr);
     });
+  }
+
+  /** チャンネルごとのインスタンス */
+  getChannel(channelStr: string) {
+    const [channel, paramsStr] = channelStr.split(':');
+    return this.channels[channel as 'chat' | 'tweet' | 'progress'];
   }
 }

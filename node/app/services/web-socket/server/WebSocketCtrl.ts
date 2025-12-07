@@ -40,12 +40,12 @@ export default class WebSocketCtrl {
     }
 
     ws.user = user;
-    log(`Authenticated:`, user.info);
+    log(`Authenticated:`, user.name);
 
     ws.on('message', (msg) => this.handleMessage(ws, msg));
 
     ws.on('close', () => {
-      log(`Disconnected: ${ws.user?.info.name}`);
+      log(`Disconnected: ${ws.user?.name}`);
     });
   }
 

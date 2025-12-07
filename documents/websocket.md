@@ -89,10 +89,10 @@ Pub/Subのチャンネル名: `[redis_prefix]broadcast`
 ```
 {
   type: 'message',
-  info: {
+  sender: {
     name: string,
-  }
-  id: number | 'system',
+    id: number | 'system',
+  },
   data: hash, <- チャンネルごとに任意
 }
 ```
