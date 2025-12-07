@@ -139,11 +139,6 @@ Mail::raw('MailHog テスト', function($m){
 php artisan queue:work
 
 
-ジョブ追加サンプルのコマンド
-
-php artisan app:sample-job-runner
-
-
 php artisan tinker
 
 $user = App\Models\User::first(); $obj = App\Jobs\SampleJob::dispatch(date('H:i:s'), $user); unset($obj);
