@@ -258,10 +258,6 @@ LRANGE laravel-test-database-push_queue_result 0 -1
 その他のコマンド
 
 
-Redis受信テスト
-
-php artisan app:redis-subscribe
-
 AIサーバー接続の動作確認用
 
 php artisan app:ai-test
