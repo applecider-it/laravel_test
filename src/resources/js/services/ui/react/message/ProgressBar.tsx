@@ -8,7 +8,7 @@ type Prop = {
 
 /** プログレスバーコンポーネント */
 export default function ProgressBar({ progress }: Prop) {
-    const clamped = clamp(progress, 0, 100);
+    const clamped = clamp(Math.floor(progress), 0, 100);
 
     return (
         <div className="w-72 space-y-1">

@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Redis;
 
 use App\Services\WebSocket\SystemService as WebSocketSystemService;
+use App\Services\WebSocket\AuthService as WebSocketAuthService;
 use App\Services\Channels\ChatChannel;
+use App\Services\Channels\ProgressChannel;
 use App\Services\AI\AiService;
 use App\Services\Sample\SampleService;
 use App\Services\Development\TraceService;
@@ -26,7 +28,8 @@ class DevelopmentController extends Controller
         private WebSocketSystemService $webSocketSystemService,
         private AiService $aiService,
         private SampleService $sampleService,
-        private TraceService $traceService
+        private TraceService $traceService,
+        private WebSocketAuthService $webSocketAuthService
     ) {}
 
     public function index(Request $request)
@@ -77,7 +80,10 @@ class DevelopmentController extends Controller
     /** frontendテスト */
     public function frontend_test(Request $request)
     {
-        return view('development.frontend_test');
+        $user = auth()->user();
+
+        $token = $this->webSocketAuthService->createUserJwt($user, ProgressChannel::getChannel($user->id));
+        return view('development.frontend_test', compact('token'));
     }
 
     /** スロージョブテスト */

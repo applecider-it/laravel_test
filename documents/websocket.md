@@ -55,6 +55,14 @@ Laravelと双方向APIで連携。
 }
 ```
 
+### 経過表示の場合のdata
+
+```
+{
+  info: any,
+}
+```
+
 ## Redis Pub/Sub連携
 
 Pub/Subのチャンネル名: `[redis_prefix]broadcast`
@@ -102,6 +110,14 @@ Pub/Subのチャンネル名: `[redis_prefix]broadcast`
 ```
 {
   content: string,
+}
+```
+
+### 経過表示の場合のdata
+
+```
+{
+  info: any,
 }
 ```
 

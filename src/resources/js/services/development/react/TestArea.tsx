@@ -10,21 +10,53 @@ import { setPushCallback } from "@/services/service-worker/service-worker";
 let cnt2 = 0;
 
 /** テスト用コンポーネント */
-export default function TestArea({}) {
+export default function TestArea({ progressClient }) {
     const [cnt, setCnt] = useState(0);
     const refCnt = useRef(0);
     const [progress, setProgress] = useState(0); // 0〜100
+    const refProgress = useRef(0);
 
     useEffect(() => {
-        setPushCallback(onProgress);
+        setPushCallback(onProgressPush);
+
+        progressClient.callback = onProgressWs;
 
         return () => {
             setPushCallback(null);
         };
     }, []);
 
-    /** 遅いジョブの経過表示 */
-    const onProgress = (data) => {
+    /** 遅いジョブの経過表示(WebSocket) */
+    const onProgressWs = (data) => {
+        const info = data.data.info;
+
+        if (info.type !== "sample_job_progress") return;
+
+        const detail = info.detail;
+
+        let message = info.title;
+
+        message += ` (${detail.cursor} / ${detail.total})`;
+
+        const p = (detail.cursor / detail.total) * 100;
+
+        setProgress(p);
+
+        console.log("progress", p, detail.cursor);
+
+        // 要所要所でトースト
+        for (const limit of [20, 40, 60, 80]) {
+            if (refProgress.current < limit && p >= limit) {
+                showToast(message);
+                break;
+            }
+        }
+
+        refProgress.current = p;
+    };
+
+    /** 遅いジョブの経過表示(Push通知) */
+    const onProgressPush = (data) => {
         const options = data.options;
 
         console.log(data);
@@ -35,14 +67,6 @@ export default function TestArea({}) {
         const detailType = detail.detailType;
 
         let message = data.title;
-
-        if (detailType === "progress") {
-            message += ` (${detail.cursor} / ${detail.total})`;
-
-            const p = (detail.cursor / detail.total) * 100;
-
-            setProgress(p);
-        }
 
         showToast(message, detailType === "end" ? "alert" : "notice");
     };
@@ -70,6 +94,7 @@ export default function TestArea({}) {
     /** 遅いジョブの開始 */
     const SlowJobTest = async () => {
         console.log("SlowJobTest");
+        refProgress.current = 0;
         setProgress(0);
         const response = await axios.post("/development/slow_job_test", {});
         console.log("response.data", response.data);

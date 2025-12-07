@@ -5,6 +5,8 @@ namespace App\Services\Jobs;
 use Illuminate\Support\Facades\Log;
 
 use App\Services\PushNotification\SenderService;
+use App\Services\WebSocket\SystemService as WebSocketSystemService;
+use App\Services\Channels\ProgressChannel;
 
 use App\Models\User;
 
@@ -14,6 +16,7 @@ class SampleJobService
 
     public function __construct(
         private SenderService $senderService,
+        private WebSocketSystemService $webSocketSystemService,
     ) {}
 
     /**
@@ -27,14 +30,16 @@ class SampleJobService
 
         $this->checkPoint('遅いジョブを開始しました', 'bigin');
 
-        for ($i = 0; $i < 10; $i++) {
-            sleep(1);
+        $total = 100;
+
+        for ($i = 0; $i < $total; $i++) {
+            usleep(1000000 * 0.1);
 
             Log::info('SampleJob: Progress ' . $i);
 
-            $this->checkPoint('遅いジョブの経過:', 'progress', [
+            $this->checkPointWs('遅いジョブの経過:', 'progress', [
                 'cursor' => $i + 1,
-                'total' => 10,
+                'total' => $total,
             ]);
         }
 
@@ -44,7 +49,27 @@ class SampleJobService
     }
 
     /**
-     * チェックポイント送信
+     * チェックポイント送信(WebSocket)
+     */
+    public function checkPointWs($message, string $detailType, array $detail = []): void
+    {
+        $detail['detailType'] = $detailType;
+
+        $data = [
+            "info" => [
+                'type' => 'sample_job_progress',
+                'title' => $message,
+                'detail' => $detail,
+            ],
+        ];
+
+        $response = $this->webSocketSystemService->publish(ProgressChannel::getChannel($this->user->id), $data);
+
+        Log::info('websocket_test response', [$response]);
+    }
+
+    /**
+     * チェックポイント送信(Push通知)
      */
     public function checkPoint($message, string $detailType, array $detail = []): void
     {

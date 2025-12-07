@@ -5,6 +5,8 @@ import { log } from '@/services/system/log.ts';
 
 import ChatCannnel from '@/services/channels/ChatCannnel.ts';
 import TweetCannnel from '@/services/channels/TweetCannnel.ts';
+import ProgressCannnel from '@/services/channels/ProgressCannnel.ts';
+
 import { canBroadcast } from '@/services/web-socket/broadcast.ts';
 
 import Auth from './server/Auth.ts';
@@ -21,6 +23,7 @@ type Options = {
 type Channels = {
   chat: ChatCannnel;
   tweet: TweetCannnel;
+  progress: ProgressCannnel,
 };
 
 /**
@@ -57,6 +60,7 @@ export default class Server {
     this.channels = {
       chat: new ChatCannnel(),
       tweet: new TweetCannnel(),
+      progress: new ProgressCannnel(),
     };
   }
 
@@ -71,7 +75,7 @@ export default class Server {
   /** チャンネルごとのインスタンス */
   getChannel(channelStr: string) {
     const [channel, paramsStr] = channelStr.split(":");
-    return this.channels[channel as 'chat' | 'tweet'];
+    return this.channels[channel as 'chat' | 'tweet' | 'progress'];
   }
 
   /** メッセージ取得時 */
