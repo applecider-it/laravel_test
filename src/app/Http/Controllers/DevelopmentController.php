@@ -7,11 +7,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Redis;
 
-use App\Services\WebSocket\SystemService as WebSocketSystemService;
 use App\Services\WebSocket\AuthService as WebSocketAuthService;
-use App\Services\Channels\ChatChannel;
 use App\Services\Channels\ProgressChannel;
-use App\Services\AI\AiService;
 use App\Services\Sample\SampleService;
 use App\Services\Development\TraceService;
 
@@ -25,8 +22,6 @@ use App\Events\SampleEvent;
 class DevelopmentController extends Controller
 {
     public function __construct(
-        private WebSocketSystemService $webSocketSystemService,
-        private AiService $aiService,
         private SampleService $sampleService,
         private TraceService $traceService,
         private WebSocketAuthService $webSocketAuthService
@@ -35,16 +30,6 @@ class DevelopmentController extends Controller
     public function index(Request $request)
     {
         return view('development.index');
-    }
-
-    /** Laravelから、AIマイクロサービスへの送信テスト */
-    public function ai_test(Request $request)
-    {
-        $response = $this->aiService->testSend();
-
-        Log::info('response', [$response]);
-
-        return view('development.complate');
     }
 
     /** backendテスト */

@@ -198,6 +198,10 @@ php artisan app:web-socket-test redis --user_id=1
 
 php artisan app:redis-subscribe
 
+AIサーバー接続の動作確認用
+
+php artisan app:ai-test
+
 -----------------------------------
 
 push通知
