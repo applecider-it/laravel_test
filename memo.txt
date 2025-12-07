@@ -185,15 +185,6 @@ help
 php artisan help app:web-socket-test
 
 
-システムチャットのテスト送信
-
-php artisan app:web-socket-test websocket
-
-ユーザーを指定する時
-
-php artisan app:web-socket-test websocket --user_id=1
-
-
 redis pub/subのシステムチャットのテスト送信
 
 php artisan app:web-socket-test redis

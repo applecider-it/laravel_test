@@ -34,28 +34,9 @@ class WebSocketTestService
         $this->cmd->info("userId = {$this->userId}");
 
         match($type){
-            'websocket' => $this->execWebsocketTest(),
             'redis' => $this->execRedisTest(),
             default => $this->cmd->error('invalide type ' . $type),
         };
-    }
-
-    /**
-     * WebSocketで送信
-     */
-    private function execWebsocketTest()
-    {
-        $data = [
-            "message" => "システムからの送信（コマンド） " . date('Y-m-d h:i:s'),
-        ];
-
-        if ($this->userId) $data['target_user_id'] = $this->userId;
-
-        $this->cmd->info("data: " . print_r($data, true));
-        
-        $response = $this->webSocketSystemService->sendSystemData(ChatChannel::getChannel(), $data);
-
-        Log::info('websocket_test response', [$response]);
     }
 
     /**

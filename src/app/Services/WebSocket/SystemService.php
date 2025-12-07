@@ -31,26 +31,4 @@ class SystemService
 
         Redis::publish('broadcast', json_encode($sendData));
     }
-
-    /**
-     * WebSocketにシステム管理者からの送信
-     * 
-     * 接続後すぐに閉じる
-     */
-    public function sendSystemData(string $channel, array $data)
-    {
-        $sendData = [
-            "data" => $data,
-        ];
-
-        $token = $this->authService->createSystemJwt($channel);
-
-        $host = config('myapp.ws_server_host');
-        $client = new Client("ws://{$host}?token={$token}");
-        $client->send(json_encode($sendData));
-        $response = $client->receive();
-        $client->close();
-
-        return $response;
-    }
 }

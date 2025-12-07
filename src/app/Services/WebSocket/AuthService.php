@@ -33,26 +33,6 @@ class AuthService
     }
 
     /**
-     * システム用のWebSocket用のJWT生成
-     * 
-     * システム用ではすぐにクローズするので有効期限は短くしている。
-     */
-    public function createSystemJwt(string $channel)
-    {
-        $name = 'システム';
-        $id = SystemService::SYSTEM_ID;
-        $token = JWT::encode([
-            'sub' => $id,
-            'name' => $name,
-            'channel' => $channel,
-            'iat' => time(),
-            'exp' => time() + 60, // 1分
-        ], config('myapp.ws_jwt_secret'), self::ALGORITHM);
-
-        return $token;
-    }
-
-    /**
      * WebSocket用のJWTを解析して情報ハッシュを返す
      * 
      * 失敗時はnullを返す。

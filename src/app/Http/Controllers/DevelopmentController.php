@@ -47,20 +47,6 @@ class DevelopmentController extends Controller
         return view('development.complate');
     }
 
-    /** Laravelから、websocketマイクロサービスへの送信テスト */
-    public function websocket_test(Request $request)
-    {
-        $data = [
-            "message" => "システムからの送信 " . date('Y-m-d h:i:s'),
-        ];
-
-        $response = $this->webSocketSystemService->sendSystemData(ChatChannel::getChannel(), $data);
-
-        Log::info('websocket_test response', [$response]);
-
-        return view('development.complate');
-    }
-
     /** backendテスト */
     public function backend_test(Request $request)
     {
