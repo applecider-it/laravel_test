@@ -20,9 +20,9 @@ class TweetRpcController extends Controller
     {
         $user = auth()->user();
 
-        if ($name === 'api.store_api') {
+        if ($name === 'store_tweet') {
             return response()->json(
-                app(\App\Services\Tweet\ApiService::class)->storeApi($request)
+                app(\App\Services\Tweet\FormApiService::class)->storeTweet($request)
             );
         }
 

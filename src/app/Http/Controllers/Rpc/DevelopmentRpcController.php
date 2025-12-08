@@ -26,7 +26,7 @@ class DevelopmentRpcController extends Controller
 
         $this->traceService->traceMiddlewareInfo();
 
-        if ($name === 'frontend.start_slow_job') {
+        if ($name === 'start_slow_job') {
             return response()->json(
                 app(\App\Services\Development\FrontendService::class)->startSlowJob(
                     $user,

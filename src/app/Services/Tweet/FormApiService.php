@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Resources\User\TweetResource;
 
 /**
- * ツイートのApi関連
+ * ツイートのフォームApiのプロセスの管理
  */
-class ApiService
+class FormApiService
 {
     public function __construct(
         private FormService $tweetFormService,
@@ -18,7 +18,7 @@ class ApiService
     ) {}
 
     /** Tweet追加処理 */
-    public function storeApi(Request $request)
+    public function storeTweet(Request $request)
     {
         $validation = $this->tweetFormService->newTweetValidation();
         $validated = $request->validate(
