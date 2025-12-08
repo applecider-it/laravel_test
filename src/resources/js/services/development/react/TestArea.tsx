@@ -1,5 +1,3 @@
-import axios from "axios";
-
 import React, { useEffect, useState, useRef } from "react";
 
 import { showToast, setIsLoading } from "@/services/ui/message";
@@ -7,7 +5,7 @@ import ProgressBar from "@/services/ui/react/message/ProgressBar";
 
 import { setPushCallback } from "@/services/service-worker/service-worker";
 
-import { rpc } from "@/services/api/rpc";
+import { startSlowJob } from "../front-test";
 
 let cnt2 = 0;
 
@@ -98,10 +96,7 @@ export default function TestArea({ progressClient }) {
         console.log("SlowJobTest");
         refProgress.current = 0;
         setProgress(0);
-        const data = await rpc("development.frontend.start_slow_job", {
-            test: 123,
-            test2: { test3: 456 },
-        });
+        const data = await startSlowJob(123, { test3: 456 });
         console.log("SlowJobTest response data", data);
         showToast("送信しました。");
     };

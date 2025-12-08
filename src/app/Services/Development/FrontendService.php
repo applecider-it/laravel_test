@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Log;
 
 use App\Jobs\SampleJob;
 
+use App\Models\User;
+
 /**
  * 開発用フロントエンド管理
  */
@@ -13,11 +15,10 @@ class FrontendService{
     /**
      * スロージョブ開始
      */
-    public function startSlowJob()
+    public function startSlowJob(User $user, int $test, $test2)
     {
-        $user = auth()->user();
-        $all = request()->all();
-        Log::info('startSlowJob', [$user->name, $all]);
+        Log::info('startSlowJob', [$user->name, $test, $test2]);
+
         SampleJob::dispatch(date('H:i:s'), $user);
 
         return [

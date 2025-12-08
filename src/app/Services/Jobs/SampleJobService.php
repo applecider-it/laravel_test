@@ -63,9 +63,7 @@ class SampleJobService
             ],
         ];
 
-        $response = $this->webSocketSystemService->publish(ProgressChannel::getChannel($this->user->id), $data);
-
-        Log::info('websocket_test response', [$response]);
+        $this->webSocketSystemService->publish(ProgressChannel::getChannel($this->user->id), $data);
     }
 
     /**
