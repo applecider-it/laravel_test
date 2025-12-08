@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { showToast } from "@/services/ui/message";
-import { storeTweet} from './tweet-rpc';
+import { storeTweet } from "@/services/api/rpc/tweet-rpc";
 
 /**
  * ツイートクライアント
