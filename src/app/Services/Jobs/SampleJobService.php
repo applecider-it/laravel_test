@@ -43,7 +43,7 @@ class SampleJobService
             ]);
         }
 
-        $this->checkPoint('遅いジョブが完了しました', 'end');
+        $this->checkPoint($this->user->name . 'さん。遅いジョブが完了しました', 'end');
 
         Log::info('SampleJob: End!!! ' . $time . ' ' . $this->user->name);
     }
