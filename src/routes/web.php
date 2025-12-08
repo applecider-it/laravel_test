@@ -41,7 +41,6 @@ Route::middleware('auth')->group(function () {
         'destroy',
     ]);
     Route::get('/tweets/react', [TweetController::class, 'index_react'])->name('tweets.index_react');
-    Route::post('/tweets/api', [TweetController::class, 'store_api'])->name('tweets.store_api');
 
     // Chat
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');

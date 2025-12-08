@@ -5,7 +5,7 @@ import ProgressBar from "@/services/ui/react/message/ProgressBar";
 
 import { setPushCallback } from "@/services/service-worker/service-worker";
 
-import { startSlowJob } from "../front-test";
+import { startSlowJob } from "../development-rpc";
 
 let cnt2 = 0;
 

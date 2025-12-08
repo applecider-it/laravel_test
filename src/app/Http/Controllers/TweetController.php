@@ -9,7 +9,6 @@ use App\Models\User\Tweet as UserTweet;
 use App\Services\Tweet\ListService as TweetListService;
 use App\Services\Tweet\FormService as TweetFormService;
 use App\Services\Tweet\WebsocketService as TweetWebsocketService;
-use App\Http\Resources\User\TweetResource;
 use App\Services\WebSocket\AuthService as WebSocketAuthService;
 use App\Services\Channels\TweetChannel;
 
@@ -107,32 +106,6 @@ class TweetController extends Controller
         $token = $this->webSocketAuthService->createUserJwt($user, TweetChannel::getChannel());
 
         return view('tweets.index_react', compact('tweets', 'token', 'user'));
-    }
-
-    /** 追加処理API */
-    public function store_api(Request $request)
-    {
-        $validation = $this->tweetFormService->newTweetValidation();
-        $request->validate(
-            rules: $validation['rules'],
-            attributes: $validation['attributes']
-        );
-
-        $user = $request->user();
-        $content = $request->input('content');
-
-        $tweet = $this->tweetFormService->newTweet($user, $content);
-
-        $tweetResource = new TweetResource($tweet->load('user'));
-
-        $tweetArray = $tweetResource->toArray(request());
-
-        Log::info('tweetResource', [$tweetResource]);
-        Log::info('tweetResource->toArray', [$tweetArray]);
-
-        $this->tweetWebsocketService->sendNewTweet($tweetArray);
-
-        return $tweetResource;
     }
 
     /** オーナーチェック */

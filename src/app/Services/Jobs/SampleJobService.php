@@ -30,10 +30,11 @@ class SampleJobService
 
         $this->checkPoint('遅いジョブを開始しました', 'bigin');
 
-        $total = 100;
+        $total = 30;
+        $waitSecond = 0.3;
 
         for ($i = 0; $i < $total; $i++) {
-            usleep(1000000 * 0.1);
+            usleep(1000000 * $waitSecond);
 
             Log::info('SampleJob: Progress ' . $i);
 

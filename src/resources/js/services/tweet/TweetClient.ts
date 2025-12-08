@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import { showToast } from "@/services/ui/message";
+import { storeTweet} from './tweet-rpc';
 
 /**
  * ツイートクライアント
@@ -76,8 +77,7 @@ export default class TweetClient {
 
     /** 新しいツイート送信 */
     async sendTweet(content) {
-        const response = await axios.post("/tweets/api", { content });
-        console.log("response.data", response.data);
-        return response.data.data;
+        const data = await storeTweet(content);
+        console.log("sendTweet response data", data);
     }
 }
