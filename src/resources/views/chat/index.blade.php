@@ -8,7 +8,7 @@
         </h2>
     </x-slot>
 
-    <div class="pt-6 max-w-2xl mx-auto">
+    <div class="pt-6 max-w-2xl mx-auto space-x-4">
         @foreach ($rooms as $r)
             <a href="{{ route('chat.index', ['room' => $r]) }}" class="app-link-normal">{{ $r ? $r : 'default' }}</a>
         @endforeach
