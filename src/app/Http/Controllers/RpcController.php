@@ -9,48 +9,23 @@ use Illuminate\Http\Request;
  */
 class RpcController extends Controller
 {
-    /** RPCルート定義 */
-    protected array $routes = [
-        // スロージョブ開始
-        'development.frontend.start_slow_job' => [
-            \App\Services\Development\FrontendService::class,
-            'startSlowJob',
-        ],
-        // Tweet追加処理
-        'tweet.api.store_api' => [
-            \App\Services\Tweet\ApiService::class,
-            'storeApi',
-        ],
-    ];
-
     /** ハンドル */
     public function handle(Request $request, string $name)
     {
         $user = auth()->user();
 
-        if (isset($this->routes[$name])) {
-            // ルート定義があるとき
-
-            [$class, $method] = $this->routes[$name];
-            $obj = app($class);
-
-            $result = match ($name) {
-                // スロージョブ開始
-                // App\Services\Development\FrontendService::startSlowJob
-                'development.frontend.start_slow_job' => $obj->$method(
+        if ($name === 'development.frontend.start_slow_job') {
+            return response()->json(
+                app(\App\Services\Development\FrontendService::class)->startSlowJob(
                     $user,
                     $request->input('test'),
                     $request->input('test2'),
-                ),
-                // Tweet追加処理
-                // App\Services\Tweet\ApiService::storeApi
-                'tweet.api.store_api' => $obj->$method(
-                    $request,
-                ),
-                default => $obj->$method(),
-            };
-
-            return response()->json($result);
+                )
+            );
+        } else if ($name === 'tweet.api.store_api') {
+            return response()->json(
+                app(\App\Services\Tweet\ApiService::class)->storeApi($request)
+            );
         }
 
         return response()->json(['error' => 'Prc name not found'], 404);
