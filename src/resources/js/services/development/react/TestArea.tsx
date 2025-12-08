@@ -7,6 +7,8 @@ import ProgressBar from "@/services/ui/react/message/ProgressBar";
 
 import { setPushCallback } from "@/services/service-worker/service-worker";
 
+import { rpc } from "@/services/api/rpc";
+
 let cnt2 = 0;
 
 /** テスト用コンポーネント */
@@ -96,8 +98,11 @@ export default function TestArea({ progressClient }) {
         console.log("SlowJobTest");
         refProgress.current = 0;
         setProgress(0);
-        const response = await axios.post("/development/slow_job_test", {});
-        console.log("response.data", response.data);
+        const data = await rpc("development.frontend.start_slow_job", {
+            test: 123,
+            test2: { test3: 456 },
+        });
+        console.log("SlowJobTest response data", data);
         showToast("送信しました。");
     };
 

@@ -12,8 +12,6 @@ use App\Services\Channels\ProgressChannel;
 use App\Services\Sample\SampleService;
 use App\Services\Development\TraceService;
 
-use App\Jobs\SampleJob;
-
 use App\Events\SampleEvent;
 
 /**
@@ -55,15 +53,5 @@ class DevelopmentController extends Controller
 
         $token = $this->webSocketAuthService->createUserJwt($user, ProgressChannel::getChannel($user->id));
         return view('development.frontend_test', compact('token'));
-    }
-
-    /** スロージョブテスト */
-    public function slow_job_test(Request $request)
-    {
-        $user = $request->user();
-        SampleJob::dispatch(date('H:i:s'), $user);
-        return response()->json([
-            'status' => 'ok',
-        ]);
     }
 }

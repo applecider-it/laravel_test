@@ -13,6 +13,7 @@ use App\Http\Controllers\TweetController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\DevelopmentController;
 use App\Http\Controllers\PushNotificationController;
+use App\Http\Controllers\RpcController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -44,13 +45,15 @@ Route::middleware('auth')->group(function () {
 
     // Chat
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+
+    // JSON-RPC
+    Route::post('/rpc/{name}', [RpcController::class, 'handle']);
 });
 
 // 開発者向けページ
 Route::get('/development', [DevelopmentController::class, 'index'])->name('development.index');
 Route::get('/development/backend_test', [DevelopmentController::class, 'backend_test'])->name('development.backend_test');
 Route::get('/development/frontend_test', [DevelopmentController::class, 'frontend_test'])->name('development.frontend_test');
-Route::post('/development/slow_job_test', [DevelopmentController::class, 'slow_job_test'])->name('development.slow_job_test');
 
 
 require __DIR__ . '/auth.php';
