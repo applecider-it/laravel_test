@@ -13,7 +13,8 @@ use App\Http\Controllers\TweetController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\DevelopmentController;
 use App\Http\Controllers\PushNotificationController;
-use App\Http\Controllers\RpcController;
+use App\Http\Controllers\Rpc\DevelopmentRpcController;
+use App\Http\Controllers\Rpc\TweetRpcController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -46,7 +47,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
 
     // JSON-RPC
-    Route::post('/rpc/{name}', [RpcController::class, 'handle']);
+    Route::post('/rpc/development/{name}', [DevelopmentRpcController::class, 'handle']);
+    Route::post('/rpc/tweet/{name}', [TweetRpcController::class, 'handle']);
 });
 
 // 開発者向けページ

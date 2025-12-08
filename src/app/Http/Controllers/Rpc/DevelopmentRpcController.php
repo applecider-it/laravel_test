@@ -1,16 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Rpc;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 use App\Services\Development\TraceService;
 
+use App\Http\Controllers\Controller;
+
 /**
  * RPC管理コントローラー
  */
-class RpcController extends Controller
+class DevelopmentRpcController extends Controller
 {
     public function __construct(
         private TraceService $traceService,
@@ -24,17 +26,13 @@ class RpcController extends Controller
 
         $this->traceService->traceMiddlewareInfo();
 
-        if ($name === 'development.frontend.start_slow_job') {
+        if ($name === 'frontend.start_slow_job') {
             return response()->json(
                 app(\App\Services\Development\FrontendService::class)->startSlowJob(
                     $user,
                     $request->input('test'),
                     $request->input('test2'),
                 )
-            );
-        } else if ($name === 'tweet.api.store_api') {
-            return response()->json(
-                app(\App\Services\Tweet\ApiService::class)->storeApi($request)
             );
         }
 
