@@ -14,7 +14,9 @@
                 'token' => $token,
                 'wsHost' => config('myapp.ws_server_host'),
                 'tweets' => App\Http\Resources\User\TweetResource::collection($tweets),
-            ]) }}"></div>
+            ]) }}">
+            @include('partials.message.loading')
+        </div>
     </div>
 </x-app-layout>
 

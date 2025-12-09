@@ -12,10 +12,14 @@
             'testValue' => 123,
             'token' => $token,
             'wsHost' => config('myapp.ws_server_host'),
-        ]) }}"></div>
+        ]) }}">
+            @include('partials.message.loading')
+        </div>
 
         <div id="vue-test-root" data-all="{{ json_encode([
             'testValue' => 456,
-        ]) }}" class="mt-10"></div>
+        ]) }}" class="mt-10">
+            @include('partials.message.loading')
+        </div>
     </div>
 </x-app-layout>
