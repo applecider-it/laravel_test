@@ -13,7 +13,7 @@ export default class TweetClient {
     wsHost;
     user;
     ws;
-    setTweetContainers;
+    addTweet;
 
     constructor(token, wsHost, user) {
         this.token = token;
@@ -21,8 +21,6 @@ export default class TweetClient {
         this.user = user;
 
         this.ws = null;
-
-        this.setTweetContainers = null;
 
         this.initWebSocket();
     }
@@ -69,7 +67,7 @@ export default class TweetClient {
 
         const tweet = data.data.tweet;
         console.log("recieveNewTweet tweet", tweet);
-        this.setTweetContainers((list) => [{ tweet, isNew: true }, ...list]);
+        this.addTweet(tweet);
 
         if (this.user.id !== tweet.user.id)
             showToast("新しいツイートがあります。");

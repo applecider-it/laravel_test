@@ -15,16 +15,24 @@ export default function TweetApp({ initialTweets, tweetClient }: Prop) {
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
-        tweetClient.setTweetContainers = setTweetContainers;
+        tweetClient.addTweet = (tweet) => {
+            setTweetContainers((list) => [{ tweet, isNew: true }, ...list]);
+        };
+
+        setTweetContainers(makeTweetContainers(initialTweets));
+    }, []);
+
+    /** ツイート一覧から、ツイートコンテナー一覧を作成 */
+    const makeTweetContainers = (tweets) => {
         const list: any = [];
-        for (const tweet of initialTweets) {
+        for (const tweet of tweets) {
             list.push({
                 tweet,
                 isNew: false,
             });
         }
-        setTweetContainers(list);
-    }, []);
+        return list;
+    };
 
     // handleSubmit も親で管理
     const handleSubmit = async (e) => {
