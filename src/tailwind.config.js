@@ -7,7 +7,7 @@ export default {
         "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
         "./storage/framework/views/*.php",
         "./resources/views/**/*.blade.php",
-        "./resources/js/**/*.{ts,tsx}",
+        "./resources/js/**/*.{ts,tsx,vue}",
     ],
     // パージされても残しておきたいクラスを指定
     // 正規表現でまとめて書ける

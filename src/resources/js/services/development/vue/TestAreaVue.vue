@@ -12,21 +12,21 @@
                 </button>
             </div>
 
-            <div class="mt-5">
+            <div class="mt-5 space-x-2">
                 <button
-                    class="app-btn-primary mr-2"
+                    class="app-btn-primary"
                     @click="() => toastTest('notice')"
                 >
                     Toast notice
                 </button>
                 <button
-                    class="app-btn-primary mr-2"
+                    class="app-btn-primary"
                     @click="() => toastTest('alert')"
                 >
                     Toast alert
                 </button>
                 <button
-                    class="app-btn-primary mr-2"
+                    class="app-btn-primary"
                     @click="
                         () => {
                             toastTest('notice');
@@ -36,16 +36,17 @@
                 >
                     Toast 2
                 </button>
-                cnt: {{ cnt }}
+                <span>cnt: {{ cnt }}</span>
             </div>
         </div>
 
         <div class="mt-3">
             defineModel動作確認
-            <MyForm v-model:title="title" v-model:content="content" />
 
             <p>title: {{ title }}</p>
             <p>content: {{ content }}</p>
+
+            <MyForm v-model:title="title" v-model:content="content" />
         </div>
     </div>
 </template>
@@ -73,13 +74,16 @@ const content = ref<string>("");
 
 const cnt = ref<number>(0);
 
+/** refの動作確認 */
 function increment() {
+    // 連続して追加して値が反映されるかの確認（reactだと反映されない）
     testValue.value++;
     testValue.value++;
 
     console.log(testValue.value);
 }
 
+/** ロード画面の動作確認 */
 const loadingTest = () => {
     console.log("Loading vue.js");
     setIsLoading(true);
@@ -88,6 +92,7 @@ const loadingTest = () => {
     }, 2000);
 };
 
+/** トーストの動作確認 */
 const toastTest = (type) => {
     cnt.value++;
     const msg = `トーストテスト vue.js type:${type} cnt.value:${cnt.value}`;
