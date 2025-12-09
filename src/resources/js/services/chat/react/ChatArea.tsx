@@ -39,10 +39,13 @@ export default function ChatArea({ chatClient }) {
                 </button>
             </div>
 
-            <div className="border p-2 mb-2 h-80 overflow-y-auto">
+            <div className="border border-gray-700 p-2 mb-2 h-80 mt-5 overflow-y-auto">
                 {messageList.map((data, index) => (
                     <p key={index}>
-                        <strong>{data.sender.name}</strong>: {data.data.message}
+                        {data.data.message}
+                        <span className="ml-2 text-sm text-gray-400">
+                            by {data.sender.name}
+                        </span>
                     </p>
                 ))}
             </div>
