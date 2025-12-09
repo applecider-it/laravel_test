@@ -7,15 +7,13 @@ export default class ChatClient {
     token;
     wsHost;
     ws;
-    setMessageList;
+    addMessage;
 
     constructor(token, wsHost) {
         this.token = token;
         this.wsHost = wsHost;
 
         this.ws = null;
-
-        this.setMessageList = null;
 
         this.initWebSocket();
     }
@@ -65,11 +63,6 @@ export default class ChatClient {
 
         console.log("[DEBUG] Received message", data);
 
-        if (data.type == "message") this.recieveNewChat(data);
-    }
-
-    /** 新しいチャット受信時 */
-    recieveNewChat(data) {
-        this.setMessageList((list) => [data, ...list]);
+        if (data.type == "message") this.addMessage(data);
     }
 }

@@ -6,7 +6,9 @@ export default function ChatArea({ chatClient }) {
     const [messageList, setMessageList] = useState([]);
 
     useEffect(() => {
-        chatClient.setMessageList = setMessageList;
+        chatClient.addMessage = (row) => {
+            setMessageList((list) => [row, ...list]);
+        };
     }, []);
 
     const sendMessage = () => {
