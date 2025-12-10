@@ -4,7 +4,7 @@
 
 import React from "react";
 import { createRoot } from "react-dom/client";
-import TestArea from "./react/TestArea";
+import TestAreaReact from "./react/TestAreaReact";
 
 import { createApp } from "vue";
 import TestAreaVue from "./vue/TestAreaVue.vue";
@@ -23,7 +23,7 @@ if (el) {
     const progressClient = new ProgressClient(all.token, all.wsHost);
 
     const root = createRoot(el);
-    root.render(<TestArea progressClient={progressClient} />);
+    root.render(<TestAreaReact progressClient={progressClient} />);
 }
 
 el = document.getElementById("vue-test-root");
