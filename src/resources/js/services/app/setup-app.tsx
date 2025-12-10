@@ -15,7 +15,10 @@ window.Alpine = Alpine;
 Alpine.start();
 
 const user = getAuthUser();
-initServiceWorker(user);
+console.log('auth user', user);
+if (user) {
+    initServiceWorker(user);
+}
 
 const el: any = document.getElementById("app-container-common");
 if (el) {
