@@ -9,7 +9,7 @@ export function getAuthUser(): User {
   if (meta) {
       const json = meta.dataset.json;
       const arr = JSON.parse(json);
-      console.log(arr);
+
       return arr;
   }
 
