@@ -55,8 +55,9 @@ npx tsx watch ./app/entrypoints/websocket-server.js
 
 本番起動
 
-npx tsx ./app/entrypoints/server.js
+npm run build
 
+node dist/entrypoints/websocket-server.js
 
 -------
 
@@ -227,6 +228,10 @@ nodeで、Push通知まとめて送信
 cd /home/owner/workspace/tmp/laravel_test/node
 
 npx tsx ./app/entrypoints/push-sender.js
+
+本番環境
+
+node ./dist/entrypoints/push-sender.js
 
 -------
 

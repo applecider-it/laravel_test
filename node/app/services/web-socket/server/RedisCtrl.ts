@@ -1,10 +1,10 @@
 import Redis from 'ioredis';
 
-import { log } from '@/services/system/log.ts';
+import { log } from '@/services/system/log.js';
 
-import { WebSocketUser, Incoming } from '../types';
+import { WebSocketUser, Incoming } from '../types.js';
 
-import { WS_SYSTEM_ID, WS_SYSTEM_NAME } from '../system';
+import { WS_SYSTEM_ID, WS_SYSTEM_NAME } from '../system.js';
 
 /**
  * WebSocket サーバーのRedis管理

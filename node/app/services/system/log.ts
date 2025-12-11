@@ -1,4 +1,4 @@
-import { getFullTimeStr } from '@/services/data/date.ts';
+import { getFullTimeStr } from '@/services/data/date.js';
 
 /** ログを出力 */
 export function log(...params: any) {

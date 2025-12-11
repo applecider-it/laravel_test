@@ -1,5 +1,5 @@
-import { WebSocketUser, Incoming } from '@/services/web-socket/types';
-import { BroadcastDataProgress } from './types.ts';
+import { WebSocketUser, Incoming } from '@/services/web-socket/types.js';
+import { BroadcastDataProgress } from './types.js';
 
 /**
  * 経過表示チャンネル

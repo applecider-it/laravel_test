@@ -1,5 +1,5 @@
-import { WebSocketUser, Incoming } from '@/services/web-socket/types';
-import { BroadcastDataTweet } from './types.ts';
+import { WebSocketUser, Incoming } from '@/services/web-socket/types.js';
+import { BroadcastDataTweet } from './types.js';
 
 /**
  * ツイートチャンネル

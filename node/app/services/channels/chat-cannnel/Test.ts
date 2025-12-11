@@ -1,9 +1,9 @@
 import { type WebSocket } from 'ws';
 
 import { sendToLaravel } from '@/services/http/laravel.js';
-import { log } from '@/services/system/log.ts';
+import { log } from '@/services/system/log.js';
 
-import { WebSocketUser, Incoming } from '@/services/web-socket/types';
+import { WebSocketUser, Incoming } from '@/services/web-socket/types.js';
 
 /**
  * チャットチャンネルのテスト用クラス

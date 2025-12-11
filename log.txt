@@ -417,3 +417,9 @@ php artisan migrate
 php artisan migrate:rollback
 
 php artisan migrate:rollback --step=1
+
+-----------------------------------
+
+npm install -D @types/node@20
+
+npm install --save-dev tsc-alias

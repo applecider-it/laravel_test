@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc && tsc-alias"
   },
   "keywords": [],
   "author": "",
@@ -23,10 +23,11 @@
   "devDependencies": {
     "@types/ioredis": "^4.28.10",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^24.10.1",
+    "@types/node": "^20.19.26",
     "@types/web-push": "^3.6.4",
     "@types/ws": "^8.18.1",
     "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.16",
     "typescript": "^5.9.3"
   }
 }

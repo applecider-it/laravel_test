@@ -1,7 +1,7 @@
-import { loadEnv } from '@/services/system/env.ts';
-import Server from '@/services/web-socket/Server.ts';
+import { loadEnv } from '@/services/system/env.js';
+import Server from '@/services/web-socket/Server.js';
 
-import { log } from '@/services/system/log.ts';
+import { log } from '@/services/system/log.js';
 
 /** アプリケーションを開始する */
 export function startApplication(): void {

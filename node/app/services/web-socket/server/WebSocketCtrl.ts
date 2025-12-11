@@ -1,11 +1,11 @@
 import { WebSocket, WebSocketServer, type RawData } from 'ws';
 import { IncomingMessage } from 'http';
 
-import { log } from '@/services/system/log.ts';
+import { log } from '@/services/system/log.js';
 
-import Auth from './Auth.ts';
+import Auth from './Auth.js';
 
-import { WebSocketUser, Incoming } from '../types';
+import { WebSocketUser, Incoming } from '../types.js';
 
 /**
  * WebSocket サーバーのWebSocket管理

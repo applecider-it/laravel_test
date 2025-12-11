@@ -1,11 +1,11 @@
 import { type WebSocket } from 'ws';
 
-import { log } from '@/services/system/log.ts';
-import { postWithAuth } from '@/services/http/sender';
+import { log } from '@/services/system/log.js';
+import { postWithAuth } from '@/services/http/sender.js';
 
-import { AnyJson } from '@/types/types';
+import { AnyJson } from '@/types/types.js';
 
-import { WebSocketUser } from '@/services/web-socket/types';
+import { WebSocketUser } from '@/services/web-socket/types.js';
 
 /**
  * 認証情報付きで、LaravelにAPI送信する。

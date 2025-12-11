@@ -2,4 +2,4 @@
  * push送信のエントリーポイント
  */
 
-import '@/services/push-sender/setup-push-sender.ts';
+import '@/services/push-sender/setup-push-sender.js';

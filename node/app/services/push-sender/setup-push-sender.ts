@@ -2,9 +2,9 @@
  * プッシュ通知のセットアップ
  */
 
-import { loadEnv } from '@/services/system/env.ts';
+import { loadEnv } from '@/services/system/env.js';
 
-import PushSender from './PushSender';
+import PushSender from './PushSender.js';
 
 loadEnv();
 

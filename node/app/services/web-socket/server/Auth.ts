@@ -1,9 +1,9 @@
 import jwt from 'jsonwebtoken';
 import { type IncomingMessage } from 'http';
 
-import { log } from '@/services/system/log.ts';
+import { log } from '@/services/system/log.js';
 
-import { WebSocketUser } from '../types';
+import { WebSocketUser } from '../types.js';
 
 /**
  * 認証管理

@@ -1,9 +1,9 @@
-import { log } from '@/services/system/log.ts';
+import { log } from '@/services/system/log.js';
 
-import { WebSocketUser, Incoming } from '@/services/web-socket/types';
+import { WebSocketUser, Incoming } from '@/services/web-socket/types.js';
 
-import { BroadcastDataChat } from './types.ts';
-import Test from './chat-cannnel/Test.ts';
+import { BroadcastDataChat } from './types.js';
+import Test from './chat-cannnel/Test.js';
 
 /**
  * チャットチャンネル

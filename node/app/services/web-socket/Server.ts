@@ -1,19 +1,19 @@
 import { WebSocket, WebSocketServer, type RawData } from 'ws';
 import { IncomingMessage } from 'http';
 
-import { log } from '@/services/system/log.ts';
+import { log } from '@/services/system/log.js';
 
-import ChatCannnel from '@/services/channels/ChatCannnel.ts';
-import TweetCannnel from '@/services/channels/TweetCannnel.ts';
-import ProgressCannnel from '@/services/channels/ProgressCannnel.ts';
+import ChatCannnel from '@/services/channels/ChatCannnel.js';
+import TweetCannnel from '@/services/channels/TweetCannnel.js';
+import ProgressCannnel from '@/services/channels/ProgressCannnel.js';
 
-import { canBroadcast } from '@/services/web-socket/broadcast.ts';
+import { canBroadcast } from '@/services/web-socket/broadcast.js';
 
-import Auth from './server/Auth.ts';
-import RedisCtrl from './server/RedisCtrl.ts';
-import WebSocketCtrl from './server/WebSocketCtrl.ts';
+import Auth from './server/Auth.js';
+import RedisCtrl from './server/RedisCtrl.js';
+import WebSocketCtrl from './server/WebSocketCtrl.js';
 
-import { WebSocketUser, Incoming, BroadcastSendData } from './types';
+import { WebSocketUser, Incoming, BroadcastSendData } from './types.js';
 
 type Channels = {
   chat: ChatCannnel;

@@ -1,4 +1,4 @@
-import { AnyJson } from '@/types/types';
+import { AnyJson } from '@/types/types.js';
 
 /**
  * 認証情報付きで、HTTPのPOST送信する。

@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-import { log } from '@/services/system/log.ts';
+import { log } from '@/services/system/log.js';
 
 /** .env読み込み */
 export function loadEnv(): void {

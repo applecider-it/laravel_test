@@ -2,4 +2,4 @@
  * WebSocketサーバーのエントリーポイント
  */
 
-import '@/services/web-socket/setup-server';
+import '@/services/web-socket/setup-server.js';

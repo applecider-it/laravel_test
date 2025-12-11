@@ -1,8 +1,7 @@
 import webpush from 'web-push';
 import Redis from 'ioredis';
-import { send } from 'process';
 
-import { log } from '@/services/system/log';
+import { log } from '@/services/system/log.js';
 
 // Push データの型定義
 interface PushData {
