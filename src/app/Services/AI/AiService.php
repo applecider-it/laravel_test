@@ -14,7 +14,7 @@ class AiService
      */
     public function testSend()
     {
-        $text = 'Hello AI';
+        $text = 'Hello Python AI World';
 
         $host = config('myapp.ai_server_host');
 

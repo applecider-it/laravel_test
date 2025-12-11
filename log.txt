@@ -423,3 +423,10 @@ php artisan migrate:rollback --step=1
 npm install -D @types/node@20
 
 npm install --save-dev tsc-alias
+
+-----------------------------------
+
+
+pip install python-dotenv
+
+

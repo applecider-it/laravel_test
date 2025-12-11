@@ -7,4 +7,4 @@ router = APIRouter()
 @router.post("/predict")
 async def predict(data: RequestData):
     result = process_text(data.text)
-    return {"result": result, "aaa": "bbb"}
+    return {"result": result, "text": data.text}

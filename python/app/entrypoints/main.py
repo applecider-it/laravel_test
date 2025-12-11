@@ -1,6 +1,12 @@
 from fastapi import FastAPI
+from dotenv import load_dotenv
+import os
+
 from app.config import add_middlewares
 from app.routers import predict
+
+# .env を読み込む
+load_dotenv()
 
 app = FastAPI()
 
@@ -14,4 +20,4 @@ if __name__ == "__main__":
      # 直接実行した時
 
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8090)
+    uvicorn.run(app, host=os.getenv("APP_AI_SERVER_HOST"), port=int(os.getenv("APP_AI_SERVER_PORT")))
