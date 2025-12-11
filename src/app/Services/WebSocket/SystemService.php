@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Redis;
  */
 class SystemService
 {
+    private const BROADCAST_REDIS_PUBLISH_CHANNEL = 'broadcast';
+
     public function __construct() {}
 
     /**
@@ -21,6 +23,6 @@ class SystemService
             'data' => $data,
         ];
 
-        Redis::publish('broadcast', json_encode($sendData));
+        Redis::publish(self::BROADCAST_REDIS_PUBLISH_CHANNEL, json_encode($sendData));
     }
 }
