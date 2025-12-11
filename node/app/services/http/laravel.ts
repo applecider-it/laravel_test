@@ -1,5 +1,3 @@
-import { type WebSocket } from 'ws';
-
 import { log } from '@/services/system/log.js';
 import { postWithAuth } from '@/services/http/sender.js';
 
