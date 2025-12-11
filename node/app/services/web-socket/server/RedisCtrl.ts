@@ -14,11 +14,11 @@ export default class RedisCtrl {
   redis;
   redisKey;
 
-  constructor(callback: Function) {
+  constructor(callback: Function, redisUrl: string) {
     const redisPrefix = process.env.APP_REDIS_PREFIX as string;
     this.redisKey = redisPrefix + 'broadcast';
 
-    this.redis = new Redis({ host: '127.0.0.1', port: 6379, db: 0 });
+    this.redis = new Redis(redisUrl);
 
     // Redisの連携用チャンネルをsubscribeする
     this.redis.subscribe(this.redisKey, (err, count) =>

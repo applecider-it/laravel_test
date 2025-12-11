@@ -8,10 +8,7 @@ export function startApplication(): void {
   loadEnv();
 
   // サーバー起動
-  const app = new Server({
-    host: '0.0.0.0',
-    port: 8080,
-  });
+  const app = new Server();
 }
 
 startApplication();

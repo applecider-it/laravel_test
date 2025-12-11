@@ -15,11 +15,6 @@ import WebSocketCtrl from './server/WebSocketCtrl.ts';
 
 import { WebSocketUser, Incoming, BroadcastSendData } from './types';
 
-type Options = {
-  host: string;
-  port: number;
-};
-
 type Channels = {
   chat: ChatCannnel;
   tweet: TweetCannnel;
@@ -39,13 +34,18 @@ export default class Server {
   /** 全てのチャンネルクラスを集めたハッシュ */
   channels: Channels;
 
-  constructor({ host = '0.0.0.0', port = 8080 }: Options) {
+  constructor() {
+    const host: string = process.env.APP_WS_HOST!;
+    const port: number = Number(process.env.APP_WS_PORT!);
+    const redisUrl: string = process.env.APP_REDIS_URL!;
+
     this.auth = new Auth();
 
     this.redisCtrl = new RedisCtrl(
       async (sender: WebSocketUser, incoming: Incoming) => {
         await this.sendCommon(sender, incoming);
-      }
+      },
+      redisUrl
     );
 
     this.webSocketCtrl = new WebSocketCtrl(
