@@ -2,14 +2,22 @@
 
 namespace App\Services\Tweet;
 
+use Illuminate\Support\Facades\Log;
+
 use App\Models\User;
 use App\Models\User\Tweet as UserTweet;
+
+use App\Http\Resources\User\TweetResource;
 
 /**
  * ツイートのフォーム関連
  */
 class FormService
 {
+    public function __construct(
+        private WebsocketService $tweetWebsocketService,
+    ) {}
+
     /**
      * 指定したユーザーの新しいツイート作成時のバリデーション情報
      */
@@ -35,6 +43,18 @@ class FormService
             'content' => $content,
         ]);
 
-        return $tweet;
+        $tweetResource = new TweetResource($tweet->load('user'));
+
+        $tweetArray = $tweetResource->toArray(request());
+
+        $this->tweetWebsocketService->sendNewTweet($tweetArray);
+
+        Log::info('tweetResource', [$tweetResource]);
+        Log::info('tweetResource->toArray', [$tweetArray]);
+
+        return [
+            'tweet' => $tweet,
+            'tweetResource' => $tweetResource,
+        ];
     }
 }

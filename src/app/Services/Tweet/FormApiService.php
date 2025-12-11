@@ -14,7 +14,6 @@ class FormApiService
 {
     public function __construct(
         private FormService $tweetFormService,
-        private WebsocketService $tweetWebsocketService,
     ) {}
 
     /** Tweet追加処理 */
@@ -29,16 +28,9 @@ class FormApiService
         $user = $request->user();
         $content = $validated['content'];
 
-        $tweet = $this->tweetFormService->newTweet($user, $content);
+        $ret = $this->tweetFormService->newTweet($user, $content);
 
-        $tweetResource = new TweetResource($tweet->load('user'));
-
-        $tweetArray = $tweetResource->toArray(request());
-
-        Log::info('tweetResource', [$tweetResource]);
-        Log::info('tweetResource->toArray', [$tweetArray]);
-
-        $this->tweetWebsocketService->sendNewTweet($tweetArray);
+        $tweetResource = $ret['tweetResource'];
 
         return $tweetResource;
     }

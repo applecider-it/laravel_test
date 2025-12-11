@@ -51,7 +51,15 @@ Laravelと双方向APIで連携。
 
 ```
 {
-  content: string,
+  tweet: {
+    id: integer,
+    content: string,
+    created_at: string,
+    user: {
+      id: integer,
+      name: string,
+    }
+  },
 }
 ```
 
@@ -109,7 +117,15 @@ Pub/Subのチャンネル名: `[redis_prefix]broadcast`
 
 ```
 {
-  content: string,
+  tweet: {
+    id: integer,
+    content: string,
+    created_at: string,
+    user: {
+      id: integer,
+      name: string,
+    }
+  },
 }
 ```
 
