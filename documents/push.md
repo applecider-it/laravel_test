@@ -9,12 +9,19 @@
     type: string, <- 通知タイプ
     notice: boolean, <- trueの場合は、プッシュ通知
     message: boolean, <- trueの場合は、アプリケーション側に送信
-    ・
-    ・後は任意
-    ・例：サンプルジョブではdetailが追加される
-    ・
+    detail: hash <- 機能ごとの詳細データ
   }
 }
+```
+
+### サンプルジョブの経過表示
+
+`App\Services\Jobs\SampleJobService`
+
+```
+type: 'sample_job_progress'
+
+detaul: {}
 ```
 
 ## Redisへの格納

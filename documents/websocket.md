@@ -135,7 +135,25 @@ Pub/Subのチャンネル名: `[redis_prefix]broadcast`
 
 ```
 {
-  info: any,
+  info: {
+    type: string,
+    title: string,
+    detail: hash, <- 機能ごとの詳細データ
+  },
 }
 ```
+
+#### サンプルジョブの経過表示
+
+`App\Services\Jobs\SampleJobService`
+
+```
+type: 'sample_job_progress'
+
+detaul: {
+  cursor: integer,
+  total: integer,
+}
+```
+
 
