@@ -12,16 +12,15 @@ import { WS_SYSTEM_ID, WS_SYSTEM_NAME } from '../system.js';
 export default class RedisCtrl {
   /** Pub/Subで利用するRedisクラス */
   redis;
-  redisKey;
 
   constructor(callback: Function, redisUrl: string) {
     const redisPrefix = process.env.APP_REDIS_PREFIX as string;
-    this.redisKey = redisPrefix + 'broadcast';
+    const redisKey = redisPrefix + 'broadcast';
 
     this.redis = new Redis(redisUrl);
 
     // Redisの連携用チャンネルをsubscribeする
-    this.redis.subscribe(this.redisKey, (err, count) =>
+    this.redis.subscribe(redisKey, (err, count) =>
       this.handleRedisSubscribe(err, count)
     );
 
