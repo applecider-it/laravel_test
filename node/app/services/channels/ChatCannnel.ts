@@ -23,6 +23,7 @@ export default class ChatCannnel {
 
     return {
       message: incoming.data.message,
+      name: incoming.data.name,
     } as BroadcastDataChat;
   }
 

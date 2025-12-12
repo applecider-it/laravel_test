@@ -43,6 +43,7 @@ Laravelと双方向APIで連携。
 ```
 {
   message: string,
+  name: string,
   target_user_id: integer, <- 送信先を絞り込むとき
 }
 ```

@@ -1,3 +1,7 @@
+import { getAuthUser } from "@/services/app/application";
+
+import { sendMessage } from "@/services/api/rpc/chat-rpc";
+
 /**
  * チャットクライアント
  *
@@ -8,12 +12,15 @@ export default class ChatClient {
     wsHost;
     ws;
     addMessage;
+    user;
 
     constructor(token, wsHost) {
         this.token = token;
         this.wsHost = wsHost;
 
         this.ws = null;
+
+        this.user = getAuthUser();
 
         this.initWebSocket();
     }
@@ -40,15 +47,26 @@ export default class ChatClient {
     }
 
     /** メッセージ送信 */
-    sendMessage(message) {
+    sendMessage(message, type) {
+        console.log("sendMessage type", type);
+
         if (!message || !this.ws || this.ws.readyState !== WebSocket.OPEN) {
             console.warn("[DEBUG] WebSocket not ready or empty message");
             return;
         }
 
-        const payload = { data: { message } };
-        console.log("[DEBUG] Sending message", payload);
-        this.ws.send(JSON.stringify(payload));
+        if (type === "websocket") {
+            // WebSocketに直接送信する時
+
+            const payload = { data: { message, name: this.user.name } };
+            console.log("[DEBUG] Sending message", payload);
+
+            this.ws.send(JSON.stringify(payload));
+        } else if (type === "redis") {
+            // サーバーを通して、redisを経由する時
+
+            sendMessage(message);
+        }
     }
 
     /** メッセージ受信 */

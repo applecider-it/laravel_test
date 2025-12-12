@@ -1,6 +1,7 @@
 /** チャットのブロードキャスト時のデータ */
 export type BroadcastDataChat = {
   message: string;
+  name: string;
 }
 
 /** ツイートのブロードキャスト時のデータ */

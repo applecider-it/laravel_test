@@ -46,6 +46,7 @@ class WebSocketTestService
     {
         $data = [
             "message" => "システムからの送信（Redis） " . date('Y-m-d h:i:s'),
+            "name" => "システム管理者（Redis）",
         ];
 
         if ($this->userId) $data['target_user_id'] = $this->userId;
