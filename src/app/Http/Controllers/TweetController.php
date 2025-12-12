@@ -30,23 +30,7 @@ class TweetController extends Controller
     /** 一覧ページ */
     public function index(Request $request)
     {
-        $searchWord = $request->input('search_word');
-        $sort       = $request->input('sort', 'id');
-        $sortType   = $request->input('sort_type', 'desc');
-
-        $tweets = $this->tweetListService->getTweetsForList($searchWord, $sort, $sortType);
-
-        $tweets = $tweets->paginate(5)->onEachSide(1);
-        /*
-        $tweets->appends([
-            'search_word' => $searchWord,
-            'sort'        => $sort,
-            'sort_type'   => $sortType,
-        ]);
-        */
-        $tweets->withQueryString();
-
-        return view('tweets.index', compact('tweets', 'searchWord', 'sort', 'sortType'));
+        return view('tweets.index', $this->indexCommon($request));
     }
 
     /** 追加処理 */
@@ -72,19 +56,42 @@ class TweetController extends Controller
 
             $this->tweetFormService->newTweet($user, $content);
 
-            return redirect()->back()->with('success', '投稿が作成されました');
+            return redirect()->back()->with('success', '投稿が作成されました')->withInput(['content' => ''] + $request->all());
         } else if ($confirm) {
             // 確認画面
 
             return view('tweets.confirm', [
                 'data' => $validated,
-            ]);
+            ] + $this->indexCommon($request));
         } else {
             // 戻るとき
 
             return redirect()->route('tweets.index')
-                ->withInput($validated);
+                ->withInput($validated + $request->all());
         }
+    }
+
+    /** 一覧ページ共通処理 */
+    private function indexCommon(Request $request)
+    {
+        $searchWord = $request->input('search_word', old('search_word'));
+        $sort = $request->input('sort', old('sort', 'id'));
+        $sortType = $request->input('sort_type', old('sort_type', 'desc'));
+        $page = $request->input('page', old('page', 1));
+
+        $tweets = $this->tweetListService->getTweetsForList($searchWord, $sort, $sortType);
+
+        $tweets = $tweets->paginate(5, page: $page)->onEachSide(1);
+        /*
+        $tweets->appends([
+            'search_word' => $searchWord,
+            'sort'        => $sort,
+            'sort_type'   => $sortType,
+        ]);
+        */
+        $tweets->withQueryString();
+
+        return compact('tweets', 'searchWord', 'sort', 'sortType', 'page');
     }
 
     /** 削除処理 */

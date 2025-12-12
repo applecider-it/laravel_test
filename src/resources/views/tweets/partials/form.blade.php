@@ -5,4 +5,6 @@
         <p class="app-error-text">{{ $message }}</p>
     @enderror
     <button type="submit" class="mt-2 app-btn-primary" name="confirm" value="on">Tweet確認</button>
+
+    @include('tweets.partials.hidden')
 </form>

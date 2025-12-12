@@ -11,9 +11,6 @@
     <div class="py-6 max-w-2xl mx-auto">
         @include('tweets.partials.form')
 
-        <div class="space-y-4">
-            @include('tweets.partials.search')
-            @include('tweets.partials.list')
-        </div>
+        @include('tweets.partials.index_common')
     </div>
 </x-app-layout>
