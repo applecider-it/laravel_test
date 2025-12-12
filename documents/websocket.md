@@ -111,6 +111,7 @@ Pub/Subのチャンネル名: `[redis_prefix]broadcast`
 ```
 {
   message: string,
+  name: string,
 }
 ```
 
