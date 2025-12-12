@@ -10,7 +10,7 @@ use App\Services\Development\TraceService;
 use App\Http\Controllers\Controller;
 
 /**
- * RPC管理コントローラー
+ * 開発者向けページRPC管理コントローラー
  */
 class DevelopmentRpcController extends Controller
 {

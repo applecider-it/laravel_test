@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 
 /**
- * RPC管理コントローラー
+ * ツイートRPC管理コントローラー
  */
 class TweetRpcController extends Controller
 {
