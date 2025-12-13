@@ -44,7 +44,7 @@ export default function TestAreaReact({
     const onProgressWs = (data) => {
         const info = data.data.info;
 
-        const ret = sampleJobClient.onProgressWs(info, refProgress.current);
+        const ret = sampleJobClient.getProgressWsInfo(info, refProgress.current);
         if (!ret) return;
 
         if (ret.toastMessage) showToast(ret.toastMessage);
@@ -54,7 +54,7 @@ export default function TestAreaReact({
 
     /** 遅いジョブの経過表示(Push通知) */
     const onProgressPush = (data) => {
-        const ret = sampleJobClient.onProgressPush(data);
+        const ret = sampleJobClient.getProgressPushInfo(data);
         if (!ret) return;
 
         showToast(ret.toastMessage, ret.toastType);

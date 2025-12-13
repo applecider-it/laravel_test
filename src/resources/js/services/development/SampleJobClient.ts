@@ -2,9 +2,12 @@
  * サンプルジョブクライアント
  */
 export default class SampleJobClient {
-    /** 遅いジョブの経過表示(WebSocket) */
-    onProgressWs(info, currentProgress) {
-        if (info.type !== "sample_job_progress") return;
+    /** 対象のプログレスタイプ */
+    static TARGET_PROGRESS_TYPE = 'sample_job_progress';
+
+    /** 遅いジョブの経過表示(WebSocket)用のデータ生成 */
+    getProgressWsInfo(info, currentProgress) {
+        if (info.type !== SampleJobClient.TARGET_PROGRESS_TYPE) return;
 
         const detail = info.detail;
 
@@ -12,14 +15,14 @@ export default class SampleJobClient {
 
         message += ` (${detail.cursor} / ${detail.total})`;
 
-        const p = (detail.cursor / detail.total) * 100;
+        const nextProgress = (detail.cursor / detail.total) * 100;
 
-        console.log("progress", p, detail.cursor);
+        console.log("progress", nextProgress, detail.cursor);
 
         // 要所要所でトースト
         let toastMessage = null;
         for (const limit of [20, 40, 60, 80]) {
-            if (currentProgress < limit && p >= limit) {
+            if (currentProgress < limit && nextProgress >= limit) {
                 toastMessage = message;
                 break;
             }
@@ -27,17 +30,17 @@ export default class SampleJobClient {
 
         return {
           toastMessage,
-          progress: p,
+          progress: nextProgress,
         }
     }
 
-    /** 遅いジョブの経過表示(Push通知) */
-    onProgressPush(data) {
+    /** 遅いジョブの経過表示(Push通知)用のデータ生成 */
+    getProgressPushInfo(data) {
         const options = data.options;
 
         console.log(data);
 
-        if (options.type !== "sample_job_progress") return;
+        if (options.type !== SampleJobClient.TARGET_PROGRESS_TYPE) return;
 
         const detail = options.detail;
         const detailType = detail.detailType;
