@@ -100,7 +100,7 @@ Pub/Subのチャンネル名: `[redis_prefix]broadcast`
   type: 'message',
   sender: {
     name: string,
-    id: number | 'system',
+    id: number,
   },
   data: hash, <- チャンネルごとに任意
 }
