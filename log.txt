@@ -429,4 +429,9 @@ npm install --save-dev tsc-alias
 
 pip install python-dotenv
 
+-----------------------------------
+
+
+php artisan make:factory PushNotificationFactory
+
 

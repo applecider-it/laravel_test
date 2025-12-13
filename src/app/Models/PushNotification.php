@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * プッシュ通知登録情報モデル
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class PushNotification extends Model
 {
+    use HasFactory;
     use SoftDeletes;
 
     protected $fillable = [
