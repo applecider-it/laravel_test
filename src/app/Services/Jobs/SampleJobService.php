@@ -22,15 +22,15 @@ class SampleJobService
     /**
      * サンプルジョブ実行
      */
-    public function exec($time, User $user): void
+    public function exec($time, User $user)
     {
         $this->user = $user;
 
         Log::info('SampleJob: Begin!!! ' . $time . ' ' . $this->user->name);
 
-        $this->checkPoint('遅いジョブを開始しました', 'bigin');
+        $this->checkPointPush('遅いジョブを開始しました', 'bigin');
 
-        $total = 10;
+        $total = 20;
         $waitSecond = 0.3;
 
         for ($i = 0; $i < $total; $i++) {
@@ -44,7 +44,7 @@ class SampleJobService
             ]);
         }
 
-        $this->checkPoint($this->user->name . 'さん。遅いジョブが完了しました', 'end');
+        $this->checkPointPush($this->user->name . 'さん。遅いジョブが完了しました', 'end');
 
         Log::info('SampleJob: End!!! ' . $time . ' ' . $this->user->name);
     }
@@ -52,7 +52,7 @@ class SampleJobService
     /**
      * チェックポイント送信(WebSocket)
      */
-    public function checkPointWs($message, string $detailType, array $detail = []): void
+    private function checkPointWs($message, string $detailType, $detail)
     {
         $detail['detailType'] = $detailType;
 
@@ -70,8 +70,9 @@ class SampleJobService
     /**
      * チェックポイント送信(Push通知)
      */
-    public function checkPoint($message, string $detailType, array $detail = []): void
+    private function checkPointPush($title, string $detailType)
     {
+        $detail = [];
         $detail['detailType'] = $detailType;
 
         $options = [
@@ -83,7 +84,7 @@ class SampleJobService
             $options['notice'] = true;
         }
         $result = $this->senderService->sendByUser(
-            $message,
+            $title,
             $this->user,
             $options
         );

@@ -30,7 +30,7 @@ rpushで`[redis_prefix]push_queue`に追加される
 
 ```
 {
-  message: string, <- メッセージ Payloadではtitleになる部分
+  title: string, <- Payloadのtitleと同じ値
   options: array, <- Payloadのoptionsと同じ値
   endpoint: string,
   p256dh: string,

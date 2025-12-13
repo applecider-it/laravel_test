@@ -21,7 +21,7 @@ class SenderService
     /**
      * Userモデルから送信
      */
-    public function sendByUser(string $message, User $user, array $options = []): array|null
+    public function sendByUser(string $title, User $user, array $options = []): array|null
     {
         if (! $user->push_notification) return null;
 
@@ -30,7 +30,7 @@ class SenderService
         $results = [];
         foreach ($pushNotifications as $pushNotification) {
             $results[] = $this->sendByPushNotification(
-                $message,
+                $title,
                 $pushNotification,
                 $options
             );
@@ -42,10 +42,10 @@ class SenderService
     /**
      * PushNotificationモデルから送信
      */
-    private function sendByPushNotification(string $message, PushNotification $pushNotification, array $options): array
+    private function sendByPushNotification(string $title, PushNotification $pushNotification, array $options): array
     {
         $result = $this->execWebPush(
-            $message,
+            $title,
             $pushNotification->endpoint,
             $pushNotification->p256dh,
             $pushNotification->auth,
@@ -60,10 +60,10 @@ class SenderService
     /**
      * web-pushコマンド実行
      */
-    private function execWebPush(string $message, string $endpoint, string $p256dh, string $auth, array $options): array
+    private function execWebPush(string $title, string $endpoint, string $p256dh, string $auth, array $options): array
     {
         $payload = json_encode([
-            'title' => $message,
+            'title' => $title,
             'options' => $options,
         ]);
 
@@ -92,7 +92,7 @@ class SenderService
 
         $status = true;
         //if ($returnVar !== 0) {   // 失敗しても0になるのでこれは使えない
-        if (Str::contains($outputAll, 'Error sending push message')) {
+        if (Str::contains($outputAll, 'Error sending push')) {
             $status = false;
         }
 

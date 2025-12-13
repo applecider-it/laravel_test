@@ -9,7 +9,7 @@ interface PushData {
   p256dh: string;
   auth: string;
   id: number;
-  message: string;
+  title: string;
   options: any;
 }
 
@@ -80,7 +80,7 @@ export default class PushSender {
           keys: { p256dh: data.p256dh, auth: data.auth },
         },
         JSON.stringify({
-          title: data.message,
+          title: data.title,
           options: data.options,
         })
       );

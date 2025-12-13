@@ -71,10 +71,10 @@ class PushNotificationTestService
             $this->cmd->info('redisをclearしました');
         }
 
-        $message = 'プッシュ通知テスト(node)';
+        $title = 'プッシュ通知テスト(node)';
 
         $cnt = $this->nodeService->pushByUser(
-            $message,
+            $title,
             $user,
             $options
         );
@@ -87,10 +87,10 @@ class PushNotificationTestService
      */
     private function execLaravelTest(User $user, array $options)
     {
-        $message = "テスト通知";
+        $title = "テスト通知";
 
         $result = $this->senderService->sendByUser(
-            $message,
+            $title,
             $user,
             $options
         );
