@@ -9,8 +9,6 @@ use App\Models\User;
 
 /**
  * WebSocketの認証管理
- * 
- * JWTのsubがIDに相当する
  */
 class AuthService
 {
@@ -22,7 +20,7 @@ class AuthService
     public function createUserJwt(User $user, string $channel)
     {
         $token = JWT::encode([
-            'sub' => $user->id,
+            'id' => $user->id,
             'name' => $user->name,
             'channel' => $channel,
             'iat' => time(),
@@ -41,12 +39,12 @@ class AuthService
     {
         try {
             $payload = JWT::decode($token, new Key(config('myapp.ws_jwt_secret'), self::ALGORITHM));
-            $sub = $payload->sub;
+            $id = $payload->id;
             $name = $payload->name;
             $channel = $payload->channel;
 
             return [
-                'id' => $sub,
+                'id' => $id,
                 'name' => $name,
                 'channel' => $channel,
             ];
