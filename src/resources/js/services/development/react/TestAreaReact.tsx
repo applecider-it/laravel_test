@@ -8,10 +8,21 @@ import { setPushCallback } from "@/services/service-worker/service-worker";
 
 import { startSlowJob } from "@/services/api/rpc/development-rpc";
 
+import type ProgressClient from "@/services/ui/ProgressClient";
+import type SampleJobClient from "../SampleJobClient";
+
 let cnt2 = 0;
 
+type Props = {
+    progressClient: ProgressClient;
+    sampleJobClient: SampleJobClient;
+};
+
 /** テスト用コンポーネント */
-export default function TestAreaReact({ progressClient }) {
+export default function TestAreaReact({
+    progressClient,
+    sampleJobClient,
+}: Props) {
     const [cnt, setCnt] = useState(0);
     const refCnt = useRef(0);
     const [progress, setProgress] = useState(0); // 0〜100
@@ -33,45 +44,20 @@ export default function TestAreaReact({ progressClient }) {
     const onProgressWs = (data) => {
         const info = data.data.info;
 
-        if (info.type !== "sample_job_progress") return;
+        const ret = sampleJobClient.onProgressWs(info, refProgress.current);
+        if (!ret) return;
 
-        const detail = info.detail;
-
-        let message = info.title;
-
-        message += ` (${detail.cursor} / ${detail.total})`;
-
-        const p = (detail.cursor / detail.total) * 100;
-
-        setProgress(p);
-
-        console.log("progress", p, detail.cursor);
-
-        // 要所要所でトースト
-        for (const limit of [20, 40, 60, 80]) {
-            if (refProgress.current < limit && p >= limit) {
-                showToast(message);
-                break;
-            }
-        }
-
-        refProgress.current = p;
+        if (ret.toastMessage) showToast(ret.toastMessage);
+        setProgress(ret.progress);
+        refProgress.current = ret.progress;
     };
 
     /** 遅いジョブの経過表示(Push通知) */
     const onProgressPush = (data) => {
-        const options = data.options;
+        const ret = sampleJobClient.onProgressPush(data);
+        if (!ret) return;
 
-        console.log(data);
-
-        if (options.type !== "sample_job_progress") return;
-
-        const detail = options.detail;
-        const detailType = detail.detailType;
-
-        let message = data.title;
-
-        showToast(message, detailType === "end" ? "alert" : "notice");
+        showToast(ret.toastMessage, ret.toastType);
     };
 
     /** ロード画面の動作確認 */

@@ -28,7 +28,7 @@ class SampleJobService
 
         Log::info('SampleJob: Begin!!! ' . $time . ' ' . $this->user->name);
 
-        $this->checkPointPush('遅いジョブを開始しました', 'bigin');
+        $this->checkPointPush('遅いジョブを開始しました', 'bigin', []);
 
         $total = 20;
         $waitSecond = 0.3;
@@ -44,7 +44,9 @@ class SampleJobService
             ]);
         }
 
-        $this->checkPointPush($this->user->name . 'さん。遅いジョブが完了しました', 'end');
+        $this->checkPointPush($this->user->name . 'さん。遅いジョブが完了しました', 'end', [
+            'resultTotal' => $total,
+        ]);
 
         Log::info('SampleJob: End!!! ' . $time . ' ' . $this->user->name);
     }
@@ -70,9 +72,8 @@ class SampleJobService
     /**
      * チェックポイント送信(Push通知)
      */
-    private function checkPointPush($title, string $detailType)
+    private function checkPointPush($title, string $detailType, array $detail)
     {
-        $detail = [];
         $detail['detailType'] = $detailType;
 
         $options = [

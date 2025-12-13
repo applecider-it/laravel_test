@@ -11,6 +11,8 @@ import TestAreaVue from "./vue/TestAreaVue.vue";
 
 import ProgressClient from "@/services/ui/ProgressClient";
 
+import SampleJobClient from "./SampleJobClient";
+
 let el: any;
 
 el = document.getElementById("react-test-root");
@@ -20,10 +22,12 @@ if (el) {
 
     console.log(all);
 
+    const sampleJobClient = new SampleJobClient();
+
     const progressClient = new ProgressClient(all.token, all.wsHost);
 
     const root = createRoot(el);
-    root.render(<TestAreaReact progressClient={progressClient} />);
+    root.render(<TestAreaReact progressClient={progressClient} sampleJobClient={sampleJobClient} />);
 }
 
 el = document.getElementById("vue-test-root");
