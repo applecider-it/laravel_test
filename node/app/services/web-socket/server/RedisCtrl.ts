@@ -4,7 +4,9 @@ import { log } from '@/services/system/log.js';
 
 import { WebSocketUser, Incoming } from '../types.js';
 
-import { WS_SYSTEM_ID, WS_SYSTEM_NAME } from '../system.js';
+import { WS_SYSTEM_ID } from '../system.js';
+
+import { WS_REDIS_CHANNEL, WS_SYSTEM_NAME } from '@/config/config.js';
 
 /**
  * WebSocket サーバーのRedis管理
@@ -15,7 +17,7 @@ export default class RedisCtrl {
 
   constructor(callback: Function, redisUrl: string) {
     const redisPrefix = process.env.APP_REDIS_PREFIX as string;
-    const redisKey = redisPrefix + 'broadcast';
+    const redisKey = redisPrefix + WS_REDIS_CHANNEL;
 
     this.redis = new Redis(redisUrl);
 

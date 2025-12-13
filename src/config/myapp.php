@@ -13,6 +13,9 @@ return [
     // WebSocketサーバーのホスト名
     'ws_server_host' => env('MYAPP_WS_SERVER_HOST'),
 
+    // WebSocketのRedisブロードキャスト用チャンネル
+    'ws_broadcast_redis_publish_channel' => 'broadcast',
+
     // AIサーバーのホスト名
     'ai_server_host' => env('MYAPP_AI_SERVER_HOST'),
 
