@@ -22,8 +22,7 @@ class ChatMessageSent implements ShouldBroadcastNow
         public string $message,
         public string $room,
         public \App\Models\User $user,
-    )
-    {
+    ) {
         //
     }
 
@@ -36,6 +35,18 @@ class ChatMessageSent implements ShouldBroadcastNow
     {
         return [
             new PrivateChannel('Chat.' . $this->room),
+        ];
+    }
+
+    /** ブロードキャスト内容 */
+    public function broadcastWith(): array
+    {
+        return [
+            'message' => $this->message,
+            'user' => [
+                'id' => $this->user->id,
+                'name' => $this->user->name,
+            ],
         ];
     }
 }
