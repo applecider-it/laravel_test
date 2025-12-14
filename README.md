@@ -11,5 +11,4 @@
 - [Laravelモノリスのドキュメント](./src/documents/index.md)
 - [Nodeマイクロサービスのドキュメント](./node/documents/index.md)
 - [Pythonマイクロサービスのドキュメント](./python/documents/index.md)
-
-
+- [Soketiのドキュメント](./soketi/documents/index.md)
