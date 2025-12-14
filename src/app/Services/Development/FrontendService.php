@@ -25,4 +25,18 @@ class FrontendService{
             'status' => true,
         ];
     }
+
+    /**
+     * テストチャンネルにメッセージ送信
+     */
+    public function sendTestChannel($message, int $id)
+    {
+        Log::info('sendTestChannel', [$message, $id]);
+
+        event(new \App\Events\MessageSent($message, $id));
+
+        return [
+            'status' => true,
+        ];
+    }
 }

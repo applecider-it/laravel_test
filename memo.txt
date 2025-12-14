@@ -306,7 +306,7 @@ docker run -d \
 php artisan tinker
 
 
-event(new App\Events\MessageSent('Hello Soketi'));
+event(new App\Events\MessageSent('Hello Soketi', 1));
 
 
 

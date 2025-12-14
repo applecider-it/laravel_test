@@ -48,15 +48,37 @@
 
             <MyForm v-model:title="title" v-model:content="content" />
         </div>
+
+        <div class="mt-5">
+            Laravel Echo動作確認
+
+            <div class="mt-5 space-x-2">
+                <button
+                    class="app-btn-primary"
+                    @click="() => echoTest('自分に送信', true)"
+                >
+                    自分に送信
+                </button>
+                <button
+                    class="app-btn-primary"
+                    @click="() => echoTest('自分以外に送信', false)"
+                >
+                    自分以外に送信（届かない）
+                </button>
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
 /** vueテスト用コンポーネント */
 
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import MyForm from "./test-area-vue/MyForm.vue";
 import { showToast, setIsLoading } from "@/services/ui/message";
+import { MyEcho } from "@/services/app/echo";
+import { getAuthUser } from "@/services/app/application";
+import { sendTestChannel } from "@/services/api/rpc/development-rpc";
 
 console.log("draw");
 
@@ -99,4 +121,23 @@ const toastTest = (type) => {
     console.log(msg);
     showToast(msg, type);
 };
+
+/** Laravel Echoの動作確認 */
+const echoTest = async(message, isMe) => {
+    const user = getAuthUser();
+    console.log('echoTest', message, isMe);
+
+    const result = await sendTestChannel(message, isMe ? user.id : user.id + 1);
+    console.log('result', result);
+};
+
+onMounted(() => {
+    const user = getAuthUser();
+    console.log("auth user", user);
+    MyEcho.private(`TestChannel.${user.id}`).listen("MessageSent", (e) => {
+        console.log(e.message);
+
+        showToast(e.message);
+    });
+});
 </script>

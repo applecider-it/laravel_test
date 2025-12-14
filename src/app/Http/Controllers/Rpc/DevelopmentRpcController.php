@@ -34,6 +34,13 @@ class DevelopmentRpcController extends Controller
                     $request->input('test2'),
                 )
             );
+        } else if ($name === 'send_test_channel') {
+            return response()->json(
+                app(\App\Services\Development\FrontendService::class)->sendTestChannel(
+                    $request->input('message'),
+                    (int) $request->input('user_id'),
+                )
+            );
         }
 
         return response()->json(['error' => 'Prc name not found'], 404);

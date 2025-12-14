@@ -1,12 +1,9 @@
 
 import Echo from 'laravel-echo';
-import Pusher from 'pusher-js';
+import 'pusher-js';
 
-window.Pusher = Pusher;
-
-console.log(import.meta.env);
-
-window.Echo = new Echo({
+/** Laravel Echoインスタンス */
+export const MyEcho = new Echo({
   broadcaster: 'pusher',
   key: import.meta.env.VITE_PUSHER_APP_KEY,
   wsHost: import.meta.env.VITE_PUSHER_HOST,
