@@ -452,3 +452,18 @@ composer require pusher/pusher-php-server
 
 php artisan install:broadcasting
 
+
+sudo vi /etc/redis/redis.conf
+
+bind 0.0.0.0
+protected-mode no
+
+sudo systemctl restart redis-server
+
+
+npm install -g @soketi/soketi
+
+nvm install 18
+nvm use 18
+
+

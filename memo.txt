@@ -289,27 +289,27 @@ publish受信
 
 PSUBSCRIBE *
 
+モニター
+
+MONITOR
+
 -----------------------------------
 
 Echo、Pusher
 
+
 soketi起動
 
-docker run -d \
-  -p 6001:6001 \
-  -e SOKETI_DEBUG=1 \
-  -e SOKETI_ADAPTER=redis \
-  -e SOKETI_REDIS_HOST=127.0.0.1 \
-  -e SOKETI_REDIS_PORT=6379 \
-  -e SOKETI_REDIS_DB=0 \
-  -e SOKETI_DEFAULT_APP_ID=app-id \
-  -e SOKETI_DEFAULT_APP_KEY=app-key \
-  -e SOKETI_DEFAULT_APP_SECRET=app-secret \
-  quay.io/soketi/soketi:latest
+cd /home/owner/workspace/tmp/laravel_test/soketi
+
+nvm use 18
+
+./start.sh
 
 
-キューワーカーを動かす
-  ShouldBroadcastNowの場合は不要
+----
+
+動作確認
 
 
 php artisan tinker
