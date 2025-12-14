@@ -435,3 +435,20 @@ pip install python-dotenv
 php artisan make:factory PushNotificationFactory
 
 
+-----------------------------------
+
+php artisan config:publish broadcasting
+
+php artisan make:event MessageSent
+
+php artisan tinker
+
+
+event(new App\Events\MessageSent('Hello Soketi'));
+
+npm install laravel-echo pusher-js
+
+composer require pusher/pusher-php-server
+
+php artisan install:broadcasting
+

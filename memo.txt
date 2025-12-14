@@ -286,3 +286,28 @@ rpushの値の取得
 LRANGE key 0 -1
 
 -----------------------------------
+
+Echo、Pusher
+
+soketi起動
+
+docker run -d \
+  -p 6001:6001 \
+  -e SOKETI_DEBUG=1 \
+  -e SOKETI_DEFAULT_APP_ID=app-id \
+  -e SOKETI_DEFAULT_APP_KEY=app-key \
+  -e SOKETI_DEFAULT_APP_SECRET=app-secret \
+  quay.io/soketi/soketi:latest
+
+
+キューワーカーを動かす
+
+
+php artisan tinker
+
+
+event(new App\Events\MessageSent('Hello Soketi'));
+
+
+
+
