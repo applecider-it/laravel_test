@@ -27,7 +27,7 @@ export default function ChatArea({ chatClient }) {
                 <input
                     type="text"
                     value={message}
-                    className="border p-1 mr-2 w-2/3"
+                    className="border p-1 mr-2 w-80"
                     onKeyDown={handleKeyDown}
                     onChange={(e) => setMessage(e.target.value)}
                 />
