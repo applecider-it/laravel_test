@@ -285,6 +285,10 @@ rpushの値の取得
 
 LRANGE key 0 -1
 
+publish受信
+
+PSUBSCRIBE *
+
 -----------------------------------
 
 Echo、Pusher
