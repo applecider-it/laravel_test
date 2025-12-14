@@ -13,3 +13,9 @@ Broadcast::channel('TestChannel.{id}', function ($user, $id) {
 
     return (int) $user->id === (int) $id;
 });
+
+Broadcast::channel('Chat.{room}', function ($user, $room) {
+    Log::info('!!!!!!!!!!!!!!!!! Chat.{room}', [$user, $room]);
+
+    return !!$user;
+});

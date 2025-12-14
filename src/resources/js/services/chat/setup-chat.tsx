@@ -13,7 +13,7 @@ const el: any = document.getElementById("chat-root");
 if (el) {
     const all = JSON.parse(el.dataset.all);
 
-    const chatClient = new ChatClient(all.token, all.wsHost);
+    const chatClient = new ChatClient(all.token, all.wsHost, all.room);
 
     const root = createRoot(el);
     root.render(<ChatArea chatClient={chatClient} />);

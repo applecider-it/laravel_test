@@ -43,6 +43,12 @@ export default function ChatArea({ chatClient }) {
                 >
                     Send (R)
                 </button>
+                <button
+                    className="p-1 border bg-gray-200 ml-2"
+                    onClick={() => sendMessage('echo')}
+                >
+                    Send (E)
+                </button>
             </div>
 
             <div className="border border-gray-700 p-2 mb-2 h-80 mt-5 overflow-y-auto">

@@ -24,6 +24,10 @@ class ChatRpcController extends Controller
             return response()->json(
                 app(\App\Services\Chat\FormApiService::class)->sendMessage($request, $user)
             );
+        } else if ($name === 'send_message_echo') {
+            return response()->json(
+                app(\App\Services\Chat\FormApiService::class)->sendMessageEcho($request, $user)
+            );
         }
 
         return response()->json(['error' => 'Prc name not found'], 404);

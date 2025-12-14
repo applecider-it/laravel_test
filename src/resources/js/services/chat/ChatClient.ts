@@ -1,6 +1,8 @@
 import { getAuthUser } from "@/services/app/application";
 
-import { sendMessage } from "@/services/api/rpc/chat-rpc";
+import { sendMessage, sendMessageEcho } from "@/services/api/rpc/chat-rpc";
+
+import { MyEcho } from "@/services/app/echo";
 
 /**
  * チャットクライアント
@@ -13,16 +15,20 @@ export default class ChatClient {
     ws;
     addMessage;
     user;
+    room;
 
-    constructor(token, wsHost) {
+    constructor(token, wsHost, room) {
         this.token = token;
         this.wsHost = wsHost;
+        this.room = room;
 
         this.ws = null;
 
         this.user = getAuthUser();
 
         this.initWebSocket();
+
+        this.initEcho();
     }
 
     /** WebSocket 接続初期化 */
@@ -46,6 +52,13 @@ export default class ChatClient {
         };
     }
 
+    /** Laravel Echo 接続初期化 */
+    initEcho() {
+        MyEcho.private(`Chat.${this.room}`).listen("ChatMessageSent", (e) =>
+            this.handleMessageEcho(e)
+        );
+    }
+
     /** メッセージ送信 */
     sendMessage(message, type) {
         console.log("sendMessage type", type);
@@ -66,6 +79,10 @@ export default class ChatClient {
             // サーバーを通して、redisを経由する時
 
             sendMessage(message);
+        } else if (type === "echo") {
+            // サーバーを通して、Laravel Echoを経由する時
+
+            sendMessageEcho(message, this.room);
         }
     }
 
@@ -82,5 +99,17 @@ export default class ChatClient {
         console.log("[DEBUG] Received message", data);
 
         if (data.type == "message") this.addMessage(data);
+    }
+
+    /** Echo メッセージ受信 */
+    handleMessageEcho(e) {
+        console.log(e);
+
+        this.addMessage({
+            data: {
+                message: e.message,
+                name: e.user.name,
+            },
+        });
     }
 }

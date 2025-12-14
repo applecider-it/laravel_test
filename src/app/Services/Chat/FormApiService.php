@@ -33,4 +33,13 @@ class FormApiService
         return $response;
     }
 
+    /** Echoでチャットメッセージ送信処理 */
+    public function sendMessageEcho(Request $request, User $user)
+    {
+        $room = $request->input('room');
+        $message = $request->input('message');
+
+        event(new \App\Events\ChatMessageSent($message, $room, $user));
+
+    }
 }
