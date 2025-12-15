@@ -1,10 +1,16 @@
 # websocket連携
 
+## 独自実装
+
 websocketはnodeで連携する。
 
 Laravelと双方向APIで連携。
 
 認証はJWTを使う。
+
+## Laravel Echo
+
+一部、Laravel Echoでも実装している。
 
 ## チャンネル名の定義
 
@@ -155,5 +161,30 @@ detaul: {
   total: integer,
 }
 ```
+
+
+## Laravel Echo ブロードキャスト時
+
+### チャット
+
+```
+{
+  message: string,
+  user: {
+    id: integer,
+    name: string,
+  }
+}
+```
+
+### サンプルチャンネル
+
+```
+{
+  message: string,
+  id: integer, <- ユーザーID
+}
+```
+
 
 
