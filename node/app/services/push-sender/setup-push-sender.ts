@@ -2,21 +2,18 @@
  * プッシュ通知のセットアップ
  */
 
-import { loadEnv } from '@/services/system/env.js';
+import { initApp } from '@/services/system/init.js';
 
 import PushSender from './PushSender.js';
 
-loadEnv();
+import { appConfig } from '@/config/config.js';
+
+initApp();
 
 async function main(): Promise<void> {
-  console.log(
-    'process.env.APP_VAPID_PUBLIC_KEY',
-    process.env.APP_VAPID_PUBLIC_KEY
-  );
-
-  const mailto = 'mailto:you@example.com';
-  const publicKey = process.env.APP_VAPID_PUBLIC_KEY as string;
-  const privateKey = process.env.APP_VAPID_PRIVATE_KEY as string;
+  const mailto = `mailto:${appConfig.push.mailto}`;
+  const publicKey = appConfig.push.publicKey;
+  const privateKey = appConfig.push.privateKey;
 
   const pushSender = new PushSender(mailto, publicKey, privateKey);
 

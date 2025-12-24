@@ -5,6 +5,8 @@ import { log } from '@/services/system/log.js';
 
 import { WebSocketUser } from '../types.js';
 
+import { appConfig } from '@/config/config.js';
+
 /**
  * 認証管理
  */
@@ -25,7 +27,7 @@ export default class Auth {
     let payload: any = null;
 
     try {
-      payload = jwt.verify(token, process.env.APP_WS_JWT_SECRET!);
+      payload = jwt.verify(token, appConfig.jwtSecret);
     } catch (e) {
       console.error(e);
       return null;

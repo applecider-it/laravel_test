@@ -3,6 +3,8 @@ import Redis from 'ioredis';
 
 import { log } from '@/services/system/log.js';
 
+import { appConfig } from '@/config/config.js';
+
 // Push データの型定義
 interface PushData {
   endpoint: string;
@@ -28,7 +30,7 @@ export default class PushSender {
     this.publicKey = publicKey;
     this.privateKey = privateKey;
 
-    const redisPrefix = process.env.APP_REDIS_PREFIX as string;
+    const redisPrefix = appConfig.redis.prefix;
     this.redisKey = redisPrefix + 'push_queue';
     this.redisKeyResult = redisPrefix + 'push_queue_result';
   }

@@ -14,6 +14,8 @@ import WebSocketCtrl from './server/WebSocketCtrl.js';
 
 import { WebSocketUser, Incoming, BroadcastSendData } from './types.js';
 
+import { appConfig } from '@/config/config.js';
+
 type Channels = {
   chat: ChatCannnel;
   base: BaseCannnel;
@@ -33,9 +35,9 @@ export default class Server {
   channels: Channels;
 
   constructor() {
-    const host: string = process.env.APP_WS_HOST!;
-    const port: number = Number(process.env.APP_WS_PORT!);
-    const redisUrl: string = process.env.APP_REDIS_URL!;
+    const host = appConfig.webSocket.host;
+    const port = appConfig.webSocket.port;
+    const redisUrl = appConfig.redis.url;
 
     this.auth = new Auth();
 

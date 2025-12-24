@@ -5,6 +5,8 @@ import { AnyJson } from '@/types/types.js';
 
 import { WebSocketUser } from '@/services/web-socket/types.js';
 
+import { appConfig } from '@/config/config.js';
+
 /**
  * 認証情報付きで、LaravelにAPI送信する。
  */
@@ -15,7 +17,7 @@ export async function sendToLaravel(
 ) {
   log('sendToLaravel', params, uri, sender.name);
 
-  const url = `http://${process.env.APP_LARAVEL_API_HOST}${uri}`;
+  const url = `http://${appConfig.laravel.host}${uri}`;
 
   log(`send: ${url} token ${sender.token}`);
 
