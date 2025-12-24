@@ -60,7 +60,7 @@ export default class ChatClient {
     }
 
     /** メッセージ送信 */
-    sendMessage(message, type) {
+    sendMessage(message: string, type: string, options: any) {
         console.log("sendMessage type", type);
 
         if (!message || !this.ws || this.ws.readyState !== WebSocket.OPEN) {
@@ -82,7 +82,7 @@ export default class ChatClient {
         } else if (type === "echo") {
             // サーバーを通して、Laravel Echoを経由する時
 
-            sendMessageEcho(message, this.room);
+            sendMessageEcho(message, this.room, options);
         }
     }
 

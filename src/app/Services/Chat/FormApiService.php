@@ -38,8 +38,15 @@ class FormApiService
     {
         $room = $request->input('room');
         $message = $request->input('message');
+        $options = $request->input('options');
 
-        event(new \App\Events\ChatMessageSent($message, $room, $user));
+        $others = $options['others'] ?? false;
 
+        Log::info("sendMessageEcho options", [$options, $others]);
+
+        //event(new \App\Events\ChatMessageSent($message, $room, $user));
+        $obj = broadcast(new \App\Events\ChatMessageSent($message, $room, $user));
+
+        if ($others) $obj->toOthers();
     }
 }

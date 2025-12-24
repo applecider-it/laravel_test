@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 
+import ChatClient from "../ChatClient";
+
+type Prop = {
+    chatClient: ChatClient;
+};
+
 /** チャットコンポーネント */
-export default function ChatArea({ chatClient }) {
+export default function ChatArea({ chatClient }: Prop) {
     const [message, setMessage] = useState("");
     const [messageList, setMessageList] = useState([]);
 
@@ -11,14 +17,14 @@ export default function ChatArea({ chatClient }) {
         };
     }, []);
 
-    const sendMessage = (type) => {
+    const sendMessage = (type, options: any = []) => {
         console.log(message);
-        chatClient.sendMessage(message, type);
+        chatClient.sendMessage(message, type, options);
         setMessage("");
     };
 
     const handleKeyDown = (e) => {
-        if (e.key === "Enter") sendMessage('websocket');
+        if (e.key === "Enter") sendMessage("websocket");
     };
 
     return (
@@ -33,21 +39,27 @@ export default function ChatArea({ chatClient }) {
                 />
                 <button
                     className="p-1 border bg-gray-200 ml-2"
-                    onClick={() => sendMessage('websocket')}
+                    onClick={() => sendMessage("websocket")}
                 >
                     Send (W)
                 </button>
                 <button
                     className="p-1 border bg-gray-200 ml-2"
-                    onClick={() => sendMessage('redis')}
+                    onClick={() => sendMessage("redis")}
                 >
                     Send (R)
                 </button>
                 <button
                     className="p-1 border bg-gray-200 ml-2"
-                    onClick={() => sendMessage('echo')}
+                    onClick={() => sendMessage("echo")}
                 >
                     Send (E)
+                </button>
+                <button
+                    className="p-1 border bg-gray-200 ml-2"
+                    onClick={() => sendMessage("echo", {others: true})}
+                >
+                    Send (E,O)
                 </button>
             </div>
 
