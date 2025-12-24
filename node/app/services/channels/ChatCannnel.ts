@@ -3,7 +3,6 @@ import { log } from '@/services/system/log.js';
 import { WebSocketUser, Incoming } from '@/services/web-socket/types.js';
 
 import BaseCannnel from './BaseCannnel.js';
-import { BroadcastDataChat } from './types.js';
 import Test from './chat-cannnel/Test.js';
 
 /**
@@ -27,7 +26,7 @@ export default class ChatCannnel extends BaseCannnel {
     return {
       message: incoming.data.message,
       name: incoming.data.name,
-    } as BroadcastDataChat;
+    };
   }
 
   /** メッセージをブロードキャストしていいか返す */

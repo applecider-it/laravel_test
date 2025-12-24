@@ -1,9 +1,3 @@
-import {
-  BroadcastDataTweet,
-  BroadcastDataChat,
-  BroadcastDataProgress,
-} from '@/services/channels/types.js';
-
 /** WebSocketオブジェクトに追加するユーザー情報 */
 export interface WebSocketUser {
   name: string;
@@ -24,5 +18,5 @@ export type BroadcastSendData = {
     id: number | 'system';
     name: string;
   };
-  data: BroadcastDataTweet | BroadcastDataChat | BroadcastDataProgress;
+  data: any;
 };
