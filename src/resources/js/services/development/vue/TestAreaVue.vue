@@ -55,15 +55,15 @@
             <div class="mt-5 space-x-2">
                 <button
                     class="app-btn-primary"
-                    @click="() => echoTest('自分に送信', true)"
+                    @click="() => echoTest('自分のIDのチャンネルに送信', true)"
                 >
-                    自分に送信
+                    自分のIDのチャンネルに送信
                 </button>
                 <button
                     class="app-btn-primary"
-                    @click="() => echoTest('自分以外に送信', false)"
+                    @click="() => echoTest('自分のID+1のチャンネルに送信', false)"
                 >
-                    自分以外に送信（届かない）
+                    自分のID+1のチャンネルに送信（届かない）
                 </button>
             </div>
         </div>
