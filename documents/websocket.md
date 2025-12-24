@@ -74,7 +74,24 @@ Laravelと双方向APIで連携。
 
 ```
 {
-  info: any,
+  info: {
+    type: string,
+    title: string,
+    detail: hash, <- 機能ごとの詳細データ
+  },
+}
+```
+
+#### サンプルジョブの経過表示
+
+`App\Services\Jobs\SampleJobService`
+
+```
+type: 'sample_job_progress'
+
+detaul: {
+  cursor: integer,
+  total: integer,
 }
 ```
 
@@ -123,44 +140,11 @@ Pub/Subのチャンネル名: `[redis_prefix]broadcast`
 
 ### Tweetの場合のdata
 
-```
-{
-  tweet: {
-    id: integer,
-    content: string,
-    created_at: string,
-    user: {
-      id: integer,
-      name: string,
-    }
-  },
-}
-```
+メッセージ送信時と同じ
 
 ### 経過表示の場合のdata
 
-```
-{
-  info: {
-    type: string,
-    title: string,
-    detail: hash, <- 機能ごとの詳細データ
-  },
-}
-```
-
-#### サンプルジョブの経過表示
-
-`App\Services\Jobs\SampleJobService`
-
-```
-type: 'sample_job_progress'
-
-detaul: {
-  cursor: integer,
-  total: integer,
-}
-```
+メッセージ送信時と同じ
 
 
 ## Laravel Echo ブロードキャスト時

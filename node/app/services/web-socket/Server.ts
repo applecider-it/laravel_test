@@ -4,8 +4,7 @@ import { IncomingMessage } from 'http';
 import { log } from '@/services/system/log.js';
 
 import ChatCannnel from '@/services/channels/ChatCannnel.js';
-import TweetCannnel from '@/services/channels/TweetCannnel.js';
-import ProgressCannnel from '@/services/channels/ProgressCannnel.js';
+import BaseCannnel from '@/services/channels/BaseCannnel.js';
 
 import { canBroadcast } from '@/services/web-socket/broadcast.js';
 
@@ -17,8 +16,7 @@ import { WebSocketUser, Incoming, BroadcastSendData } from './types.js';
 
 type Channels = {
   chat: ChatCannnel;
-  tweet: TweetCannnel;
-  progress: ProgressCannnel;
+  base: BaseCannnel;
 };
 
 /**
@@ -59,8 +57,7 @@ export default class Server {
 
     this.channels = {
       chat: new ChatCannnel(),
-      tweet: new TweetCannnel(),
-      progress: new ProgressCannnel(),
+      base: new BaseCannnel(),
     };
   }
 
@@ -120,6 +117,11 @@ export default class Server {
   /** チャンネルごとのインスタンス */
   getChannel(channelStr: string) {
     const [channel, paramsStr] = channelStr.split(':');
-    return this.channels[channel as 'chat' | 'tweet' | 'progress'];
+
+    if (channel in this.channels) {
+      return this.channels[channel as keyof Channels];
+    }
+
+    return this.channels.base;
   }
 }

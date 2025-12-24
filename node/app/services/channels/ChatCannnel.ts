@@ -2,6 +2,7 @@ import { log } from '@/services/system/log.js';
 
 import { WebSocketUser, Incoming } from '@/services/web-socket/types.js';
 
+import BaseCannnel from './BaseCannnel.js';
 import { BroadcastDataChat } from './types.js';
 import Test from './chat-cannnel/Test.js';
 
@@ -10,10 +11,12 @@ import Test from './chat-cannnel/Test.js';
  *
  * target_user_idが指定されているときは、対象のuser_idにだけ送信。
  */
-export default class ChatCannnel {
+export default class ChatCannnel extends BaseCannnel {
   test;
 
   constructor() {
+    super();
+
     this.test = new Test();
   }
 

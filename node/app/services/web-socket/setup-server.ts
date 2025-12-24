@@ -4,7 +4,7 @@ import Server from '@/services/web-socket/Server.js';
 import { log } from '@/services/system/log.js';
 
 /** アプリケーションを開始する */
-export function startApplication(): void {
+function startApplication(): void {
   loadEnv();
 
   // サーバー起動

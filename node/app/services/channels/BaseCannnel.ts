@@ -1,17 +1,14 @@
 import { WebSocketUser, Incoming } from '@/services/web-socket/types.js';
-import { BroadcastDataTweet } from './types.js';
 
 /**
- * ツイートチャンネル
+ * ベースチャンネル
  */
-export default class TweetCannnel {
+export default class BaseCannnel {
   constructor() {}
 
   /** メッセージ取得時のデータ生成 */
   async callbackCreateData(sender: WebSocketUser, incoming: Incoming) {
-    return {
-      tweet: incoming.data.tweet,
-    } as BroadcastDataTweet;
+    return incoming.data;
   }
 
   /** メッセージをブロードキャストしていいか返す */
