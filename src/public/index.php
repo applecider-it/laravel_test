@@ -10,16 +10,16 @@ use Illuminate\Http\Request;
 define('LARAVEL_START', microtime(true));
 
 // Determine if the application is in maintenance mode...
-if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
+if (file_exists($maintenance = __DIR__ . '/../storage/framework/maintenance.php')) {
     require $maintenance;
 }
 
 // Register the Composer autoloader...
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 // Bootstrap Laravel and handle the request...
 /** @var Application $app */
-$app = require_once __DIR__.'/../bootstrap/app.php';
+$app = require_once __DIR__ . '/../bootstrap/app.php';
 
 $app->handleRequest(Request::capture());
 
@@ -30,12 +30,15 @@ $endMemory = memory_get_usage();
 $executionTime = $endTime - $startTime;
 $memoryUsed = ($endMemory - $startMemory) / 1024 / 1024; // MB単位
 
-/*
-dd([
+$opcacheStatus = opcache_get_status();
+
+$trace = [
     '処理時間（秒）' => $executionTime,
     'メモリ使用量（MB）' => $memoryUsed,
     'メモリ使用量（MB）開始時' => $startMemory / 1024 / 1024,
     'メモリ使用量（MB）終了時' => $endMemory / 1024 / 1024,
-    'opcache_get_status()' => opcache_get_status(),
-]);
-*/
+    'opcache使用量（MB）' => $opcacheStatus['memory_usage']['used_memory'] / 1024 / 1024,
+    'opcache_get_status()' => $opcacheStatus,
+];
+
+//dd($trace);
