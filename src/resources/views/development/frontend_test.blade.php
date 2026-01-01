@@ -26,5 +26,8 @@
         <div class="mt-5 border-gray-500 border-2 p-0">
             @include('partials.message.loading')
         </div>
+        <div class="mt-5 border-gray-500 border-2 p-0">
+            @include('partials.message.loading')
+        </div>
     </div>
 </x-app-layout>
