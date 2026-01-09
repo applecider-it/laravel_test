@@ -13,6 +13,7 @@ export default class TweetClient {
     wsHost;
     user;
     ws;
+    /** ツイート追加コールバック */
     addTweet;
 
     constructor(token, wsHost, user) {

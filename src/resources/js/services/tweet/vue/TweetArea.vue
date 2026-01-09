@@ -15,6 +15,17 @@ const tweetContainers = ref<TweetContainer[]>([]);
 const content = ref("");
 const errors = ref<Record<string, any>>({});
 
+onMounted(() => {
+    props.tweetClient.addTweet = (tweet: any) => {
+        tweetContainers.value = [
+            { tweet, isNew: true },
+            ...tweetContainers.value,
+        ];
+    };
+
+    tweetContainers.value = makeTweetContainers(props.initialTweets);
+});
+
 /** ツイート一覧から、ツイートコンテナー一覧を作成 */
 const makeTweetContainers = (tweets: any[]): TweetContainer[] => {
     return tweets.map((tweet) => ({
@@ -23,7 +34,7 @@ const makeTweetContainers = (tweets: any[]): TweetContainer[] => {
     }));
 };
 
-/* handleSubmit も親で管理 */
+/** ツイート送信 */
 const handleSubmit = async (e: Event) => {
     e.preventDefault();
 
@@ -41,17 +52,6 @@ const handleSubmit = async (e: Event) => {
         setIsLoading(false);
     }
 };
-
-onMounted(() => {
-    props.tweetClient.addTweet = (tweet: any) => {
-        tweetContainers.value = [
-            { tweet, isNew: true },
-            ...tweetContainers.value,
-        ];
-    };
-
-    tweetContainers.value = makeTweetContainers(props.initialTweets);
-});
 </script>
 
 <template>

@@ -19,6 +19,8 @@ class FormApiService
     /** Tweet追加処理 */
     public function storeTweet(Request $request)
     {
+        //usleep(1000 * 1000 * 3);
+
         $validation = $this->tweetFormService->newTweetValidation();
         $validated = $request->validate(
             rules: $validation['rules'],
