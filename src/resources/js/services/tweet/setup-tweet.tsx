@@ -2,23 +2,25 @@
  * ツイートのセットアップ
  */
 
-import React from "react";
-import { createRoot } from "react-dom/client";
-import TweetArea from "./react/TweetArea";
-
+import { createApp } from "vue";
+import TweetArea from "./vue/TweetArea.vue";
 import TweetClient from "./TweetClient";
 
-const el: any = document.getElementById("tweet-app");
+const el = document.getElementById("tweet-app") as HTMLElement | null;
 
 if (el) {
-    const all = JSON.parse(el.dataset.all);
+  const all = JSON.parse(el.dataset.all as string);
 
-    console.log(all);
+  console.log(all);
 
-    const tweetClient = new TweetClient(all.token, all.wsHost, all.user);
+  const tweetClient = new TweetClient(
+    all.token,
+    all.wsHost,
+    all.user
+  );
 
-    const root = createRoot(el);
-    root.render(
-        <TweetArea initialTweets={all.tweets} tweetClient={tweetClient} />
-    );
+  createApp(TweetArea, {
+    initialTweets: all.tweets,
+    tweetClient: tweetClient,
+  }).mount(el);
 }
