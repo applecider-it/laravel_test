@@ -104,15 +104,15 @@ class TweetController extends Controller
         return redirect()->route('tweets.index')->with('success', 'ツイートを削除しました');
     }
 
-    /** 一覧ページ(React) */
-    public function index_react(Request $request)
+    /** 一覧ページ(JS) */
+    public function index_js(Request $request)
     {
         $user = $request->user();
         $tweets = UserTweet::with('user')->latest()->take(20)->get();
 
         $token = $this->webSocketAuthService->createUserJwt($user, TweetChannel::getChannel());
 
-        return view('tweets.index_react', compact('tweets', 'token', 'user'));
+        return view('tweets.index_js', compact('tweets', 'token', 'user'));
     }
 
     /** オーナーチェック */

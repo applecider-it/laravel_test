@@ -42,7 +42,7 @@ Route::middleware('auth')->group(function () {
         'store',
         'destroy',
     ]);
-    Route::get('/tweets/react', [TweetController::class, 'index_react'])->name('tweets.index_react');
+    Route::get('/tweets/index_js', [TweetController::class, 'index_js'])->name('tweets.index_js');
 
     // Chat
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
