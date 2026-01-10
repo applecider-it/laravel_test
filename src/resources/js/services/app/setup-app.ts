@@ -1,27 +1,25 @@
 import "./bootstrap";
 
 import Alpine from "alpinejs";
+import { createApp } from "vue";
 
 import { initServiceWorker } from "@/services/service-worker/service-worker";
-
-import React from "react";
-import { createRoot } from "react-dom/client";
 import { getAuthUser } from "./application";
 
-import AppCommon from "./react/AppCommon";
+import AppCommon from "./vue/AppCommon.vue";
 
 window.Alpine = Alpine;
-
 Alpine.start();
 
 const user = getAuthUser();
-console.log('auth user', user);
+console.log("auth user", user);
+
 if (user) {
     initServiceWorker(user);
 }
 
-const el: any = document.getElementById("app-container-common");
+const el = document.getElementById("app-container-common");
+
 if (el) {
-    const root = createRoot(el);
-    root.render(<AppCommon />);
+    createApp(AppCommon).mount(el);
 }

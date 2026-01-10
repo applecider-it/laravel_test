@@ -5,7 +5,6 @@
         <button @click="increment" class="app-btn-orange">増やす</button>
 
         <div class="mt-5">
-            vueからreactを動かす
             <div class="mt-5">
                 <button class="app-btn-secondary mr-2" @click="loadingTest">
                     Loading
