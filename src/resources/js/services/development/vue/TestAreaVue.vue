@@ -24,31 +24,33 @@ const props = defineProps<Props>();
     <div class="py-6 border-gray-500 border-2 p-5">
         <div class="mb-6 text-lg">vue.js動作確認</div>
 
-        <div class="mt-5">
-            <RefArea :testValue="testValue" />
-        </div>
+        <div class="space-y-3">
+            <div>
+                <RefArea :testValue="testValue" />
+            </div>
 
-        <div class="mt-5">
-            <UIArea />
-        </div>
+            <div>
+                <UIArea />
+            </div>
 
-        <div class="mt-5">
-            <DefineModelArea />
-        </div>
+            <div>
+                <DefineModelArea />
+            </div>
 
-        <div class="mt-5">
-            <LaravelEchoArea />
-        </div>
+            <div>
+                <LaravelEchoArea />
+            </div>
 
-        <div class="mt-5">
-            <SlowJobArea
-                :sampleJobClient="sampleJobClient"
-                :progressClient="progressClient"
-            />
-        </div>
+            <div>
+                <SlowJobArea
+                    :sampleJobClient="sampleJobClient"
+                    :progressClient="progressClient"
+                />
+            </div>
 
-        <div class="mt-5">
-            <ModalArea />
+            <div>
+                <ModalArea />
+            </div>
         </div>
     </div>
 </template>

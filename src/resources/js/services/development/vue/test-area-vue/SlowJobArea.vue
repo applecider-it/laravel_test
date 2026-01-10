@@ -4,9 +4,7 @@
 import { ref, onMounted } from "vue";
 
 import { showToast } from "@/services/ui/message";
-import {
-    startSlowJob,
-} from "@/services/api/rpc/development-rpc";
+import { startSlowJob } from "@/services/api/rpc/development-rpc";
 import { setPushCallback } from "@/services/service-worker/service-worker";
 
 import type ProgressClient from "@/services/ui/ProgressClient";
@@ -34,10 +32,7 @@ onMounted(() => {
 const onProgressWs = (data) => {
     const info = data.data.info;
 
-    const ret = props.sampleJobClient.getProgressWsInfo(
-        info,
-        progress.value
-    );
+    const ret = props.sampleJobClient.getProgressWsInfo(info, progress.value);
     if (!ret) return;
 
     if (ret.toastMessage) showToast(ret.toastMessage);
@@ -51,7 +46,6 @@ const onProgressPush = (data) => {
 
     showToast(ret.toastMessage, ret.toastType);
 };
-
 
 /** 遅いジョブの開始 */
 const SlowJobTest = async () => {
