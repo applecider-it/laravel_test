@@ -88,6 +88,25 @@
                 <div>modalValue: {{ modalValue }}</div>
             </div>
         </div>
+
+        <div class="mt-5">
+            遅いジョブ動作確認
+
+            <div class="mt-5 space-y-2">
+                <button className="app-btn-orange" @click="SlowJobTest">
+                    遅いジョブ
+                </button>
+
+                <ProgressBar :progress="progress" />
+
+                <button
+                    @click="() => progress = (progress + 10)"
+                    className="app-btn-secondary"
+                >
+                    進める
+                </button>
+            </div>
+        </div>
     </div>
 
     <Modal :isOpen="open" :onClose="() => {open = false;}"">
@@ -116,17 +135,27 @@
 /** vueテスト用コンポーネント */
 
 import { ref, onMounted } from "vue";
-import MyForm from "./test-area-vue/MyForm.vue";
+
 import { showToast, setIsLoading } from "@/services/ui/message";
 import { MyEcho } from "@/services/app/echo";
 import { getAuthUser } from "@/services/app/application";
-import { sendTestChannel } from "@/services/api/rpc/development-rpc";
+import { sendTestChannel, startSlowJob } from "@/services/api/rpc/development-rpc";
+import { setPushCallback } from "@/services/service-worker/service-worker";
+
+import type ProgressClient from "@/services/ui/ProgressClient";
+
 import Modal from "@/services/ui/vue/popup/Modal.vue";
+import ProgressBar from "@/services/ui/vue/message/ProgressBar.vue";
+
+import type SampleJobClient from "../SampleJobClient";
+import MyForm from "./test-area-vue/MyForm.vue";
 
 console.log("draw");
 
 interface Props {
     testValue?: number;
+    progressClient: ProgressClient;
+    sampleJobClient: SampleJobClient;
 }
 
 const props = defineProps<Props>();
@@ -141,6 +170,9 @@ const cnt = ref<number>(0);
 
 const open = ref<boolean>(false);
 const modalValue = ref<string>("");
+
+const progress = ref<number>(0);
+
 
 /** refの動作確認 */
 function increment() {
@@ -182,6 +214,38 @@ const confirmModalValue = () => {
     alert(modalValue.value);
 };
 
+/** 遅いジョブの経過表示(WebSocket) */
+const onProgressWs = (data) => {
+    const info = data.data.info;
+
+    const ret = props.sampleJobClient.getProgressWsInfo(
+        info,
+        progress.value
+    );
+    if (!ret) return;
+
+    if (ret.toastMessage) showToast(ret.toastMessage);
+    progress.value = ret.progress;
+};
+
+/** 遅いジョブの経過表示(Push通知) */
+const onProgressPush = (data) => {
+    const ret = props.sampleJobClient.getProgressPushInfo(data);
+    if (!ret) return;
+
+    showToast(ret.toastMessage, ret.toastType);
+};
+
+
+/** 遅いジョブの開始 */
+const SlowJobTest = async () => {
+    console.log("SlowJobTest");
+    progress.value = 0;
+    const data = await startSlowJob(123, { test3: 456 });
+    console.log("SlowJobTest response data", data);
+    showToast("送信しました。");
+};
+
 onMounted(() => {
     const user = getAuthUser();
     console.log("auth user", user);
@@ -190,5 +254,9 @@ onMounted(() => {
 
         showToast(e.message);
     });
+
+    setPushCallback(onProgressPush);
+
+    props.progressClient.callback = onProgressWs;
 });
 </script>

@@ -15,21 +15,6 @@ import SampleJobClient from "./SampleJobClient";
 
 let el: any;
 
-el = document.getElementById("react-test-root");
-
-if (el) {
-    const all = JSON.parse(el.dataset.all);
-
-    console.log(all);
-
-    const sampleJobClient = new SampleJobClient();
-
-    const progressClient = new ProgressClient(all.token, all.wsHost);
-
-    const root = createRoot(el);
-    root.render(<TestAreaReact progressClient={progressClient} sampleJobClient={sampleJobClient} />);
-}
-
 el = document.getElementById("vue-test-root");
 
 if (el) {
@@ -37,6 +22,20 @@ if (el) {
 
     console.log(all);
 
-    const app = createApp(TestAreaVue, all);
+    const progressClient = new ProgressClient(all.token, all.wsHost);
+    const sampleJobClient = new SampleJobClient();
+
+    const app = createApp(TestAreaVue, { testValue: all.testValue, progressClient, sampleJobClient });
     app.mount("#vue-test-root");
+}
+
+el = document.getElementById("react-test-root");
+
+if (el) {
+    const all = JSON.parse(el.dataset.all);
+
+    console.log(all);
+
+    const root = createRoot(el);
+    root.render(<TestAreaReact />);
 }

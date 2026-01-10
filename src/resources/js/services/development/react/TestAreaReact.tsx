@@ -1,64 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
 
 import { showToast, setIsLoading } from "@/services/ui/message";
-import ProgressBar from "@/services/ui/react/message/ProgressBar";
-
-import { setPushCallback } from "@/services/service-worker/service-worker";
-
-import { startSlowJob } from "@/services/api/rpc/development-rpc";
-
-import type ProgressClient from "@/services/ui/ProgressClient";
-import type SampleJobClient from "../SampleJobClient";
 
 let cnt2 = 0;
 
-type Props = {
-    progressClient: ProgressClient;
-    sampleJobClient: SampleJobClient;
-};
-
 /** テスト用コンポーネント */
-export default function TestAreaReact({
-    progressClient,
-    sampleJobClient,
-}: Props) {
+export default function TestAreaReact() {
     const [cnt, setCnt] = useState(0);
     const refCnt = useRef(0);
-    const [progress, setProgress] = useState(0); // 0〜100
-    const refProgress = useRef(0);
-
-    useEffect(() => {
-        setPushCallback(onProgressPush);
-
-        progressClient.callback = onProgressWs;
-
-        return () => {
-            setPushCallback(null);
-        };
-    }, []);
-
-    /** 遅いジョブの経過表示(WebSocket) */
-    const onProgressWs = (data) => {
-        const info = data.data.info;
-
-        const ret = sampleJobClient.getProgressWsInfo(
-            info,
-            refProgress.current
-        );
-        if (!ret) return;
-
-        if (ret.toastMessage) showToast(ret.toastMessage);
-        setProgress(ret.progress);
-        refProgress.current = ret.progress;
-    };
-
-    /** 遅いジョブの経過表示(Push通知) */
-    const onProgressPush = (data) => {
-        const ret = sampleJobClient.getProgressPushInfo(data);
-        if (!ret) return;
-
-        showToast(ret.toastMessage, ret.toastType);
-    };
 
     /** ロード画面の動作確認 */
     const loadingTest = () => {
@@ -78,16 +27,6 @@ export default function TestAreaReact({
         const msg = `トーストテスト type:${type} cnt:${cnt} refCnt:${refCnt.current} cnt2:${cnt2}`;
         console.log(msg);
         showToast(msg, type);
-    };
-
-    /** 遅いジョブの開始 */
-    const SlowJobTest = async () => {
-        console.log("SlowJobTest");
-        refProgress.current = 0;
-        setProgress(0);
-        const data = await startSlowJob(123, { test3: 456 });
-        console.log("SlowJobTest response data", data);
-        showToast("送信しました。");
     };
 
     return (
@@ -129,22 +68,6 @@ export default function TestAreaReact({
                         Toast 2
                     </button>
                     cnt: {cnt}
-                </div>
-
-                <div className="space-y-2">
-                    <button className="app-btn-orange" onClick={SlowJobTest}>
-                        遅いジョブ
-                    </button>
-
-                    <ProgressBar progress={progress} />
-
-                    {/* ボタン */}
-                    <button
-                        onClick={() => setProgress(progress + 10)}
-                        className="app-btn-secondary"
-                    >
-                        進める
-                    </button>
                 </div>
             </div>
         </>
