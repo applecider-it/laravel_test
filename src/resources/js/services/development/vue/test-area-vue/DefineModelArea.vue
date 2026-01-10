@@ -3,7 +3,7 @@
 
 import { ref } from "vue";
 
-import MyForm from "./MyForm.vue";
+import MyForm from "./define-model-area/MyForm.vue";
 
 const title = ref<string>("");
 const content = ref<string>("");
