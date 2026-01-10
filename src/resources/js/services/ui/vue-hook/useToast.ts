@@ -5,21 +5,21 @@ let cnt = 0;
 
 /** トースト用フック */
 export function useToast() {
-  const toasts = ref<Toast[]>([]);
+    const toasts = ref<Toast[]>([]);
 
-  /** トースト追加 */
-  function showToast(message: string, type: string = "notice") {
-    const id = cnt++;
+    /** トースト追加 */
+    function showToast(message: string, type: string = "notice") {
+        const id = cnt++;
 
-    toasts.value.push({ id, message, type });
+        toasts.value.push({ id, message, type });
 
-    setTimeout(() => {
-      toasts.value = toasts.value.filter((toast) => toast.id !== id);
-    }, 3000); // 3秒で自動削除
-  }
+        setTimeout(() => {
+            toasts.value = toasts.value.filter((toast) => toast.id !== id);
+        }, 3000); // 3秒で自動削除
+    }
 
-  return {
-    toasts,
-    showToast,
-  };
+    return {
+        toasts,
+        showToast,
+    };
 }

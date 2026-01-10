@@ -1,3 +1,10 @@
+<script setup lang="ts">
+defineProps<{
+    isOpen: boolean;
+    onClose: () => void;
+}>();
+</script>
+
 <template>
     <div
         class="fixed inset-0 bg-black/50 flex justify-center items-center z-50 transition-opacity duration-500 ease-in-out"
@@ -13,10 +20,3 @@
         </div>
     </div>
 </template>
-
-<script setup lang="ts">
-defineProps<{
-    isOpen: boolean;
-    onClose: () => void;
-}>();
-</script>

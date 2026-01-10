@@ -1,3 +1,16 @@
+<script setup lang="ts">
+/** プログレスバーコンポーネント */
+
+import { computed } from "vue";
+import { clamp } from "@/services/data/number";
+
+const props = defineProps<{
+    progress: number;
+}>();
+
+const clamped = computed(() => clamp(Math.floor(props.progress), 0, 100));
+</script>
+
 <template>
     <div class="w-72 space-y-1">
         <!-- プログレスバー -->
@@ -12,16 +25,3 @@
         <p class="text-gray-700 font-medium">{{ clamped }}%</p>
     </div>
 </template>
-
-<script setup lang="ts">
-/** プログレスバーコンポーネント */
-
-import { computed } from "vue";
-import { clamp } from "@/services/data/number";
-
-const props = defineProps<{
-    progress: number;
-}>();
-
-const clamped = computed(() => clamp(Math.floor(props.progress), 0, 100));
-</script>

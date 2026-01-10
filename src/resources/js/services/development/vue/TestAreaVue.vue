@@ -1,3 +1,132 @@
+<script setup lang="ts">
+/** vueテスト用コンポーネント */
+
+import { ref, onMounted } from "vue";
+
+import { showToast, setIsLoading } from "@/services/ui/message";
+import { MyEcho } from "@/services/app/echo";
+import { getAuthUser } from "@/services/app/application";
+import { sendTestChannel, startSlowJob } from "@/services/api/rpc/development-rpc";
+import { setPushCallback } from "@/services/service-worker/service-worker";
+
+import type ProgressClient from "@/services/ui/ProgressClient";
+
+import Modal from "@/services/ui/vue/popup/Modal.vue";
+import ProgressBar from "@/services/ui/vue/message/ProgressBar.vue";
+
+import type SampleJobClient from "../SampleJobClient";
+import MyForm from "./test-area-vue/MyForm.vue";
+
+console.log("draw");
+
+interface Props {
+    testValue?: number;
+    progressClient: ProgressClient;
+    sampleJobClient: SampleJobClient;
+}
+
+const props = defineProps<Props>();
+
+// もしpropsをreactive にしたい場合
+const testValue = ref(props.testValue ?? 0);
+
+const title = ref<string>("");
+const content = ref<string>("");
+
+const cnt = ref<number>(0);
+
+const open = ref<boolean>(false);
+const modalValue = ref<string>("");
+
+const progress = ref<number>(0);
+
+onMounted(() => {
+    const user = getAuthUser();
+    console.log("auth user", user);
+    MyEcho.private(`TestChannel.${user.id}`).listen("MessageSent", (e) => {
+        console.log(e.message);
+
+        showToast(e.message);
+    });
+
+    setPushCallback(onProgressPush);
+
+    props.progressClient.callback = onProgressWs;
+});
+
+/** refの動作確認 */
+function increment() {
+    // 連続して追加して値が反映されるかの確認（reactだと反映されない）
+    testValue.value++;
+    testValue.value++;
+
+    console.log(testValue.value);
+}
+
+/** ロード画面の動作確認 */
+const loadingTest = () => {
+    console.log("Loading vue.js");
+    setIsLoading(true);
+    setTimeout(() => {
+        setIsLoading(false);
+    }, 2000);
+};
+
+/** トーストの動作確認 */
+const toastTest = (type) => {
+    cnt.value++;
+    const msg = `トーストテスト vue.js type:${type} cnt.value:${cnt.value}`;
+    console.log(msg);
+    showToast(msg, type);
+};
+
+/** Laravel Echoの動作確認 */
+const echoTest = async(message, isMe) => {
+    const user = getAuthUser();
+    console.log('echoTest', message, isMe);
+
+    const result = await sendTestChannel(message, isMe ? user.id : user.id + 1);
+    console.log('result', result);
+};
+
+/** モーダルウィンドウの値の確認 */
+const confirmModalValue = () => {
+    alert(modalValue.value);
+};
+
+/** 遅いジョブの経過表示(WebSocket) */
+const onProgressWs = (data) => {
+    const info = data.data.info;
+
+    const ret = props.sampleJobClient.getProgressWsInfo(
+        info,
+        progress.value
+    );
+    if (!ret) return;
+
+    if (ret.toastMessage) showToast(ret.toastMessage);
+    progress.value = ret.progress;
+};
+
+/** 遅いジョブの経過表示(Push通知) */
+const onProgressPush = (data) => {
+    const ret = props.sampleJobClient.getProgressPushInfo(data);
+    if (!ret) return;
+
+    showToast(ret.toastMessage, ret.toastType);
+};
+
+
+/** 遅いジョブの開始 */
+const SlowJobTest = async () => {
+    console.log("SlowJobTest");
+    progress.value = 0;
+    const data = await startSlowJob(123, { test3: 456 });
+    console.log("SlowJobTest response data", data);
+    showToast("送信しました。");
+};
+</script>
+
 <template>
     <div class="py-6 border-gray-500 border-2 p-5">
         <div class="mb-6 text-lg">vue.js動作確認</div>
@@ -130,133 +259,3 @@
         </button>
     </Modal>
 </template>
-
-<script setup lang="ts">
-/** vueテスト用コンポーネント */
-
-import { ref, onMounted } from "vue";
-
-import { showToast, setIsLoading } from "@/services/ui/message";
-import { MyEcho } from "@/services/app/echo";
-import { getAuthUser } from "@/services/app/application";
-import { sendTestChannel, startSlowJob } from "@/services/api/rpc/development-rpc";
-import { setPushCallback } from "@/services/service-worker/service-worker";
-
-import type ProgressClient from "@/services/ui/ProgressClient";
-
-import Modal from "@/services/ui/vue/popup/Modal.vue";
-import ProgressBar from "@/services/ui/vue/message/ProgressBar.vue";
-
-import type SampleJobClient from "../SampleJobClient";
-import MyForm from "./test-area-vue/MyForm.vue";
-
-console.log("draw");
-
-interface Props {
-    testValue?: number;
-    progressClient: ProgressClient;
-    sampleJobClient: SampleJobClient;
-}
-
-const props = defineProps<Props>();
-
-// もしpropsをreactive にしたい場合
-const testValue = ref(props.testValue ?? 0);
-
-const title = ref<string>("");
-const content = ref<string>("");
-
-const cnt = ref<number>(0);
-
-const open = ref<boolean>(false);
-const modalValue = ref<string>("");
-
-const progress = ref<number>(0);
-
-
-/** refの動作確認 */
-function increment() {
-    // 連続して追加して値が反映されるかの確認（reactだと反映されない）
-    testValue.value++;
-    testValue.value++;
-
-    console.log(testValue.value);
-}
-
-/** ロード画面の動作確認 */
-const loadingTest = () => {
-    console.log("Loading vue.js");
-    setIsLoading(true);
-    setTimeout(() => {
-        setIsLoading(false);
-    }, 2000);
-};
-
-/** トーストの動作確認 */
-const toastTest = (type) => {
-    cnt.value++;
-    const msg = `トーストテスト vue.js type:${type} cnt.value:${cnt.value}`;
-    console.log(msg);
-    showToast(msg, type);
-};
-
-/** Laravel Echoの動作確認 */
-const echoTest = async(message, isMe) => {
-    const user = getAuthUser();
-    console.log('echoTest', message, isMe);
-
-    const result = await sendTestChannel(message, isMe ? user.id : user.id + 1);
-    console.log('result', result);
-};
-
-/** モーダルウィンドウの値の確認 */
-const confirmModalValue = () => {
-    alert(modalValue.value);
-};
-
-/** 遅いジョブの経過表示(WebSocket) */
-const onProgressWs = (data) => {
-    const info = data.data.info;
-
-    const ret = props.sampleJobClient.getProgressWsInfo(
-        info,
-        progress.value
-    );
-    if (!ret) return;
-
-    if (ret.toastMessage) showToast(ret.toastMessage);
-    progress.value = ret.progress;
-};
-
-/** 遅いジョブの経過表示(Push通知) */
-const onProgressPush = (data) => {
-    const ret = props.sampleJobClient.getProgressPushInfo(data);
-    if (!ret) return;
-
-    showToast(ret.toastMessage, ret.toastType);
-};
-
-
-/** 遅いジョブの開始 */
-const SlowJobTest = async () => {
-    console.log("SlowJobTest");
-    progress.value = 0;
-    const data = await startSlowJob(123, { test3: 456 });
-    console.log("SlowJobTest response data", data);
-    showToast("送信しました。");
-};
-
-onMounted(() => {
-    const user = getAuthUser();
-    console.log("auth user", user);
-    MyEcho.private(`TestChannel.${user.id}`).listen("MessageSent", (e) => {
-        console.log(e.message);
-
-        showToast(e.message);
-    });
-
-    setPushCallback(onProgressPush);
-
-    props.progressClient.callback = onProgressWs;
-});
-</script>
