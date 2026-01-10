@@ -1,21 +1,17 @@
 <script setup lang="ts">
 /** vueテスト用コンポーネント */
 
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 
 import { showToast, setIsLoading } from "@/services/ui/message";
-import { MyEcho } from "@/services/app/echo";
-import { getAuthUser } from "@/services/app/application";
-import { sendTestChannel, startSlowJob } from "@/services/api/rpc/development-rpc";
-import { setPushCallback } from "@/services/service-worker/service-worker";
 
 import type ProgressClient from "@/services/ui/ProgressClient";
-
-import Modal from "@/services/ui/vue/popup/Modal.vue";
-import ProgressBar from "@/services/ui/vue/message/ProgressBar.vue";
-
 import type SampleJobClient from "../SampleJobClient";
-import MyForm from "./test-area-vue/MyForm.vue";
+
+import SlowJobArea from "./test-area-vue/SlowJobArea.vue";
+import ModalArea from "./test-area-vue/ModalArea.vue";
+import LaravelEchoArea from "./test-area-vue/LaravelEchoArea.vue";
+import DefineModelArea from "./test-area-vue/DefineModelArea.vue";
 
 console.log("draw");
 
@@ -30,29 +26,7 @@ const props = defineProps<Props>();
 // もしpropsをreactive にしたい場合
 const testValue = ref(props.testValue ?? 0);
 
-const title = ref<string>("");
-const content = ref<string>("");
-
 const cnt = ref<number>(0);
-
-const open = ref<boolean>(false);
-const modalValue = ref<string>("");
-
-const progress = ref<number>(0);
-
-onMounted(() => {
-    const user = getAuthUser();
-    console.log("auth user", user);
-    MyEcho.private(`TestChannel.${user.id}`).listen("MessageSent", (e) => {
-        console.log(e.message);
-
-        showToast(e.message);
-    });
-
-    setPushCallback(onProgressPush);
-
-    props.progressClient.callback = onProgressWs;
-});
 
 /** refの動作確認 */
 function increment() {
@@ -78,52 +52,6 @@ const toastTest = (type) => {
     const msg = `トーストテスト vue.js type:${type} cnt.value:${cnt.value}`;
     console.log(msg);
     showToast(msg, type);
-};
-
-/** Laravel Echoの動作確認 */
-const echoTest = async(message, isMe) => {
-    const user = getAuthUser();
-    console.log('echoTest', message, isMe);
-
-    const result = await sendTestChannel(message, isMe ? user.id : user.id + 1);
-    console.log('result', result);
-};
-
-/** モーダルウィンドウの値の確認 */
-const confirmModalValue = () => {
-    alert(modalValue.value);
-};
-
-/** 遅いジョブの経過表示(WebSocket) */
-const onProgressWs = (data) => {
-    const info = data.data.info;
-
-    const ret = props.sampleJobClient.getProgressWsInfo(
-        info,
-        progress.value
-    );
-    if (!ret) return;
-
-    if (ret.toastMessage) showToast(ret.toastMessage);
-    progress.value = ret.progress;
-};
-
-/** 遅いジョブの経過表示(Push通知) */
-const onProgressPush = (data) => {
-    const ret = props.sampleJobClient.getProgressPushInfo(data);
-    if (!ret) return;
-
-    showToast(ret.toastMessage, ret.toastType);
-};
-
-
-/** 遅いジョブの開始 */
-const SlowJobTest = async () => {
-    console.log("SlowJobTest");
-    progress.value = 0;
-    const data = await startSlowJob(123, { test3: 456 });
-    console.log("SlowJobTest response data", data);
-    showToast("送信しました。");
 };
 </script>
 
@@ -168,94 +96,23 @@ const SlowJobTest = async () => {
             </div>
         </div>
 
-        <div class="mt-3">
-            defineModel動作確認
-
-            <p>title: {{ title }}</p>
-            <p>content: {{ content }}</p>
-
-            <MyForm v-model:title="title" v-model:content="content" />
+        <div class="mt-5">
+            <DefineModelArea />
         </div>
 
         <div class="mt-5">
-            Laravel Echo動作確認
-
-            <div class="mt-5 space-x-2">
-                <button
-                    class="app-btn-primary"
-                    @click="() => echoTest('自分のIDのチャンネルに送信', true)"
-                >
-                    自分のIDのチャンネルに送信
-                </button>
-                <button
-                    class="app-btn-primary"
-                    @click="() => echoTest('自分のID+1のチャンネルに送信', false)"
-                >
-                    自分のID+1のチャンネルに送信（届かない）
-                </button>
-            </div>
+            <LaravelEchoArea />
         </div>
 
         <div class="mt-5">
-            モーダルウィンドウ動作確認
-
-            <div class="mt-5 space-y-2">
-                <div class="space-x-2">
-                    <button
-                        class="app-btn-orange"
-                        @click="() => {open = true}"
-                    >
-                        モーダルウィンドウ
-                    </button>
-                    <button
-                        @click="confirmModalValue"
-                        class="app-btn-secondary"
-                    >
-                        確認
-                    </button>
-                </div>
-                <div>modalValue: {{ modalValue }}</div>
-            </div>
-        </div>
-
-        <div class="mt-5">
-            遅いジョブ動作確認
-
-            <div class="mt-5 space-y-2">
-                <button className="app-btn-orange" @click="SlowJobTest">
-                    遅いジョブ
-                </button>
-
-                <ProgressBar :progress="progress" />
-
-                <button
-                    @click="() => progress = (progress + 10)"
-                    className="app-btn-secondary"
-                >
-                    進める
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <Modal :isOpen="open" :onClose="() => {open = false;}"">
-        <h2 className="text-xl font-bold mb-2">モーダルタイトル</h2>
-
-        <div className="my-4">
-            <textarea
-                rows="3"
-                cols="40"
-                className="w-full border rounded p-2"
-                placeholder="What's happening?"
-                v-model="modalValue"
+            <SlowJobArea
+                :sampleJobClient="sampleJobClient"
+                :progressClient="progressClient"
             />
         </div>
 
-        <button
-            @click="() => {open = false}"
-            className="app-btn-secondary"
-        >
-            閉じる
-        </button>
-    </Modal>
+        <div class="mt-5">
+            <ModalArea />
+        </div>
+    </div>
 </template>
