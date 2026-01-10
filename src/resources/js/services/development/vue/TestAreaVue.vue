@@ -66,7 +66,50 @@
                 </button>
             </div>
         </div>
+
+        <div class="mt-5">
+            モーダルウィンドウ動作確認
+
+            <div class="mt-5 space-y-2">
+                <div class="space-x-2">
+                    <button
+                        class="app-btn-orange"
+                        @click="() => {open = true}"
+                    >
+                        モーダルウィンドウ
+                    </button>
+                    <button
+                        @click="confirmModalValue"
+                        class="app-btn-secondary"
+                    >
+                        確認
+                    </button>
+                </div>
+                <div>modalValue: {{ modalValue }}</div>
+            </div>
+        </div>
     </div>
+
+    <Modal :isOpen="open" :onClose="() => {open = false;}"">
+        <h2 className="text-xl font-bold mb-2">モーダルタイトル</h2>
+
+        <div className="my-4">
+            <textarea
+                rows="3"
+                cols="40"
+                className="w-full border rounded p-2"
+                placeholder="What's happening?"
+                v-model="modalValue"
+            />
+        </div>
+
+        <button
+            @click="() => {open = false}"
+            className="app-btn-secondary"
+        >
+            閉じる
+        </button>
+    </Modal>
 </template>
 
 <script setup lang="ts">
@@ -78,6 +121,7 @@ import { showToast, setIsLoading } from "@/services/ui/message";
 import { MyEcho } from "@/services/app/echo";
 import { getAuthUser } from "@/services/app/application";
 import { sendTestChannel } from "@/services/api/rpc/development-rpc";
+import Modal from "@/services/ui/vue/popup/Modal.vue";
 
 console.log("draw");
 
@@ -94,6 +138,9 @@ const title = ref<string>("");
 const content = ref<string>("");
 
 const cnt = ref<number>(0);
+
+const open = ref<boolean>(false);
+const modalValue = ref<string>("");
 
 /** refの動作確認 */
 function increment() {
@@ -128,6 +175,11 @@ const echoTest = async(message, isMe) => {
 
     const result = await sendTestChannel(message, isMe ? user.id : user.id + 1);
     console.log('result', result);
+};
+
+/** モーダルウィンドウの値の確認 */
+const confirmModalValue = () => {
+    alert(modalValue.value);
 };
 
 onMounted(() => {
