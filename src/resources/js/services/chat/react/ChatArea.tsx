@@ -10,11 +10,16 @@ type Prop = {
 export default function ChatArea({ chatClient }: Prop) {
     const [message, setMessage] = useState("");
     const [messageList, setMessageList] = useState([]);
+    const [userList, setUserList] = useState([]);
 
     useEffect(() => {
         chatClient.addMessage = (row) => {
             setMessageList((list) => [row, ...list]);
         };
+        chatClient.setUsers = (users) => {
+            console.log('users', users);
+            setUserList([...users]);
+        }
     }, []);
 
     const sendMessage = (type, options: any = []) => {
@@ -72,6 +77,17 @@ export default function ChatArea({ chatClient }: Prop) {
                         </span>
                     </p>
                 ))}
+            </div>
+
+            <div className="mt-5">
+                接続ユーザー一覧
+                <div className="border-2 border-gray-300 p-2 mb-2 h-40 mt-2 overflow-y-auto">
+                    {userList.map((user, index) => (
+                        <p key={index}>
+                            {user.id} {user.name}
+                        </p>
+                    ))}
+                </div>
             </div>
         </div>
     );

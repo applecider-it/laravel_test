@@ -14,8 +14,10 @@ export default class ChatClient {
     wsHost;
     ws;
     addMessage;
+    setUsers;
     user;
     room;
+    users = [];
 
     constructor(token, wsHost, room) {
         this.token = token;
@@ -98,7 +100,51 @@ export default class ChatClient {
 
         console.log("[DEBUG] Received message", data);
 
-        if (data.type == "message") this.addMessage(data);
+        let updateUsers = false;
+
+        if (data.type == "message") {
+            // メッセージ受信時
+
+            this.addMessage(data);
+        } else if (data.type == "connected") {
+            // 自分が接続したとき
+
+            console.log("connected", data.users);
+            data.users.forEach((user) => this.addUser(user));
+            updateUsers = true;
+        } else if (data.type == "connectOther") {
+            // 他人が接続したとき
+
+            console.log("connectOther", data.data.user);
+            this.addUser(data.data.user);
+            updateUsers = true;
+        } else if (data.type == "disconnectOther") {
+            // 他人が切断したとき
+
+            console.log("disconnectOther", data.data.user);
+            this.removeUser(data.data.user);
+            updateUsers = true;
+        }
+
+        // 一覧の変更があるときは、ユーザー一覧を反映する
+        if (updateUsers) {
+            this.setUsers(this.users);
+        }
+    }
+
+    /** ユーザー追加（重複防止付き） */
+    addUser(user) {
+        const exists = this.users.some((u) => u.id === user.id);
+
+        if (!exists) {
+            console.log("push user", user);
+            this.users.push(user);
+        }
+    }
+
+    /** ユーザー削除 */
+    removeUser(user) {
+        this.users = this.users.filter((u) => u.id !== user.id);
     }
 
     /** Echo メッセージ受信 */
