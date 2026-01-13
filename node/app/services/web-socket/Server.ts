@@ -3,23 +3,19 @@ import { IncomingMessage } from 'http';
 
 import { log } from '@/services/system/log.js';
 
-import ChatCannnel from '@/services/channels/ChatCannnel.js';
-import BaseCannnel from '@/services/channels/BaseCannnel.js';
-
-import { canBroadcast } from '@/services/web-socket/broadcast.js';
+import {
+  broadcastSameChannel,
+  getSameChannelUsers,
+} from './utils/broadcast.js';
 
 import Auth from './server/Auth.js';
 import RedisCtrl from './server/RedisCtrl.js';
 import WebSocketCtrl from './server/WebSocketCtrl.js';
+import ChannelsCtrl from './server/ChannelsCtrl.js';
 
 import { WebSocketUser, Incoming, BroadcastSendData } from './types.js';
 
 import { appConfig } from '@/config/config.js';
-
-type Channels = {
-  chat: ChatCannnel;
-  base: BaseCannnel;
-};
 
 /**
  * WebSocket サーバー管理
@@ -31,8 +27,8 @@ export default class Server {
   redisCtrl;
   /** WebSocket サーバーのRedis管理 */
   webSocketCtrl;
-  /** 全てのチャンネルクラスを集めたハッシュ */
-  channels: Channels;
+  /** WebSocket サーバーのChannel管理 */
+  cannelsCtrl;
 
   constructor() {
     const host = appConfig.webSocket.host;
@@ -54,13 +50,37 @@ export default class Server {
       this.auth,
       async (sender: WebSocketUser, incoming: Incoming) => {
         await this.sendCommon(sender, incoming);
+      },
+      (wss: WebSocketServer, ws: WebSocket) => {
+        ws.send(
+          JSON.stringify({
+            type: 'connected',
+            users: getSameChannelUsers(wss, ws),
+          })
+        );
+      },
+      (wss: WebSocketServer, ws: WebSocket) => {
+        const sender = ws.user as WebSocketUser;
+        const sendData: BroadcastSendData = {
+          type: 'disconnect',
+          sender: {
+            name: sender.name,
+            id: sender.id,
+          },
+          data: null,
+        };
+
+        broadcastSameChannel(
+          sendData,
+          sender,
+          null,
+          this.webSocketCtrl.wss,
+          this.cannelsCtrl
+        );
       }
     );
 
-    this.channels = {
-      chat: new ChatCannnel(),
-      base: new BaseCannnel(),
-    };
+    this.cannelsCtrl = new ChannelsCtrl();
   }
 
   /** WebSocket, Redis共通の送信処理 */
@@ -68,10 +88,9 @@ export default class Server {
     log('incoming', incoming);
     log('sender', sender);
 
-    const data = await this.getChannel(sender.channel).callbackCreateData(
-      sender,
-      incoming
-    );
+    const data = await this.cannelsCtrl
+      .getChannel(sender.channel)
+      .callbackCreateData(sender, incoming);
 
     const sendData: BroadcastSendData = {
       type: 'message',
@@ -82,48 +101,12 @@ export default class Server {
       data: data,
     };
 
-    this.broadcast(sendData, sender, incoming);
-  }
-
-  /** 全体送信 */
-  private broadcast(
-    sendData: BroadcastSendData,
-    sender: WebSocketUser,
-    incoming: Incoming
-  ) {
-    const wss = this.webSocketCtrl.wss;
-    const sendDataStr = JSON.stringify(sendData);
-
-    wss.clients.forEach(async (client: WebSocket) => {
-      const user = client.user as WebSocketUser;
-      log(`broadcast:`, user.name);
-
-      if (!canBroadcast(client, sender.channel)) return;
-
-      log(`canBroadcast:`, user.name);
-
-      const sendable = await this.getChannel(sender.channel).callbackCheckSend(
-        sender,
-        user,
-        incoming
-      );
-
-      if (!sendable) return;
-
-      log(`sendable:`, user.name);
-
-      client.send(sendDataStr);
-    });
-  }
-
-  /** チャンネルごとのインスタンス */
-  getChannel(channelStr: string) {
-    const [channel, paramsStr] = channelStr.split(':');
-
-    if (channel in this.channels) {
-      return this.channels[channel as keyof Channels];
-    }
-
-    return this.channels.base;
+    broadcastSameChannel(
+      sendData,
+      sender,
+      incoming,
+      this.webSocketCtrl.wss,
+      this.cannelsCtrl
+    );
   }
 }

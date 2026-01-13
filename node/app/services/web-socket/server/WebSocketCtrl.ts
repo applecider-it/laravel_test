@@ -17,10 +17,23 @@ export default class WebSocketCtrl {
   wss: WebSocketServer;
   /** メッセージ受信時のコールバック */
   callback: Function;
+  /** 接続時のコールバック */
+  callbackConnected: Function;
+  /** 切断時のコールバック */
+  callbackDisconnected: Function;
 
-  constructor(host: string, port: number, auth: Auth, callback: Function) {
+  constructor(
+    host: string,
+    port: number,
+    auth: Auth,
+    callback: Function,
+    callbackConnected: Function,
+    callbackDisconnected: Function
+  ) {
     this.auth = auth;
     this.callback = callback;
+    this.callbackConnected = callbackConnected;
+    this.callbackDisconnected = callbackDisconnected;
 
     this.wss = new WebSocketServer({ host, port });
 
@@ -46,7 +59,10 @@ export default class WebSocketCtrl {
 
     ws.on('close', () => {
       log(`Disconnected: ${ws.user?.name}`);
+      this.callbackDisconnected(this.wss, ws);
     });
+
+    this.callbackConnected(this.wss, ws);
   }
 
   /** メッセージ取得時 */
