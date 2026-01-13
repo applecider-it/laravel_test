@@ -1,8 +1,8 @@
 import { getAuthUser } from "@/services/app/application";
+import { MyEcho } from "@/services/app/echo";
+import { showToast } from "@/services/ui/message";
 
 import { sendMessage, sendMessageEcho } from "@/services/api/rpc/chat-rpc";
-
-import { MyEcho } from "@/services/app/echo";
 
 /**
  * チャットクライアント
@@ -113,17 +113,21 @@ export default class ChatClient {
             data.users.forEach((user) => this.addUser(user));
             updateUsers = true;
         } else if (data.type == "connectOther") {
-            // 他人が接続したとき
+            // 自分を含めて他人が接続したとき
 
             console.log("connectOther", data.data.user);
             this.addUser(data.data.user);
             updateUsers = true;
+
+            showToast(`${data.data.user.name}さんが、入室しました。`);
         } else if (data.type == "disconnectOther") {
-            // 他人が切断したとき
+            // 自分を含めて他人が切断したとき（自分のときは、ページ遷移している）
 
             console.log("disconnectOther", data.data.user);
             this.removeUser(data.data.user);
             updateUsers = true;
+
+            showToast(`${data.data.user.name}さんが、退室しました。`);
         }
 
         // 一覧の変更があるときは、ユーザー一覧を反映する

@@ -1,7 +1,7 @@
 /** WebSocketオブジェクトに追加するユーザー情報 */
 export interface WebSocketUser {
   name: string;
-  id: number | 'system';
+  id: number;
   token: string;
   channel: string;
 }
@@ -15,7 +15,7 @@ export type Incoming = {
 export type BroadcastSendData = {
   type: string;
   sender: {
-    id: number | 'system';
+    id: number;
     name: string;
   };
   data: any;

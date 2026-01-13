@@ -1,5 +1,4 @@
-import { WebSocket, WebSocketServer, type RawData } from 'ws';
-import { IncomingMessage } from 'http';
+import { WebSocket, WebSocketServer } from 'ws';
 
 import { log } from '@/services/system/log.js';
 import { appConfig } from '@/config/config.js';
@@ -35,6 +34,9 @@ export default class Server {
   //systemSendType = 'websocket';
   systemSendType = 'redis';
 
+  /** 全てのWebSocketサーバーのユーザー情報 */
+  globalUsers = new Map();
+
   constructor() {
     const host = appConfig.webSocket.host;
     const port = appConfig.webSocket.port;
@@ -44,7 +46,7 @@ export default class Server {
 
     this.redisCtrl = new RedisCtrl(
       async (sender: WebSocketUser, incoming: Incoming, type: string) => {
-        await this.sendCommon(sender, incoming, type);
+        await this.onRedisMessage(sender, incoming, type);
       },
       redisUrl
     );
@@ -67,6 +69,52 @@ export default class Server {
     this.cannelsCtrl = new ChannelsCtrl();
   }
 
+  /** Redisメッセージ受信時の処理 */
+  async onRedisMessage(
+    sender: WebSocketUser,
+    incoming: Incoming,
+    type: string
+  ) {
+    this.updateGlobalUsers(sender, incoming, type);
+
+    // ブロードキャスト
+    await this.sendCommon(sender, incoming, type);
+  }
+
+  /** 全てのWebSocketサーバーのユーザー情報を更新 */
+  updateGlobalUsers(sender: WebSocketUser, incoming: Incoming, type: string) {
+    if (this.systemSendType === 'redis') {
+      if (type === 'connectOther') {
+        log('connectOther', incoming, sender);
+        this.globalUsers.set(incoming.data.user.id, {
+          name: incoming.data.user.name,
+          channel: sender.channel,
+        });
+        log('connectOther globalUsers', this.globalUsers);
+      } else if (type === 'disconnectOther') {
+        this.globalUsers.delete(incoming.data.user.id);
+        log('disconnectOther globalUsers', this.globalUsers);
+      }
+    }
+  }
+
+  /** 全てのWebSocketサーバーのユーザー情報を返す */
+  getGlobalUsers(wss: WebSocketServer, ws: WebSocket) {
+    const user = ws.user as WebSocketUser;
+    if (this.systemSendType === 'redis') {
+      const list = [...this.globalUsers.entries()]
+        .filter(([_, row]) => row.channel === user.channel)
+        .map(([id, row]) => ({
+          id,
+          name: row.name,
+        }));
+      log('getGlobalUsers', list);
+      return list;
+    } else {
+      return getSameChannelUsers(wss, ws);
+    }
+  }
+
   /** 接続時の処理 */
   async onConnect(wss: WebSocketServer, ws: WebSocket) {
     // 接続したユーザーのみ送信
@@ -74,7 +122,7 @@ export default class Server {
     ws.send(
       JSON.stringify({
         type: 'connected',
-        users: getSameChannelUsers(wss, ws),
+        users: this.getGlobalUsers(wss, ws),
       })
     );
 

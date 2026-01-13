@@ -7,7 +7,7 @@ import { WebSocketUser, Incoming, BroadcastSendData } from '../types.js';
 import type ChannelsCtrl from '../server/ChannelsCtrl.js';
 
 /** 特定のチャンネルに、全体送信できるクライアントか確認 */
-export function canBroadcast(client: WebSocket, channel: string) {
+function canBroadcast(client: WebSocket, channel: string) {
   const user = client.user as WebSocketUser;
 
   if (client.readyState === WebSocket.OPEN) {
