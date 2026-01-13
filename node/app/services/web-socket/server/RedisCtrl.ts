@@ -14,14 +14,17 @@ import { appConfig } from '@/config/config.js';
 export default class RedisCtrl {
   /** Pub/Subで利用するRedisクラス */
   redis;
+  redisPub;
+  redisKey;
 
   constructor(callback: Function, redisUrl: string) {
-    const redisKey = appConfig.redis.prefix + appConfig.webSocketRedis.channel;
+    this.redisKey = appConfig.redis.prefix + appConfig.webSocketRedis.channel;
 
     this.redis = new Redis(redisUrl);
+    this.redisPub = new Redis(redisUrl);
 
     // Redisの連携用チャンネルをsubscribeする
-    this.redis.subscribe(redisKey, (err, count) =>
+    this.redis.subscribe(this.redisKey, (err, count) =>
       this.handleRedisSubscribe(err, count)
     );
 
@@ -60,5 +63,15 @@ export default class RedisCtrl {
     log('sender', sender);
 
     return { sender, incoming, type: ret.type as string };
+  }
+
+  /** パブリッシュする */
+  async publish(channel: string, data: any, type: string) {
+    const sendData = {
+      channel,
+      data,
+      type,
+    };
+    await this.redisPub.publish(this.redisKey, JSON.stringify(sendData));
   }
 }

@@ -31,6 +31,10 @@ export default class Server {
   /** WebSocket サーバーのChannel管理 */
   cannelsCtrl;
 
+  /** システムから送信するときの送信タイプ */
+  //systemSendType = 'websocket';
+  systemSendType = 'redis';
+
   constructor() {
     const host = appConfig.webSocket.host;
     const port = appConfig.webSocket.port;
@@ -75,33 +79,44 @@ export default class Server {
     );
 
     // 同じチャンネルへの全体送信
-    // 本来なら、redis経由で送信しないといけない。あくまで、試作的な簡易実装。
 
     const user = ws.user as WebSocketUser;
 
-    const incoming: Incoming = {
-      data: {
-        user: toBroadcastUser(user),
-      },
+    const channel = user.channel;
+    const type = 'connectOther';
+    const data = {
+      user: toBroadcastUser(user),
     };
 
-    this.sendCommon(getSystemUser(user.channel), incoming, 'connectOther');
+    await this.sendBySystem(channel, data, type);
   }
 
   /** 切断時の処理 */
   async onDisconnect(wss: WebSocketServer, ws: WebSocket) {
     // 同じチャンネルへの全体送信
-    // 本来なら、redis経由で送信しないといけない。あくまで、試作的な簡易実装。
 
     const user = ws.user as WebSocketUser;
 
-    const incoming: Incoming = {
-      data: {
-        user: toBroadcastUser(user),
-      },
+    const channel = user.channel;
+    const type = 'disconnectOther';
+    const data = {
+      user: toBroadcastUser(user),
     };
 
-    this.sendCommon(getSystemUser(user.channel), incoming, 'disconnectOther');
+    await this.sendBySystem(channel, data, type);
+  }
+
+  /** システムからの全体送信 */
+  async sendBySystem(channel: string, data: any, type: string) {
+    if (this.systemSendType === 'redis') {
+      await this.redisCtrl.publish(channel, data, type);
+    } else {
+      const incoming: Incoming = {
+        data: data,
+      };
+
+      await this.sendCommon(getSystemUser(channel), incoming, type);
+    }
   }
 
   /** WebSocket, Redis共通の送信処理 */
