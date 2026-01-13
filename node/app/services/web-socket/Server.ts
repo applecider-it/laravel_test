@@ -77,17 +77,15 @@ export default class Server {
     // 同じチャンネルへの全体送信
     // 本来なら、redis経由で送信しないといけない。あくまで、試作的な簡易実装。
 
-    const sender = ws.user as WebSocketUser;
+    const user = ws.user as WebSocketUser;
 
-    const sendData: BroadcastSendData = {
-      type: 'connectOther',
-      sender: getSystemUser(sender.channel),
+    const incoming: Incoming = {
       data: {
-        user: toBroadcastUser(sender),
+        user: toBroadcastUser(user),
       },
     };
 
-    broadcastSameChannel(sendData, sender, null, wss, this.cannelsCtrl);
+    this.sendCommon(getSystemUser(user.channel), incoming, 'connectOther');
   }
 
   /** 切断時の処理 */
@@ -95,17 +93,15 @@ export default class Server {
     // 同じチャンネルへの全体送信
     // 本来なら、redis経由で送信しないといけない。あくまで、試作的な簡易実装。
 
-    const sender = ws.user as WebSocketUser;
+    const user = ws.user as WebSocketUser;
 
-    const sendData: BroadcastSendData = {
-      type: 'disconnectOther',
-      sender: getSystemUser(sender.channel),
+    const incoming: Incoming = {
       data: {
-        user: toBroadcastUser(sender),
+        user: toBroadcastUser(user),
       },
     };
 
-    broadcastSameChannel(sendData, sender, null, wss, this.cannelsCtrl);
+    this.sendCommon(getSystemUser(user.channel), incoming, 'disconnectOther');
   }
 
   /** WebSocket, Redis共通の送信処理 */
@@ -113,9 +109,13 @@ export default class Server {
     log('incoming', incoming);
     log('sender', sender);
 
-    const data = await this.cannelsCtrl
-      .getChannel(sender.channel)
-      .callbackCreateData(sender, incoming);
+    let data = incoming.data;
+
+    if (type === 'message') {
+      data = await this.cannelsCtrl
+        .getChannel(sender.channel)
+        .callbackCreateData(sender, incoming);
+    }
 
     const sendData: BroadcastSendData = {
       type: type,
@@ -128,7 +128,8 @@ export default class Server {
       sender,
       incoming,
       this.webSocketCtrl.wss,
-      this.cannelsCtrl
+      this.cannelsCtrl,
+      type
     );
   }
 }

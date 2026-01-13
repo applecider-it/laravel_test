@@ -43,9 +43,10 @@ export function getSameChannelUsers(wss: WebSocketServer, ws: WebSocket) {
 export function broadcastSameChannel(
   sendData: BroadcastSendData,
   sender: WebSocketUser,
-  incoming: Incoming | null,
+  incoming: Incoming,
   wss: WebSocketServer,
-  cannelsCtrl: ChannelsCtrl
+  cannelsCtrl: ChannelsCtrl,
+  type: string
 ) {
   const sendDataStr = JSON.stringify(sendData);
 
@@ -59,7 +60,7 @@ export function broadcastSameChannel(
 
     let sendable = true;
 
-    if (incoming) {
+    if (type === 'message') {
       sendable = await cannelsCtrl
         .getChannel(sender.channel)
         .callbackCheckSend(sender, user, incoming);
