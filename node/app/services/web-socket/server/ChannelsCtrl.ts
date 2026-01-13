@@ -11,7 +11,7 @@ type Channels = {
  */
 export default class ChannelsCtrl {
   /** 全てのチャンネルクラスを集めたハッシュ */
-  channels: Channels;
+  private channels: Channels;
 
   constructor() {
     this.channels = {

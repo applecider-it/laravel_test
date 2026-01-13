@@ -3,7 +3,7 @@ import { IncomingMessage } from 'http';
 
 import { log } from '@/services/system/log.js';
 
-import Auth from './Auth.js';
+import { authenticate } from '../utils/auth.js';
 
 import { WebSocketUser, Incoming } from '../types.js';
 
@@ -11,26 +11,22 @@ import { WebSocketUser, Incoming } from '../types.js';
  * WebSocket サーバーのWebSocket管理
  */
 export default class WebSocketCtrl {
-  /** 権限管理サブクラス */
-  auth;
   /** WebSockerサーバーインスタンス */
   wss: WebSocketServer;
   /** メッセージ受信時のコールバック */
-  callback: Function;
+  private callback: Function;
   /** 接続時のコールバック */
-  callbackConnected: Function;
+  private callbackConnected: Function;
   /** 切断時のコールバック */
-  callbackDisconnected: Function;
+  private callbackDisconnected: Function;
 
   constructor(
     host: string,
     port: number,
-    auth: Auth,
     callback: Function,
     callbackConnected: Function,
     callbackDisconnected: Function
   ) {
-    this.auth = auth;
     this.callback = callback;
     this.callbackConnected = callbackConnected;
     this.callbackDisconnected = callbackDisconnected;
@@ -43,8 +39,8 @@ export default class WebSocketCtrl {
   }
 
   /** コネクション時 */
-  handleConnection(ws: WebSocket, req: IncomingMessage) {
-    const user = this.auth.authenticate(req);
+  private handleConnection(ws: WebSocket, req: IncomingMessage) {
+    const user = authenticate(req);
 
     if (!user) {
       log('invalid authenticate');
@@ -66,7 +62,7 @@ export default class WebSocketCtrl {
   }
 
   /** メッセージ取得時 */
-  async handleMessage(senderWs: WebSocket, msg: RawData) {
+  private async handleMessage(senderWs: WebSocket, msg: RawData) {
     let incoming: Incoming;
     const sender = senderWs.user as WebSocketUser;
 
@@ -76,8 +72,8 @@ export default class WebSocketCtrl {
       return;
     }
 
-    // これがないとLaravelでrecieveしたときに止まる
-    // Laravelでrecieveしない場合はいらない
+    // これがないとLaravelでwebsocketを使う場合、recieveしたときに止まるので、一応追加している。
+    // 現時点では、なくても動作するので、送信を減らしたいときは、削除可能。
     senderWs.send(JSON.stringify({ type: 'sended', ok: true }));
 
     await this.callback(sender, incoming);

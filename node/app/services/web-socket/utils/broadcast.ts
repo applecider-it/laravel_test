@@ -60,6 +60,7 @@ export function broadcastSameChannel(
 
     let sendable = true;
 
+    // メッセージの時だけ、送信条件の検査
     if (type === 'message') {
       sendable = await cannelsCtrl
         .getChannel(sender.channel)

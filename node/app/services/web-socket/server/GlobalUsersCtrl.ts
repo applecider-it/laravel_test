@@ -19,18 +19,17 @@ export default class GlobalUsersCtrl {
 
   /** セット */
   setGlobalUser(sender: WebSocketUser, incoming: Incoming) {
-    log('connectOther', incoming, sender);
     this.globalUsers.set(incoming.data.user.id, {
       name: incoming.data.user.name,
       channel: sender.channel,
     });
-    log('connectOther globalUsers', this.globalUsers);
+    log('GlobalUsersCtrl: setGlobalUser', incoming, sender, this.globalUsers);
   }
 
   /** 削除 */
   deleteGlobalUser(incoming: Incoming) {
     this.globalUsers.delete(incoming.data.user.id);
-    log('disconnectOther globalUsers', this.globalUsers);
+    log('GlobalUsersCtrl: deleteGlobalUser', incoming, this.globalUsers);
   }
 
   /** 全てのWebSocketサーバーのユーザー情報を返す */
@@ -42,7 +41,7 @@ export default class GlobalUsersCtrl {
         id,
         name: row.name,
       }));
-    log('getGlobalUsers', list);
+    log('GlobalUsersCtrl: getGlobalUsers', list);
     return list;
   }
 }

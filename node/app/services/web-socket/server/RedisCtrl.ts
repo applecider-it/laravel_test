@@ -12,38 +12,43 @@ import { appConfig } from '@/config/config.js';
  * WebSocket サーバーのRedis管理
  */
 export default class RedisCtrl {
-  /** Pub/Subで利用するRedisクラス */
-  redis;
-  redisPub;
-  redisKey;
+  /** subscribeで利用するRedisクラス */
+  private redis;
+  /** publishで利用するRedisクラス（pub/subはインスタンスを分けないと動作しなくなる） */
+  private redisPub;
+
+  /** pub/subで利用するチャンネル */
+  private pubsubChannel;
+
+  /** メッセージ受信時のコールバック */
+  private callback: Function;
 
   constructor(callback: Function, redisUrl: string) {
-    this.redisKey = appConfig.redis.prefix + appConfig.webSocketRedis.channel;
+    this.callback = callback;
+    this.pubsubChannel = appConfig.redis.prefix + appConfig.webSocketRedis.channel;
 
     this.redis = new Redis(redisUrl);
     this.redisPub = new Redis(redisUrl);
 
     // Redisの連携用チャンネルをsubscribeする
-    this.redis.subscribe(this.redisKey, (err, count) =>
-      this.handleRedisSubscribe(err, count)
+    this.redis.subscribe(
+      this.pubsubChannel,
+      async (err, count) => await this.handleRedisSubscribe(err, count)
     );
 
     this.redis.on('message', async (channel, message) => {
-      const ret = await this.handleRedisMessage(channel, message);
-      if (!ret) return;
-      const { sender, incoming, type } = ret;
-      await callback(sender, incoming, type);
+      await this.handleRedisMessage(channel, message);
     });
   }
 
   /** Redisサブスクライブ時 */
-  handleRedisSubscribe(err: Error | null | undefined, count: unknown) {
+  private handleRedisSubscribe(err: Error | null | undefined, count: unknown) {
     if (err) console.error(err);
     else console.log(`Subscribed to ${count} channel(s)`);
   }
 
   /** Redisメッセージ受信時 */
-  async handleRedisMessage(redisChannel: string, message: string) {
+  private async handleRedisMessage(redisChannel: string, message: string) {
     console.log(`Received from Redis: ${redisChannel}: ${message}`);
 
     let ret = null;
@@ -59,10 +64,12 @@ export default class RedisCtrl {
       data: ret.data,
     };
 
+    const type = ret.type as string;
+
     log('incoming', incoming);
     log('sender', sender);
 
-    return { sender, incoming, type: ret.type as string };
+    await this.callback(sender, incoming, type);
   }
 
   /** パブリッシュする */
@@ -72,6 +79,6 @@ export default class RedisCtrl {
       data,
       type,
     };
-    await this.redisPub.publish(this.redisKey, JSON.stringify(sendData));
+    await this.redisPub.publish(this.pubsubChannel, JSON.stringify(sendData));
   }
 }

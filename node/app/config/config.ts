@@ -7,6 +7,10 @@ export const appConfig = {
   webSocket: {
     host: process.env.APP_WS_HOST as string,
     port: Number(process.env.APP_WS_PORT),
+
+    /** システムから送信するときの送信タイプ */
+    systemSendType: 'redis',
+    //systemSendType: 'websocket',
   },
 
   webSocketInfo: {
