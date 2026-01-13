@@ -19,6 +19,7 @@ class SystemService
         $sendData = [
             'channel' => $channel,
             'data' => $data,
+            'type' => 'message',
         ];
 
         Redis::publish(config('myapp.ws_broadcast_redis_publish_channel'), json_encode($sendData));

@@ -21,8 +21,6 @@ export function canBroadcast(client: WebSocket, channel: string) {
 
 /**
  * 同じチャンネルのユーザー公開情報一覧
- *
- * （本来なら、redisで管理しないといけない。あくまで、試作的な簡易実装。）
  */
 export function getSameChannelUsers(wss: WebSocketServer, ws: WebSocket) {
   const target = ws.user as WebSocketUser;
@@ -73,4 +71,12 @@ export function broadcastSameChannel(
 
     client.send(sendDataStr);
   });
+}
+
+/** 送信用ユーザーに変換 */
+export function toBroadcastUser(user: WebSocketUser) {
+  return {
+    name: user.name,
+    id: user.id,
+  };
 }

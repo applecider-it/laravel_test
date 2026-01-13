@@ -12,6 +12,8 @@ Laravelと双方向APIで連携。
 
 一部、Laravel Echoでも実装している。
 
+- [ドキュメント](./websocket-echo.md)
+
 ## チャンネル名の定義
 
 `channelname:param1,param2...`
@@ -103,7 +105,7 @@ Pub/Subのチャンネル名: `[redis_prefix]broadcast`
 {
   channel: string, <- WebSocketチャンネル名
   data: hash, <- 上記の、「メッセージ送信時」のdataの部分
-
+  type: 'message',
 }
 ```
 
@@ -147,28 +149,59 @@ Pub/Subのチャンネル名: `[redis_prefix]broadcast`
 メッセージ送信時と同じ
 
 
-## Laravel Echo ブロードキャスト時
-
-### チャット
+## 接続時に自分に送信
 
 ```
 {
-  message: string,
-  user: {
-    id: integer,
+  type: 'connected',
+  users: [
+    {
+      id: number,
+      name: string,
+    },
+    .
+    .
+  ],
+}
+```
+
+## 接続時にブロードキャスト
+
+```
+{
+  type: 'connectOther',
+  sender: {
     name: string,
+    id: number,
+  },
+  data: {
+    user: {
+      name: string,
+      id: number,
+    }
   }
 }
 ```
 
-### サンプルチャンネル
+## 切断時にブロードキャスト
 
 ```
 {
-  message: string,
-  id: integer, <- ユーザーID
+  type: 'disconnectOther',
+  sender: {
+    name: string,
+    id: number,
+  },
+  data: {
+    user: {
+      name: string,
+      id: number,
+    }
+  }
 }
 ```
+
+
 
 
 

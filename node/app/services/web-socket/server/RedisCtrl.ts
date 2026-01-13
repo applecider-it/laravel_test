@@ -4,7 +4,7 @@ import { log } from '@/services/system/log.js';
 
 import { WebSocketUser, Incoming } from '../types.js';
 
-import { WS_SYSTEM_ID } from '../utils/system.js';
+import { getSystemUser } from '../utils/system.js';
 
 import { appConfig } from '@/config/config.js';
 
@@ -28,8 +28,8 @@ export default class RedisCtrl {
     this.redis.on('message', async (channel, message) => {
       const ret = await this.handleRedisMessage(channel, message);
       if (!ret) return;
-      const { sender, incoming } = ret;
-      await callback(sender, incoming);
+      const { sender, incoming, type } = ret;
+      await callback(sender, incoming, type);
     });
   }
 
@@ -50,12 +50,7 @@ export default class RedisCtrl {
       return;
     }
 
-    const sender: WebSocketUser = {
-      id: WS_SYSTEM_ID,
-      name: appConfig.webSocketInfo.systemName,
-      token: '',
-      channel: ret.channel,
-    };
+    const sender = getSystemUser(ret.channel);
 
     const incoming: Incoming = {
       data: ret.data,
@@ -64,6 +59,6 @@ export default class RedisCtrl {
     log('incoming', incoming);
     log('sender', sender);
 
-    return { sender, incoming };
+    return { sender, incoming, type: ret.type as string };
   }
 }
