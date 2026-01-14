@@ -49,6 +49,8 @@ export default class ProgressClient {
 
         console.log("[DEBUG] Received message", data);
 
-        this.callback(data);
+        if (data.type === 'message') {
+            this.callback(data);
+        }
     }
 }
