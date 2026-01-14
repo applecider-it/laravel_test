@@ -53,7 +53,7 @@ class WebSocketTestService
 
         $this->cmd->info("data: " . print_r($data, true));
         
-        $response = $this->webSocketSystemService->publish(ChatChannel::getChannel(), $data);
+        $response = $this->webSocketSystemService->publish(ChatChannel::getChannel('default'), $data);
 
         Log::info('websocket_test response', [$response]);
     }

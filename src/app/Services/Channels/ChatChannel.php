@@ -6,7 +6,7 @@ class ChatChannel{
     private const CHANNEL_ID = 'chat';
 
     /** チャンネル名を返す */
-    public static function getChannel(?string $room = null) {
+    public static function getChannel(?string $room) {
         return self::CHANNEL_ID . ':' . $room;
     }
 }
