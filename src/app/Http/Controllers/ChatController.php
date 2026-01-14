@@ -25,12 +25,13 @@ class ChatController extends Controller
         $user = auth()->user();
 
         $rooms = [
-            null,
+            'default',
             'room1',
             'room2',
         ];
 
         $room = $request->input('room');
+        if (!in_array($room, $rooms)) $room = 'default';
 
         $token = $this->webSocketAuthService->createUserJwt($user, ChatChannel::getChannel($room));
 

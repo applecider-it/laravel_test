@@ -80,7 +80,7 @@ export default class ChatClient {
         } else if (type === "redis") {
             // サーバーを通して、redisを経由する時
 
-            sendMessage(message);
+            sendMessage(message, this.room);
         } else if (type === "echo") {
             // サーバーを通して、Laravel Echoを経由する時
 

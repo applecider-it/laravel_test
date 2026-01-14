@@ -39,6 +39,9 @@ class DevelopmentController extends Controller
         $userId = null;
 
         $token = $request->bearerToken(); // Authorization: Bearer <token>
+
+        if ($token === null) return response()->json(['error' => 'no token'], 500);
+
         $data = $this->webSocketAuthService->parseJwt($token);
 
         if (! $data) return response()->json(['error' => 'Invalid token'], 401);

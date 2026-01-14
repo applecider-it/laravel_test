@@ -2,7 +2,7 @@
     <x-slot name="header">
         <h2 class="app-header-title">
             Chat
-            @if ($room)
+            @if ($room != 'default')
                 room: {{ $room }}
             @endif
         </h2>
@@ -10,12 +10,12 @@
 
     <div class="pt-6 max-w-2xl mx-auto space-x-4">
         @foreach ($rooms as $r)
-            <a href="{{ route('chat.index', ['room' => $r]) }}" class="app-link-normal">{{ $r ? $r : 'default' }}</a>
+            <a href="{{ route('chat.index', ['room' => $r]) }}" class="app-link-normal">{{ $r }}</a>
         @endforeach
     </div>
 
     <div id="chat-root" data-all="{{ json_encode([
-        'room' => $room ?? 'default',
+        'room' => $room,
         'token' => $token,
         'wsHost' => config('myapp.ws_server_host'),
     ]) }}">

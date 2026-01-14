@@ -22,6 +22,7 @@ class FormApiService
     /** チャットメッセージ送信処理 */
     public function sendMessage(Request $request, User $user)
     {
+        Log::info(request()->all());
         $room = $request->input('room');
         $data = [
             "message" => $request->input('message'),
