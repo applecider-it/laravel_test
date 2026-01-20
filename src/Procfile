@@ -1,6 +1,6 @@
 web: php artisan serve
 vite: npm run dev
-log: tail -f ./storage/logs/laravel.log
+#log: tail -f ./storage/logs/laravel.log
 # これで動かすとviteのnodeと環境変数が共通化されるっぽい
 # 正確な動作確認をするなら、分けて起動したほうがよさそう
 #chat: cd ../node && npx tsx watch ./app/entrypoints/server.js
