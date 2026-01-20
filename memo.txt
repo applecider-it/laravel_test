@@ -317,6 +317,16 @@ php artisan tinker
 
 event(new App\Events\MessageSent('Hello Soketi', 1));
 
+-----------------------------------
+
+ログ
+
+標準出力にするとき
+
+.env
+
+LOG_CHANNEL=stderr
+
 
 
 
