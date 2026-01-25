@@ -34,7 +34,7 @@ Laravelと双方向APIで連携。
 | iat | 現在日時 | integer |  |
 | exp | 有効期限 | integer |  |
 
-## メッセージ送信時
+## WebSocketへのメッセージ送信時
 
 ```
 {
@@ -45,6 +45,19 @@ Laravelと双方向APIで連携。
 | 項目名 | 内容 | 型 | 詳細 |
 |--------|--------|--------|--------|
 | data | チャンネルごとの情報ハッシュ | hash |  |
+
+
+## Redis Pub/Sub連携メッセージ送信時
+
+Pub/Subのチャンネル名: `[redis_prefix]broadcast`
+
+```
+{
+  channel: string, <- WebSocketチャンネル名
+  data: hash, <- 上記の、「メッセージ送信時」のdataの部分と同じ
+  type: 'message',
+}
+```
 
 ### チャットの場合のdata
 
@@ -94,18 +107,6 @@ type: 'sample_job_progress'
 detaul: {
   cursor: integer,
   total: integer,
-}
-```
-
-## Redis Pub/Sub連携
-
-Pub/Subのチャンネル名: `[redis_prefix]broadcast`
-
-```
-{
-  channel: string, <- WebSocketチャンネル名
-  data: hash, <- 上記の、「メッセージ送信時」のdataの部分
-  type: 'message',
 }
 ```
 

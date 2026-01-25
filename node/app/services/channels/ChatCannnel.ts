@@ -19,7 +19,10 @@ export default class ChatCannnel extends BaseCannnel {
     this.test = new Test();
   }
 
-  /** メッセージ取得時のデータ生成 */
+  enableWebSocketSend(){
+    return true;
+  }
+
   async callbackCreateData(sender: WebSocketUser, incoming: Incoming) {
     await this.test.callbackTest(sender, incoming);
 
@@ -29,7 +32,6 @@ export default class ChatCannnel extends BaseCannnel {
     };
   }
 
-  /** メッセージをブロードキャストしていいか返す */
   async callbackCheckSend(
     sender: WebSocketUser,
     user: WebSocketUser,

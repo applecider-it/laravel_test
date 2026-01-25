@@ -55,7 +55,7 @@ export default class Server {
       },
       async (wss: WebSocketServer, ws: WebSocket) => {
         await this.onDisconnect(wss, ws);
-      }
+      },
     );
 
     // Redis管理初期化
@@ -63,12 +63,16 @@ export default class Server {
       async (sender: WebSocketUser, incoming: Incoming, type: string) => {
         await this.onRedisMessage(sender, incoming, type);
       },
-      redisUrl
+      redisUrl,
     );
   }
 
   /** WebSocketメッセージ受信時の処理 */
   async onWebSocketMessage(sender: WebSocketUser, incoming: Incoming) {
+    if (!this.cannelsCtrl.getChannel(sender.channel).enableWebSocketSend()) {
+      log('suspended');
+      return;
+    }
     await this.sendCommon(sender, incoming, 'message');
   }
 
@@ -76,7 +80,7 @@ export default class Server {
   async onRedisMessage(
     sender: WebSocketUser,
     incoming: Incoming,
-    type: string
+    type: string,
   ) {
     this.updateGlobalUsers(sender, incoming, type);
 
@@ -90,7 +94,7 @@ export default class Server {
       JSON.stringify({
         type: 'connected',
         users: this.getGlobalUsers(wss, ws),
-      })
+      }),
     );
 
     // 同じチャンネルへの全体送信
@@ -179,7 +183,7 @@ export default class Server {
       incoming,
       this.webSocketCtrl.wss,
       this.cannelsCtrl,
-      type
+      type,
     );
   }
 }

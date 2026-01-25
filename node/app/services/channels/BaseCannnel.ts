@@ -6,6 +6,11 @@ import { WebSocketUser, Incoming } from '@/services/web-socket/types.js';
 export default class BaseCannnel {
   constructor() {}
 
+  /** WebSocketへの直接送信を有効にするか返す */
+  enableWebSocketSend(){
+    return false;
+  }
+
   /** メッセージ取得時のデータ生成 */
   async callbackCreateData(sender: WebSocketUser, incoming: Incoming) {
     return incoming.data;
