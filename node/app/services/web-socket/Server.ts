@@ -89,25 +89,34 @@ export default class Server {
 
   /** 接続時の処理 */
   async onConnect(wss: WebSocketServer, ws: WebSocket) {
-    // 接続したユーザーのみ送信
-    ws.send(
-      JSON.stringify({
-        type: 'connected',
-        users: this.getGlobalUsers(wss, ws),
-      }),
-    );
-
-    // 同じチャンネルへの全体送信
-
     const user = ws.user as WebSocketUser;
 
     const channel = user.channel;
-    const type = 'connectOther';
-    const data = {
-      user: toBroadcastUser(user),
-    };
 
-    await this.sendBySystem(channel, data, type);
+    const enableSendUsers = this.cannelsCtrl
+      .getChannel(channel)
+      .enableSendUsers();
+
+    if (enableSendUsers) {
+      // ユーザー情報送信が有効な場合
+
+      // 接続したユーザーのみ送信
+      ws.send(
+        JSON.stringify({
+          type: 'connected',
+          users: this.getGlobalUsers(wss, ws),
+        }),
+      );
+
+      // 同じチャンネルへの全体送信
+
+      const type = 'connectOther';
+      const data = {
+        user: toBroadcastUser(user),
+      };
+
+      await this.sendBySystem(channel, data, type);
+    }
   }
 
   /** 切断時の処理 */
@@ -117,12 +126,21 @@ export default class Server {
     const user = ws.user as WebSocketUser;
 
     const channel = user.channel;
-    const type = 'disconnectOther';
-    const data = {
-      user: toBroadcastUser(user),
-    };
 
-    await this.sendBySystem(channel, data, type);
+    const enableSendUsers = this.cannelsCtrl
+      .getChannel(channel)
+      .enableSendUsers();
+
+    if (enableSendUsers) {
+      // ユーザー情報送信が有効な場合
+
+      const type = 'disconnectOther';
+      const data = {
+        user: toBroadcastUser(user),
+      };
+
+      await this.sendBySystem(channel, data, type);
+    }
   }
 
   /** 全てのWebSocketサーバーのユーザー情報を更新 */

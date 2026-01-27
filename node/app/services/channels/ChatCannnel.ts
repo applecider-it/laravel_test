@@ -23,6 +23,10 @@ export default class ChatCannnel extends BaseCannnel {
     return true;
   }
 
+  enableSendUsers(){
+    return true;
+  }
+
   async callbackCreateData(sender: WebSocketUser, incoming: Incoming) {
     await this.test.callbackTest(sender, incoming);
 
