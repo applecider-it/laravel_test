@@ -72,10 +72,6 @@ export default class WebSocketCtrl {
       return;
     }
 
-    // これがないとLaravelでwebsocketを使う場合、recieveしたときに止まるので、一応追加している。
-    // 現時点では、なくても動作するので、送信を減らしたいときは、削除可能。
-    senderWs.send(JSON.stringify({ type: 'sended', ok: true }));
-
     await this.callback(sender, incoming);
   }
 }
