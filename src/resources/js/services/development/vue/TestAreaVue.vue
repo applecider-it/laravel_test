@@ -8,6 +8,7 @@ import SlowJobArea from "./test-area-vue/SlowJobArea.vue";
 import ModalArea from "./test-area-vue/ModalArea.vue";
 import LaravelEchoArea from "./test-area-vue/LaravelEchoArea.vue";
 import DefineModelArea from "./test-area-vue/DefineModelArea.vue";
+import OptionsModelArea from "./test-area-vue/OptionsModelArea.vue";
 import UIArea from "./test-area-vue/UIArea.vue";
 import RefArea from "./test-area-vue/RefArea.vue";
 
@@ -35,6 +36,10 @@ const props = defineProps<Props>();
 
             <div>
                 <DefineModelArea />
+            </div>
+
+            <div>
+                <OptionsModelArea />
             </div>
 
             <div>
