@@ -55,8 +55,8 @@ Route::middleware('auth')->group(function () {
 
 // 開発者向けページ
 Route::get('/development', [DevelopmentController::class, 'index'])->name('development.index');
-Route::get('/development/backend_test', [DevelopmentController::class, 'backend_test'])->name('development.backend_test');
-Route::get('/development/frontend_test', [DevelopmentController::class, 'frontend_test'])->name('development.frontend_test');
+Route::get('/development/php_test', [DevelopmentController::class, 'php_test'])->name('development.php_test');
+Route::get('/development/javascript_test', [DevelopmentController::class, 'javascript_test'])->name('development.javascript_test');
 
 
 require __DIR__ . '/auth.php';

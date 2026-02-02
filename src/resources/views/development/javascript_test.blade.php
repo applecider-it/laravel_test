@@ -1,11 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="app-header-title">
-            Frontend Test
+            Javascript Test
         </h2>
     </x-slot>
 
-    @vite(['resources/js/entrypoints/development/frontend-test.ts'])
+    @vite(['resources/js/entrypoints/development/javascript-test.ts'])
 
     <div class="py-6 max-w-2xl mx-auto">
         <div id="vue-test-root" data-all="{{ json_encode([

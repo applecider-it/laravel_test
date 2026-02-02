@@ -30,8 +30,8 @@ class DevelopmentController extends Controller
         return view('development.index');
     }
 
-    /** backendテスト */
-    public function backend_test(Request $request)
+    /** phpテスト */
+    public function php_test(Request $request)
     {
         $user = $request->user();
 
@@ -41,17 +41,17 @@ class DevelopmentController extends Controller
 
         event(new SampleEvent($user));
 
-        $this->sampleService->testExec("backend_test");
+        $this->sampleService->testExec("php_test");
 
         return view('development.complate');
     }
 
-    /** frontendテスト */
-    public function frontend_test(Request $request)
+    /** javascriptテスト */
+    public function javascript_test(Request $request)
     {
         $user = auth()->user();
 
         $token = $this->webSocketAuthService->createUserJwt($user, ProgressChannel::getChannel($user->id));
-        return view('development.frontend_test', compact('token'));
+        return view('development.javascript_test', compact('token'));
     }
 }
