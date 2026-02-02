@@ -1,8 +1,7 @@
 import { getAuthUser } from "@/services/app/application";
-import { MyEcho } from "@/services/app/echo";
 import { showToast } from "@/services/ui/message";
 
-import { sendMessage, sendMessageEcho } from "@/services/api/rpc/chat-rpc";
+import { sendMessage } from "@/services/api/rpc/chat-rpc";
 
 /**
  * チャットクライアント
@@ -29,8 +28,6 @@ export default class ChatClient {
         this.user = getAuthUser();
 
         this.initWebSocket();
-
-        this.initEcho();
     }
 
     /** WebSocket 接続初期化 */
@@ -54,13 +51,6 @@ export default class ChatClient {
         };
     }
 
-    /** Laravel Echo 接続初期化 */
-    initEcho() {
-        MyEcho.private(`Chat.${this.room}`).listen("ChatMessageSent", (e) =>
-            this.handleMessageEcho(e)
-        );
-    }
-
     /** メッセージ送信 */
     sendMessage(message: string, type: string, options: any) {
         console.log("sendMessage type", type);
@@ -81,10 +71,6 @@ export default class ChatClient {
             // サーバーを通して、redisを経由する時
 
             sendMessage(message, this.room);
-        } else if (type === "echo") {
-            // サーバーを通して、Laravel Echoを経由する時
-
-            sendMessageEcho(message, this.room, options);
         }
     }
 
@@ -149,17 +135,5 @@ export default class ChatClient {
     /** ユーザー削除 */
     removeUser(user) {
         this.users = this.users.filter((u) => u.id !== user.id);
-    }
-
-    /** Echo メッセージ受信 */
-    handleMessageEcho(e) {
-        console.log(e);
-
-        this.addMessage({
-            data: {
-                message: e.message,
-                name: e.user.name,
-            },
-        });
     }
 }
