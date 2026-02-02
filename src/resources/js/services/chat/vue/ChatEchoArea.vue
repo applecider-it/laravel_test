@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import ChatClient from "../ChatEchoClient";
+import ChatMessageInput from "./chat-echo-area/ChatMessageInput.vue";
 
 export default defineComponent({
     name: "ChatEchoArea",
@@ -18,6 +19,10 @@ export default defineComponent({
             messageList: [] as any[],
             userList: [] as any[],
         };
+    },
+
+    components: {
+        ChatMessageInput,
     },
 
     mounted() {
@@ -55,26 +60,10 @@ export default defineComponent({
     <div class="max-w-2xl mx-auto py-6">
         <!-- 入力エリア -->
         <div>
-            <input
-                type="text"
-                class="border p-1 mr-2 w-80"
-                v-model="message"
-                @keydown="handleKeyDown"
+            <ChatMessageInput
+                v-model:propMessage="message"
+                @send="sendMessage"
             />
-
-            <button
-                class="p-1 border bg-gray-200 ml-2"
-                @click="sendMessage()"
-            >
-                Send (E)
-            </button>
-
-            <button
-                class="p-1 border bg-gray-200 ml-2"
-                @click="sendMessage({ others: true })"
-            >
-                Send (E,O)
-            </button>
         </div>
 
         <!-- メッセージ一覧 -->

@@ -12,3 +12,18 @@ export function escapeHtml(str) {
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
 }
+
+/**
+ * (vueの補助機能)
+ * 別コンポーネントで v-model を使えるようにする
+ */
+export function vuePropModel<T = any>(key: string) {
+    return {
+        get(this: any): T {
+            return this[key];
+        },
+        set(this: any, value: T) {
+            this.$emit(`update:${key}`, value);
+        },
+    };
+}
