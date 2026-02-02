@@ -9,9 +9,9 @@ use App\Jobs\SampleJob;
 use App\Models\User;
 
 /**
- * 開発用フロントエンド管理
+ * 開発者向けページのJavascriptテスト管理
  */
-class FrontendService{
+class JavascriptTestService{
     /**
      * スロージョブ開始
      */

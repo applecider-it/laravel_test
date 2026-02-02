@@ -28,7 +28,7 @@ class DevelopmentRpcController extends Controller
 
         if ($name === 'start_slow_job') {
             return response()->json(
-                app(\App\Services\Development\FrontendService::class)->startSlowJob(
+                app(\App\Services\Development\JavascriptTestService::class)->startSlowJob(
                     $user,
                     $request->input('test'),
                     $request->input('test2'),
@@ -36,7 +36,7 @@ class DevelopmentRpcController extends Controller
             );
         } else if ($name === 'send_test_channel') {
             return response()->json(
-                app(\App\Services\Development\FrontendService::class)->sendTestChannel(
+                app(\App\Services\Development\JavascriptTestService::class)->sendTestChannel(
                     $request->input('message'),
                     (int) $request->input('user_id'),
                 )
