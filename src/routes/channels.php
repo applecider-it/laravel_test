@@ -17,5 +17,10 @@ Broadcast::channel('TestChannel.{id}', function ($user, $id) {
 Broadcast::channel('Chat.{room}', function ($user, $room) {
     Log::info('!!!!!!!!!!!!!!!!! Chat.{room}', [$user, $room]);
 
-    return !!$user;
+    if (!$user) return false;
+
+    return [
+        'id'   => $user->id,
+        'name' => $user->name,
+    ];
 });

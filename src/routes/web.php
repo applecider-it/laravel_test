@@ -46,6 +46,7 @@ Route::middleware('auth')->group(function () {
 
     // Chat
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+    Route::get('/chat/echo', [ChatController::class, 'index_echo'])->name('chat.index_echo');
 
     // JSON-RPC
     Route::post('/rpc/development/{name}', [DevelopmentRpcController::class, 'handle']);

@@ -37,4 +37,20 @@ class ChatController extends Controller
 
         return view('chat.index', compact('token', 'room', 'rooms'));
     }
+
+    public function index_echo(Request $request)
+    {
+        $user = auth()->user();
+
+        $rooms = [
+            'default',
+            'room1',
+            'room2',
+        ];
+
+        $room = $request->input('room');
+        if (!in_array($room, $rooms)) $room = 'default';
+
+        return view('chat.index_echo', compact('room', 'rooms'));
+    }
 }
