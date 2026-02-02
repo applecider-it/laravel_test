@@ -32,8 +32,8 @@ export default class ChatEchoClient {
     }
 
     /** メッセージ送信 */
-    sendMessage(message: string, type: string, options: any) {
-        console.log("sendMessage type", type);
+    sendMessage(message: string, options: any) {
+        console.log("sendMessage", options);
 
         if (!message) {
             console.warn("[DEBUG] WebSocket not ready or empty message");
@@ -45,7 +45,6 @@ export default class ChatEchoClient {
 
     /** ユーザー一覧セットアップ */
     setupUsers(users) {
-        console.log("users", users);
         this.users = users;
         this.refreshUsers();
     }

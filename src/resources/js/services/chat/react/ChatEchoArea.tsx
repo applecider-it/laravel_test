@@ -22,14 +22,14 @@ export default function ChatEchoArea({ chatClient }: Prop) {
         }
     }, []);
 
-    const sendMessage = (type, options: any = []) => {
+    const sendMessage = (options: any = []) => {
         console.log(message);
-        chatClient.sendMessage(message, type, options);
+        chatClient.sendMessage(message, options);
         setMessage("");
     };
 
     const handleKeyDown = (e) => {
-        if (e.key === "Enter") sendMessage("echo");
+        if (e.key === "Enter") sendMessage();
     };
 
     return (
@@ -44,13 +44,13 @@ export default function ChatEchoArea({ chatClient }: Prop) {
                 />
                 <button
                     className="p-1 border bg-gray-200 ml-2"
-                    onClick={() => sendMessage("echo")}
+                    onClick={() => sendMessage()}
                 >
                     Send (E)
                 </button>
                 <button
                     className="p-1 border bg-gray-200 ml-2"
-                    onClick={() => sendMessage("echo", {others: true})}
+                    onClick={() => sendMessage({others: true})}
                 >
                     Send (E,O)
                 </button>
