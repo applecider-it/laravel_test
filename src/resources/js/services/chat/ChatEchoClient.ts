@@ -8,11 +8,12 @@ import { sendMessageEcho } from "@/services/api/rpc/chat-rpc";
  * チャット(Echo)クライアント
  */
 export default class ChatEchoClient {
+    private user;
+    private room;
+    private users = [];
+
     addMessage;
     setUsers;
-    user;
-    room;
-    users = [];
 
     constructor(room) {
         this.room = room;
@@ -23,12 +24,12 @@ export default class ChatEchoClient {
     }
 
     /** Laravel Echo 接続初期化 */
-    initEcho() {
+    private initEcho() {
         MyEcho.join(`Chat.${this.room}`)
             .here((users) => this.setupUsers(users))
             .joining((user) => this.addUser(user))
             .leaving((user) => this.removeUser(user))
-            .listen("ChatMessageSent", (e) => this.handleMessageEcho(e));
+            .listen("ChatMessageSent", (e) => this.handleMessage(e));
     }
 
     /** メッセージ送信 */
@@ -44,13 +45,13 @@ export default class ChatEchoClient {
     }
 
     /** ユーザー一覧セットアップ */
-    setupUsers(users) {
+    private setupUsers(users) {
         this.users = users;
         this.refreshUsers();
     }
 
     /** ユーザー追加（重複防止付き） */
-    addUser(user) {
+    private addUser(user) {
         const exists = this.users.some((u) => u.id === user.id);
 
         if (!exists) {
@@ -64,7 +65,7 @@ export default class ChatEchoClient {
     }
 
     /** ユーザー削除 */
-    removeUser(user) {
+    private removeUser(user) {
         this.users = this.users.filter((u) => u.id !== user.id);
 
         showToast(`${user.name}さんが、退室しました。`);
@@ -73,13 +74,13 @@ export default class ChatEchoClient {
     }
 
     /** ユーザー一覧を反映 */
-    refreshUsers() {
+    private refreshUsers() {
         this.setUsers(this.users);
     }
 
-    /** Echo メッセージ受信 */
-    handleMessageEcho(e) {
-        console.log("handleMessageEcho", e);
+    /** メッセージ受信 */
+    private handleMessage(e) {
+        console.log("handleMessage", e);
 
         this.addMessage({
             data: {

@@ -9,14 +9,15 @@ import { sendMessage } from "@/services/api/rpc/chat-rpc";
  * JWT認証付き WebSocket
  */
 export default class ChatClient {
-    token;
-    wsHost;
-    ws;
+    private token;
+    private wsHost;
+    private ws;
+    private user;
+    private room;
+    private users = [];
+
     addMessage;
     setUsers;
-    user;
-    room;
-    users = [];
 
     constructor(token, wsHost, room) {
         this.token = token;
@@ -31,7 +32,7 @@ export default class ChatClient {
     }
 
     /** WebSocket 接続初期化 */
-    initWebSocket() {
+    private initWebSocket() {
         console.log(`[DEBUG] Connecting WebSocket with token: ${this.token}`);
 
         this.ws = new WebSocket(`ws://${this.wsHost}?token=${this.token}`);
@@ -40,7 +41,7 @@ export default class ChatClient {
             console.log("[DEBUG] WebSocket connected");
         };
 
-        this.ws.onmessage = (event) => this.handleMessage(event);
+        this.ws.onmessage = (event) => this.onMessage(event);
 
         this.ws.onclose = (event) => {
             console.log("[DEBUG] WebSocket closed", event);
@@ -74,8 +75,8 @@ export default class ChatClient {
         }
     }
 
-    /** メッセージ受信 */
-    handleMessage(event) {
+    /** 全てのタイプのメッセージ受信 */
+    private onMessage(event) {
         let data;
         try {
             data = JSON.parse(event.data);
@@ -86,54 +87,65 @@ export default class ChatClient {
 
         console.log("[DEBUG] Received message", data);
 
-        let updateUsers = false;
-
         if (data.type == "message") {
             // メッセージ受信時
 
-            this.addMessage(data);
+            this.handleMessage(data);
         } else if (data.type == "connected") {
             // 自分が接続したとき
 
-            console.log("connected", data.users);
-            data.users.forEach((user) => this.addUser(user));
-            updateUsers = true;
+            this.setupUsers(data.users);
         } else if (data.type == "connectOther") {
-            // 自分を含めて他人が接続したとき
+            // 自分を含めて誰かが接続したとき
 
-            console.log("connectOther", data.data.user);
             this.addUser(data.data.user);
-            updateUsers = true;
-
-            showToast(`${data.data.user.name}さんが、入室しました。`);
         } else if (data.type == "disconnectOther") {
-            // 自分を含めて他人が切断したとき（自分のときは、ページ遷移している）
+            // 自分を含めて誰かが切断したとき（自分のときは、ページ遷移している）
 
-            console.log("disconnectOther", data.data.user);
             this.removeUser(data.data.user);
-            updateUsers = true;
-
-            showToast(`${data.data.user.name}さんが、退室しました。`);
-        }
-
-        // 一覧の変更があるときは、ユーザー一覧を反映する
-        if (updateUsers) {
-            this.setUsers(this.users);
         }
     }
 
+    /** ユーザー一覧セットアップ */
+    private setupUsers(users) {
+        this.users = users;
+        this.refreshUsers();
+    }
+
     /** ユーザー追加（重複防止付き） */
-    addUser(user) {
+    private addUser(user) {
         const exists = this.users.some((u) => u.id === user.id);
 
         if (!exists) {
             console.log("push user", user);
             this.users.push(user);
+
+            if (this.user.id !== user.id) {
+                showToast(`${user.name}さんが、入室しました。`);
+            }
+
+            this.refreshUsers();
         }
     }
 
     /** ユーザー削除 */
-    removeUser(user) {
+    private removeUser(user) {
         this.users = this.users.filter((u) => u.id !== user.id);
+
+        showToast(`${user.name}さんが、退室しました。`);
+
+        this.refreshUsers();
+    }
+
+    /** ユーザー一覧を反映 */
+    private refreshUsers() {
+        this.setUsers(this.users);
+    }
+
+    /** メッセージ受信 */
+    private handleMessage(data) {
+        console.log("handleMessage", data);
+
+        this.addMessage(data);
     }
 }
