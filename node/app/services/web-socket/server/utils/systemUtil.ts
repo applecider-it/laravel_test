@@ -1,9 +1,9 @@
-import { WebSocketUser, Incoming } from '../types.js';
+import { WebSocketUser, Incoming } from '../../types.js';
 
 import { appConfig } from '@/config/config.js';
 
 /** システムからの送信と判別するためのID。 */
-export const WS_SYSTEM_ID = 0;
+const WS_SYSTEM_ID = 0;
 
 /** システムのWebSocketUser */
 export function getSystemUser(channel: string) {

@@ -7,8 +7,8 @@ import {
   broadcastSameChannel,
   getSameChannelUsers,
   toBroadcastUser,
-} from './utils/broadcast.js';
-import { getSystemUser } from './utils/system.js';
+} from './server/utils/broadcastUtil.js';
+import { getSystemUser } from './server/utils/systemUtil.js';
 
 import RedisCtrl from './server/RedisCtrl.js';
 import WebSocketCtrl from './server/WebSocketCtrl.js';
@@ -23,7 +23,7 @@ import { WebSocketUser, Incoming, BroadcastSendData } from './types.js';
 export default class Server {
   /** WebSocket サーバーのRedis管理 */
   redisCtrl;
-  /** WebSocket サーバーのRedis管理 */
+  /** WebSocket サーバーのWebSocket管理 */
   webSocketCtrl;
   /** WebSocket サーバーのChannel管理 */
   cannelsCtrl;

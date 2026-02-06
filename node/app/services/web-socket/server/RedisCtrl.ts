@@ -4,7 +4,7 @@ import { log } from '@/services/system/log.js';
 
 import { WebSocketUser, Incoming } from '../types.js';
 
-import { getSystemUser } from '../utils/system.js';
+import { getSystemUser } from './utils/systemUtil.js';
 
 import { appConfig } from '@/config/config.js';
 

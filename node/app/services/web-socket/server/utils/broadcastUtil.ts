@@ -2,9 +2,9 @@ import { log } from '@/services/system/log.js';
 
 import { WebSocket, type WebSocketServer } from 'ws';
 
-import { WebSocketUser, Incoming, BroadcastSendData } from '../types.js';
+import { WebSocketUser, Incoming, BroadcastSendData } from '../../types.js';
 
-import type ChannelsCtrl from '../server/ChannelsCtrl.js';
+import type ChannelsCtrl from '../ChannelsCtrl.js';
 
 /** 特定のチャンネルに、全体送信できるクライアントか確認 */
 function canBroadcast(client: WebSocket, channel: string) {
