@@ -1,4 +1,4 @@
-<form method="GET" action="{{ route('tweets.index') }}">
+<form method="GET" action="{{ route('tweet.index') }}">
   <input type="text" name="search_word" value="{{ $searchWord }}" placeholder="検索ワード">
   <select name="sort">
     <option value="id"   {{ $sort === 'id' ? 'selected' : '' }}>ID</option>

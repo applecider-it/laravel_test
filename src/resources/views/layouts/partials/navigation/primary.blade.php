@@ -13,11 +13,11 @@
                 <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                     {{ __('Dashboard') }}
                 </x-nav-link>
-                <x-nav-link href="{{ route('tweets.index') }}" :active="request()->routeIs('tweets.index')">
-                    Tweets
+                <x-nav-link href="{{ route('tweet.index') }}" :active="request()->routeIs('tweet.index')">
+                    Tweet
                 </x-nav-link>
-                <x-nav-link href="{{ route('tweets.index_js') }}" :active="request()->routeIs('tweets.index_js')">
-                    Tweets (JS)
+                <x-nav-link href="{{ route('tweet_js.index') }}" :active="request()->routeIs('tweet_js.index')">
+                    Tweet (JS)
                 </x-nav-link>
                 <x-nav-link href="{{ route('chat.index') }}" :active="request()->routeIs('chat.index')">
                     Chat

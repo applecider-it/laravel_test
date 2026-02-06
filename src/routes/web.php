@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TweetController;
+use App\Http\Controllers\TweetJsController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\DevelopmentController;
 use App\Http\Controllers\PushNotificationController;
@@ -37,12 +38,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile/toggle_push_notification', [ProfileController::class, 'toggle_push_notification'])->name('profile.toggle_push_notification');
 
     // Tweet
-    Route::resource('tweets', TweetController::class)->only([
+    Route::resource('tweet', TweetController::class)->only([
         'index',
         'store',
         'destroy',
     ]);
-    Route::get('/tweets/index_js', [TweetController::class, 'index_js'])->name('tweets.index_js');
+    Route::get('/tweet_js/index', [TweetJsController::class, 'index'])->name('tweet_js.index');
 
     // Chat
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');

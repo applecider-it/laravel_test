@@ -5,7 +5,7 @@
 
         @if ($tweet->user_id === Auth::user()->id)
             <div class="mt-5">
-                <form method="POST" action="{{ route('tweets.destroy', $tweet) }}" onsubmit="return confirm('削除してもよろしいですか？')">
+                <form method="POST" action="{{ route('tweet.destroy', $tweet) }}" onsubmit="return confirm('削除してもよろしいですか？')">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="app-btn-danger app-btn-small">

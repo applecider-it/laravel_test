@@ -1,12 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="app-header-title">
-            Tweets確認
+            Tweet確認
         </h2>
     </x-slot>
 
     <div class="py-6 max-w-2xl mx-auto">
-        <form action="{{ route('tweets.store') }}" method="POST" class="mb-4">
+        <form action="{{ route('tweet.store') }}" method="POST" class="mb-4">
             @csrf
             <div class="mb-3">
                 <strong class="my-3">投稿内容:</strong><br>
@@ -18,9 +18,9 @@
             <button type="submit" class="mt-2 app-btn-secondary" name="back" value="on">戻る</button>
             <button type="submit" class="mt-2 app-btn-primary" name="commit" value="on">確定</button>
 
-            @include('tweets.partials.hidden')
+            @include('tweet.partials.hidden')
         </form>
 
-        @include('tweets.partials.index_common')
+        @include('tweet.partials.index_common')
     </div>
 </x-app-layout>

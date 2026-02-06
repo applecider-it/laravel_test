@@ -3,8 +3,8 @@
         <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
             {{ __('Dashboard') }}
         </x-responsive-nav-link>
-        <x-responsive-nav-link :href="route('tweets.index')" :active="request()->routeIs('tweets.index')">
-            Tweets
+        <x-responsive-nav-link :href="route('tweet.index')" :active="request()->routeIs('tweet.index')">
+            Tweet
         </x-responsive-nav-link>
         <x-responsive-nav-link :href="route('chat.index')" :active="request()->routeIs('chat.index')">
             Chat

@@ -1,4 +1,4 @@
-<form action="{{ route('tweets.store') }}" method="POST" class="mb-4">
+<form action="{{ route('tweet.store') }}" method="POST" class="mb-4">
     @csrf
     <textarea name="content" rows="3" class="w-full border rounded p-2" placeholder="What's happening?">{{ old('content') }}</textarea>
     @error('content')
@@ -6,5 +6,5 @@
     @enderror
     <button type="submit" class="mt-2 app-btn-primary" name="confirm" value="on">Tweet確認</button>
 
-    @include('tweets.partials.hidden')
+    @include('tweet.partials.hidden')
 </form>

@@ -8,9 +8,6 @@ use Illuminate\Support\Facades\Log;
 use App\Models\User\Tweet as UserTweet;
 use App\Services\Tweet\ListService as TweetListService;
 use App\Services\Tweet\FormService as TweetFormService;
-use App\Services\Tweet\WebsocketService as TweetWebsocketService;
-use App\Services\WebSocket\AuthService as WebSocketAuthService;
-use App\Services\Channels\TweetChannel;
 
 /**
  * ツイート管理コントローラー
@@ -23,14 +20,12 @@ class TweetController extends Controller
     public function __construct(
         private TweetListService $tweetListService,
         private TweetFormService $tweetFormService,
-        private TweetWebsocketService $tweetWebsocketService,
-        private WebSocketAuthService $webSocketAuthService
     ) {}
 
     /** 一覧ページ */
     public function index(Request $request)
     {
-        return view('tweets.index', $this->indexCommon($request));
+        return view('tweet.index', $this->indexCommon($request));
     }
 
     /** 追加処理 */
@@ -60,13 +55,13 @@ class TweetController extends Controller
         } else if ($confirm) {
             // 確認画面
 
-            return view('tweets.confirm', [
+            return view('tweet.confirm', [
                 'data' => $validated,
             ] + $this->indexCommon($request));
         } else {
             // 戻るとき
 
-            return redirect()->route('tweets.index')
+            return redirect()->route('tweet.index')
                 ->withInput($validated + $request->all());
         }
     }
@@ -101,25 +96,14 @@ class TweetController extends Controller
 
         $tweet->delete();
 
-        return redirect()->route('tweets.index')->with('success', 'ツイートを削除しました');
-    }
-
-    /** 一覧ページ(JS) */
-    public function index_js(Request $request)
-    {
-        $user = $request->user();
-        $tweets = UserTweet::with('user')->latest()->take(20)->get();
-
-        $token = $this->webSocketAuthService->createUserJwt($user, TweetChannel::getChannel());
-
-        return view('tweets.index_js', compact('tweets', 'token', 'user'));
+        return redirect()->route('tweet.index')->with('success', 'ツイートを削除しました');
     }
 
     /** オーナーチェック */
     public function ownerCheck(Request $request, UserTweet $tweet)
     {
         if ($tweet->user_id !== $request->user()->id) {
-            return redirect()->route('tweets.index')
+            return redirect()->route('tweet.index')
                 ->with('error', '権限がありません');
         }
 
