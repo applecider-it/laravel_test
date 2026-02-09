@@ -5,13 +5,15 @@
         </h2>
     </x-slot>
 
-    <div class="py-12 max-w-3xl mx-auto px-6">
+    <div class="py-6 max-w-7xl mx-auto px-6">
         <div class="mb-6 flex justify-between items-center">
             <a href="{{ route('admin.users.index') }}" class="app-btn-secondary">
                 一覧に戻る
             </a>
         </div>
+    </div>
 
+    <div class="py-12 max-w-3xl mx-auto px-6">
         @include('partials.form.errors')
 
         <form method="POST" action="{{ route('admin.users.store') }}" class="app-form">

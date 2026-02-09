@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-12 max-w-7xl mx-auto px-6">
+    <div class="py-6 max-w-7xl mx-auto px-6">
         <div class="mb-6 flex justify-between items-center">
             <a href="{{ route('admin.users.index') }}" class="app-btn-secondary">
                 一覧に戻る
