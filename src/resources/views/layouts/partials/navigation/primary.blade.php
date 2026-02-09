@@ -22,7 +22,7 @@
                 <x-nav-link href="{{ route('chat.index') }}" :active="request()->routeIs('chat.index')">
                     Chat
                 </x-nav-link>
-                <x-nav-link href="{{ route('chat.index_echo') }}" :active="request()->routeIs('chat.index_echo')">
+                <x-nav-link href="{{ route('chat_echo.index') }}" :active="request()->routeIs('chat_echo.index')">
                     Chat (Echo)
                 </x-nav-link>
             </div>

@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import ChatClient from "../ChatEchoClient";
-import ChatMessageInput from "./chat-echo-area/ChatMessageInput.vue";
+import ChatClient from "../ChatClient";
+import ChatMessageInput from "./chat-area/ChatMessageInput.vue";
 
 export default defineComponent({
     name: "ChatEchoArea",

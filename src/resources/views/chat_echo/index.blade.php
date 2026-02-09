@@ -10,7 +10,7 @@
 
     <div class="pt-6 max-w-2xl mx-auto space-x-4">
         @foreach ($rooms as $r)
-            <a href="{{ route('chat.index_echo', ['room' => $r]) }}" class="app-link-normal">{{ $r }}</a>
+            <a href="{{ route('chat_echo.index', ['room' => $r]) }}" class="app-link-normal">{{ $r }}</a>
         @endforeach
     </div>
 
@@ -21,5 +21,5 @@
     </div>
 
     {{-- Vite の JS 読み込み --}}
-    @vite(['resources/js/entrypoints/chat_echo.ts'])
+    @vite(['resources/js/entrypoints/chat-echo.ts'])
 </x-app-layout>

@@ -3,19 +3,19 @@
  */
 
 import { createApp } from "vue";
-import ChatEchoArea from "./vue/ChatEchoArea.vue";
+import ChatArea from "./vue/ChatArea.vue";
 
-import ChatEchoClient from "./ChatEchoClient";
+import ChatClient from "./ChatClient";
 
 const el = document.getElementById("chat-root") as HTMLElement | null;
 
 if (el) {
     const all = JSON.parse(el.dataset.all as string);
 
-    const chatEchoClient = new ChatEchoClient(all.room);
+    const chatClient = new ChatClient(all.room);
 
-    const app = createApp(ChatEchoArea, {
-        chatClient: chatEchoClient,
+    const app = createApp(ChatArea, {
+        chatClient: chatClient,
     });
 
     app.mount(el);

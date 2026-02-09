@@ -7,7 +7,7 @@ import { sendMessageEcho } from "@/services/api/rpc/chat-rpc";
 /**
  * チャット(Echo)クライアント
  */
-export default class ChatEchoClient {
+export default class ChatClient {
     private user;
     private room;
     private users = [];

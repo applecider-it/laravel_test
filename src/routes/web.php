@@ -12,6 +12,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TweetController;
 use App\Http\Controllers\TweetJsController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\ChatEchoController;
 use App\Http\Controllers\DevelopmentController;
 use App\Http\Controllers\PushNotificationController;
 use App\Http\Controllers\Rpc\DevelopmentRpcController;
@@ -47,7 +48,7 @@ Route::middleware('auth')->group(function () {
 
     // Chat
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
-    Route::get('/chat/echo', [ChatController::class, 'index_echo'])->name('chat.index_echo');
+    Route::get('/chat_echo', [ChatEchoController::class, 'index'])->name('chat_echo.index');
 
     // JSON-RPC
     Route::post('/rpc/development/{name}', [DevelopmentRpcController::class, 'handle']);

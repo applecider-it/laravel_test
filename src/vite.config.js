@@ -12,6 +12,7 @@ export default defineConfig({
                 "resources/js/app.ts",
                 "resources/js/entrypoints/tweet.ts",
                 "resources/js/entrypoints/chat.ts",
+                "resources/js/entrypoints/chat-echo.ts",
                 "resources/js/entrypoints/development/javascript-test.ts",
             ],
             refresh: true,
