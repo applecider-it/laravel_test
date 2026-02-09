@@ -35,7 +35,8 @@ class UserController extends Controller
     /** 新規作成 */
     public function create()
     {
-        return view('admin.users.create');
+        $user = new User();
+        return view('admin.users.create', compact('user'));
     }
 
     /** 登録処理 */

@@ -10,38 +10,19 @@
             <a href="{{ route('admin.users.index') }}" class="app-btn-secondary">
                 一覧に戻る
             </a>
-            @if(session('success'))
-                <div class="text-green-600 font-medium">{{ session('success') }}</div>
-            @endif
         </div>
     </div>
 
     <div class="max-w-3xl mx-auto px-6">
         @include('partials.form.errors')
 
+        @include('partials.message.session')
+
         <form method="POST" action="{{ route('admin.users.update', $user) }}" class="app-form">
             @csrf
             @method('PUT')
 
-            <div>
-                <label for="name" class="app-form-label">名前</label>
-                <input type="text" name="name" id="name" value="{{ old('name', $user->name) }}" class="mt-1 app-form-input">
-            </div>
-
-            <div>
-                <label for="email" class="app-form-label">メールアドレス</label>
-                <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}" class="mt-1 app-form-input">
-            </div>
-
-            <div>
-                <label for="password" class="app-form-label">パスワード（変更する場合のみ）</label>
-                <input type="password" name="password" id="password" class="mt-1 app-form-input">
-            </div>
-
-            <div>
-                <label for="password_confirmation" class="app-form-label">パスワード確認</label>
-                <input type="password" name="password_confirmation" id="password_confirmation" class="mt-1 app-form-input">
-            </div>
+            @include('admin.users.partials.form')
 
             <div>
                 <label for="name" class="app-form-label">更新日時</label>
@@ -63,7 +44,7 @@
 
     <div class="py-12 max-w-7xl mx-auto px-6">
         <div>
-            @include('admin.users.partials.tweets')
+            @include('admin.users.partials.edit_tweets')
         </div>
     </div>
 
