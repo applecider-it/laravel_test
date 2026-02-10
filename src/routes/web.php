@@ -18,6 +18,7 @@ use App\Http\Controllers\PushNotificationController;
 use App\Http\Controllers\Rpc\DevelopmentRpcController;
 use App\Http\Controllers\Rpc\TweetRpcController;
 use App\Http\Controllers\Rpc\ChatRpcController;
+use App\Http\Controllers\Rpc\ChatEchoRpcController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -54,6 +55,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/rpc/development/{name}', [DevelopmentRpcController::class, 'handle']);
     Route::post('/rpc/tweet/{name}', [TweetRpcController::class, 'handle']);
     Route::post('/rpc/chat/{name}', [ChatRpcController::class, 'handle']);
+    Route::post('/rpc/chat-echo/{name}', [ChatEchoRpcController::class, 'handle']);
 });
 
 // 開発者向けページ

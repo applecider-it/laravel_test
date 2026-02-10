@@ -2,7 +2,7 @@ import { getAuthUser } from "@/services/app/application";
 import { MyEcho } from "@/services/app/echo";
 import { showToast } from "@/services/ui/message";
 
-import { sendMessageEcho } from "@/services/api/rpc/chat-rpc";
+import { sendMessage } from "@/services/api/rpc/chat-echo-rpc";
 
 /**
  * チャット(Echo)クライアント
@@ -41,7 +41,7 @@ export default class ChatClient {
             return;
         }
 
-        sendMessageEcho(message, this.room, options);
+        sendMessage(message, this.room, options);
     }
 
     /** ユーザー一覧セットアップ */

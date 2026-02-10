@@ -33,21 +33,4 @@ class FormApiService
 
         return $response;
     }
-
-    /** Echoでチャットメッセージ送信処理 */
-    public function sendMessageEcho(Request $request, User $user)
-    {
-        $room = $request->input('room');
-        $message = $request->input('message');
-        $options = $request->input('options');
-
-        $others = $options['others'] ?? false;
-
-        Log::info("sendMessageEcho options", [$options, $others]);
-
-        //event(new \App\Events\ChatMessageSent($message, $room, $user));
-        $obj = broadcast(new \App\Events\ChatMessageSent($message, $room, $user));
-
-        if ($others) $obj->toOthers();
-    }
 }

@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 
 /**
- * チャットRPC管理コントローラー
+ * チャット(Echo)RPC管理コントローラー
  */
-class ChatRpcController extends Controller
+class ChatEchoRpcController extends Controller
 {
     public function __construct(
     ) {}
@@ -22,7 +22,7 @@ class ChatRpcController extends Controller
 
         if ($name === 'send_message') {
             return response()->json(
-                app(\App\Services\Chat\FormApiService::class)->sendMessage($request, $user)
+                app(\App\Services\ChatEcho\FormApiService::class)->sendMessage($request, $user)
             );
         }
 
