@@ -12,6 +12,8 @@ const el = document.getElementById("chat-root") as HTMLElement | null;
 if (el) {
     const all = JSON.parse(el.dataset.all as string);
 
+    console.log('all', all);
+
     const chatClient = new ChatClient(all.room);
 
     const app = createApp(ChatArea, {
