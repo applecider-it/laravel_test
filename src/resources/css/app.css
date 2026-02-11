@@ -95,7 +95,7 @@
 
     /* 標準的なコンテナー */
     .app-container {
-        @apply pt-6 max-w-2xl mx-auto;
+        @apply py-10 max-w-2xl mx-auto;
     }
 
     /* 大きめなコンテナー */
