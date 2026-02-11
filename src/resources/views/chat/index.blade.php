@@ -8,19 +8,25 @@
         </h2>
     </x-slot>
 
-    <div class="pt-6 max-w-2xl mx-auto space-x-4">
-        @foreach ($rooms as $r)
-            <a href="{{ route('chat.index', ['room' => $r]) }}" class="app-link-normal">{{ $r }}</a>
-        @endforeach
+    <div class="app-container">
+        <div class="space-x-4">
+            @foreach ($rooms as $r)
+                <a href="{{ route('chat.index', ['room' => $r]) }}" class="app-link-normal">{{ $r }}</a>
+            @endforeach
+        </div>
+
+        <div class="my-4">
+            <div id="chat-root" data-all="{{ json_encode([
+                'room' => $room,
+                'token' => $token,
+                'wsHost' => config('myapp.ws_server_host'),
+            ]) }}">
+                @include('partials.message.loading')
+            </div>
+        </div>
     </div>
 
-    <div id="chat-root" data-all="{{ json_encode([
-        'room' => $room,
-        'token' => $token,
-        'wsHost' => config('myapp.ws_server_host'),
-    ]) }}">
-        @include('partials.message.loading')
-    </div>
+
 
     {{-- Vite の JS 読み込み --}}
     @vite(['resources/js/entrypoints/chat.ts'])

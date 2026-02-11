@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-6 max-w-2xl mx-auto">
+    <div class="app-container">
         <form action="{{ route('tweet.store') }}" method="POST" class="mb-4">
             @csrf
             <div class="mb-3">

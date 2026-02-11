@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-6 max-w-2xl mx-auto">
+    <div class="app-container">
         <div
             id="tweet-app"
             data-all="{{ json_encode([

@@ -8,16 +8,20 @@
         </h2>
     </x-slot>
 
-    <div class="pt-6 max-w-2xl mx-auto space-x-4">
-        @foreach ($rooms as $r)
-            <a href="{{ route('chat_echo.index', ['room' => $r]) }}" class="app-link-normal">{{ $r }}</a>
-        @endforeach
-    </div>
+    <div class="app-container">
+        <div class="space-x-4">
+            @foreach ($rooms as $r)
+                <a href="{{ route('chat_echo.index', ['room' => $r]) }}" class="app-link-normal">{{ $r }}</a>
+            @endforeach
+        </div>
 
-    <div id="chat-root" data-all="{{ json_encode([
-        'room' => $room,
-    ]) }}">
-        @include('partials.message.loading')
+        <div class="my-4">
+            <div id="chat-root" data-all="{{ json_encode([
+                'room' => $room,
+            ]) }}">
+                @include('partials.message.loading')
+            </div>
+        </div>
     </div>
 
     {{-- Vite の JS 読み込み --}}

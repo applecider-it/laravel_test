@@ -5,15 +5,13 @@
         </h2>
     </x-slot>
 
-    <div class="py-6 max-w-7xl mx-auto px-6">
-        <div class="mb-6 flex justify-between items-center">
+    <div class="app-container-lg">
+        <div class="mb-6">
             <a href="{{ route('admin.users.index') }}" class="app-btn-secondary">
                 一覧に戻る
             </a>
         </div>
-    </div>
 
-    <div class="max-w-3xl mx-auto px-6">
         @include('partials.form.errors')
 
         @include('partials.message.session')
@@ -40,36 +38,36 @@
                 </button>
             </div>
         </form>
-    </div>
 
-    <div class="py-12 max-w-7xl mx-auto px-6">
-        <div>
-            @include('admin.users.partials.edit_tweets')
-        </div>
-    </div>
-
-    <div class="max-w-3xl mx-auto py-20 px-6">
-        <div class="my-6 flex justify-between items-center">
+        <div class="my-5">
             <div>
-                ユーザー論理削除
+                @include('admin.users.partials.edit_tweets')
             </div>
-            <div>
-                @if($user->deleted_at)
-                    <form method="POST" action="{{ route('admin.users.restore', $user) }}" onsubmit="return confirm('復元してもよろしいですか？')">
-                        @csrf
-                        <button type="submit" class="app-btn-orange">
-                            復元
-                        </button>
-                    </form>
-                @else
-                    <form method="POST" action="{{ route('admin.users.destroy', $user) }}" onsubmit="return confirm('削除してもよろしいですか？')">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="app-btn-danger">
-                            削除
-                        </button>
-                    </form>
-                @endif
+        </div>
+
+        <div class="mt-20">
+            <div class="flex justify-between items-center">
+                <div>
+                    ユーザー論理削除
+                </div>
+                <div>
+                    @if($user->deleted_at)
+                        <form method="POST" action="{{ route('admin.users.restore', $user) }}" onsubmit="return confirm('復元してもよろしいですか？')">
+                            @csrf
+                            <button type="submit" class="app-btn-orange">
+                                復元
+                            </button>
+                        </form>
+                    @else
+                        <form method="POST" action="{{ route('admin.users.destroy', $user) }}" onsubmit="return confirm('削除してもよろしいですか？')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="app-btn-danger">
+                                削除
+                            </button>
+                        </form>
+                    @endif
+                </div>
             </div>
         </div>
     </div>

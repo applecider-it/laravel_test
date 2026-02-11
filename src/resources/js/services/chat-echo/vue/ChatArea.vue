@@ -57,7 +57,7 @@ export default defineComponent({
 </script>
 
 <template>
-    <div class="max-w-2xl mx-auto py-6">
+    <div>
         <!-- 入力エリア -->
         <div>
             <ChatMessageInput

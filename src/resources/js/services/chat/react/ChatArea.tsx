@@ -33,7 +33,7 @@ export default function ChatArea({ chatClient }: Prop) {
     };
 
     return (
-        <div className="max-w-2xl mx-auto py-6">
+        <div>
             <div>
                 <input
                     type="text"

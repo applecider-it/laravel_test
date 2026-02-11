@@ -7,7 +7,7 @@
 
     @vite(['resources/js/entrypoints/development/javascript-test.ts'])
 
-    <div class="py-6 max-w-2xl mx-auto">
+    <div class="app-container">
         <div id="vue-test-root" data-all="{{ json_encode([
             'testValue' => 456,
             'token' => $token,

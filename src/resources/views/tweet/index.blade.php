@@ -8,7 +8,7 @@
     @include('partials.message.session')
     @include('partials.message.errors', ['input_error_message' => 'ツイートの入力に問題があります'])
 
-    <div class="py-6 max-w-2xl mx-auto">
+    <div class="app-container">
         @include('tweet.partials.form')
 
         @include('tweet.partials.index_common')
