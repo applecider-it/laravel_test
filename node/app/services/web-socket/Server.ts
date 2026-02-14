@@ -3,17 +3,13 @@ import { WebSocket, WebSocketServer } from 'ws';
 import { log } from '@/services/system/log.js';
 import { appConfig } from '@/config/config.js';
 
-import {
-  broadcastSameChannel,
-  getSameChannelUsers,
-  toBroadcastUser,
-} from './server/utils/broadcastUtil.js';
-import { getSystemUser } from './server/utils/systemUtil.js';
-
 import RedisCtrl from './server/RedisCtrl.js';
 import WebSocketCtrl from './server/WebSocketCtrl.js';
 import ChannelsCtrl from './server/ChannelsCtrl.js';
 import GlobalUsersCtrl from './server/GlobalUsersCtrl.js';
+import AuthCtrl from './server/AuthCtrl.js';
+import SystemCtrl from './server/SystemCtrl.js';
+import BroadcastCtrl from './server/BroadcastCtrl.js';
 
 import { WebSocketUser, Incoming, BroadcastSendData } from './types.js';
 
@@ -22,16 +18,22 @@ import { WebSocketUser, Incoming, BroadcastSendData } from './types.js';
  */
 export default class Server {
   /** WebSocket サーバーのRedis管理 */
-  redisCtrl;
+  private redisCtrl;
   /** WebSocket サーバーのWebSocket管理 */
-  webSocketCtrl;
+  private webSocketCtrl;
   /** WebSocket サーバーのChannel管理 */
-  cannelsCtrl;
+  private cannelsCtrl;
   /** WebSocket サーバーの全てのWebSocketサーバーのユーザー管理 */
-  globalUsersCtrl;
+  private globalUsersCtrl;
+  /** WebSocket サーバーのSystem管理 */
+  private systemCtrl;
+  /** WebSocket サーバーのBroadcast管理 */
+  private broadcastCtrl;
+  /** WebSocket サーバーのAuth管理 */
+  private authCtrl;
 
   /** システムから送信するときの送信タイプ */
-  systemSendType;
+  private systemSendType;
 
   constructor() {
     this.systemSendType = appConfig.webSocket.systemSendType;
@@ -42,6 +44,9 @@ export default class Server {
 
     this.cannelsCtrl = new ChannelsCtrl();
     this.globalUsersCtrl = new GlobalUsersCtrl();
+    this.systemCtrl = new SystemCtrl();
+    this.broadcastCtrl = new BroadcastCtrl();
+    this.authCtrl = new AuthCtrl();
 
     // WebSocket管理初期化
     this.webSocketCtrl = new WebSocketCtrl(
@@ -56,6 +61,7 @@ export default class Server {
       async (wss: WebSocketServer, ws: WebSocket) => {
         await this.onDisconnect(wss, ws);
       },
+      this.authCtrl
     );
 
     // Redis管理初期化
@@ -64,6 +70,7 @@ export default class Server {
         await this.onRedisMessage(sender, incoming, type);
       },
       redisUrl,
+      this.systemCtrl
     );
   }
 
@@ -112,7 +119,7 @@ export default class Server {
 
       const type = 'connectOther';
       const data = {
-        user: toBroadcastUser(user),
+        user: this.broadcastCtrl.toBroadcastUser(user),
       };
 
       await this.sendBySystem(channel, data, type);
@@ -136,7 +143,7 @@ export default class Server {
 
       const type = 'disconnectOther';
       const data = {
-        user: toBroadcastUser(user),
+        user: this.broadcastCtrl.toBroadcastUser(user),
       };
 
       await this.sendBySystem(channel, data, type);
@@ -159,7 +166,7 @@ export default class Server {
     if (this.systemSendType === 'redis') {
       return this.globalUsersCtrl.getGlobalUsers(ws);
     } else {
-      return getSameChannelUsers(wss, ws);
+      return this.broadcastCtrl.getSameChannelUsers(wss, ws);
     }
   }
 
@@ -172,7 +179,7 @@ export default class Server {
         data: data,
       };
 
-      await this.sendCommon(getSystemUser(channel), incoming, type);
+      await this.sendCommon(this.systemCtrl.getSystemUser(channel), incoming, type);
     }
   }
 
@@ -191,11 +198,11 @@ export default class Server {
 
     const sendData: BroadcastSendData = {
       type: type,
-      sender: toBroadcastUser(sender),
+      sender: this.broadcastCtrl.toBroadcastUser(sender),
       data: data,
     };
 
-    broadcastSameChannel(
+    this.broadcastCtrl.broadcastSameChannel(
       sendData,
       sender,
       incoming,

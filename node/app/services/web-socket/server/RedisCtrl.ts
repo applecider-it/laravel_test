@@ -4,9 +4,9 @@ import { log } from '@/services/system/log.js';
 
 import { WebSocketUser, Incoming } from '../types.js';
 
-import { getSystemUser } from './utils/systemUtil.js';
-
 import { appConfig } from '@/config/config.js';
+
+import SystemCtrl from './SystemCtrl.js';
 
 /**
  * WebSocket サーバーのRedis管理
@@ -23,8 +23,12 @@ export default class RedisCtrl {
   /** メッセージ受信時のコールバック */
   private callback: Function;
 
-  constructor(callback: Function, redisUrl: string) {
+  /** WebSocket サーバーのSystem管理 */
+  private systemCtrl;
+
+  constructor(callback: Function, redisUrl: string, systemCtrl: SystemCtrl) {
     this.callback = callback;
+    this.systemCtrl = systemCtrl;
     this.pubsubChannel = appConfig.redis.prefix + appConfig.webSocketRedis.channel;
 
     this.redis = new Redis(redisUrl);
@@ -58,7 +62,7 @@ export default class RedisCtrl {
       return;
     }
 
-    const sender = getSystemUser(ret.channel);
+    const sender = this.systemCtrl.getSystemUser(ret.channel);
 
     const incoming: Incoming = {
       data: ret.data,

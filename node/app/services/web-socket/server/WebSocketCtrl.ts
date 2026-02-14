@@ -3,9 +3,9 @@ import { IncomingMessage } from 'http';
 
 import { log } from '@/services/system/log.js';
 
-import { authenticate } from './utils/authUtil.js';
-
 import { WebSocketUser, Incoming } from '../types.js';
+
+import AuthCtrl from './AuthCtrl.js';
 
 /**
  * WebSocket サーバーのWebSocket管理
@@ -19,17 +19,21 @@ export default class WebSocketCtrl {
   private callbackConnected: Function;
   /** 切断時のコールバック */
   private callbackDisconnected: Function;
+  /** WebSocket サーバーのAuth管理 */
+  private authCtrl;
 
   constructor(
     host: string,
     port: number,
     callback: Function,
     callbackConnected: Function,
-    callbackDisconnected: Function
+    callbackDisconnected: Function,
+    authCtrl: AuthCtrl,
   ) {
     this.callback = callback;
     this.callbackConnected = callbackConnected;
     this.callbackDisconnected = callbackDisconnected;
+    this.authCtrl = authCtrl;
 
     this.wss = new WebSocketServer({ host, port });
 
@@ -40,7 +44,7 @@ export default class WebSocketCtrl {
 
   /** コネクション時 */
   private handleConnection(ws: WebSocket, req: IncomingMessage) {
-    const user = authenticate(req);
+    const user = this.authCtrl.authenticate(req);
 
     if (!user) {
       log('invalid authenticate');
