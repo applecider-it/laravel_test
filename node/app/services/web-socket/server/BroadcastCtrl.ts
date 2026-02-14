@@ -11,7 +11,7 @@ import type ChannelsCtrl from './ChannelsCtrl.js';
  */
 export default class BroadcastCtrl {
   /** 特定のチャンネルに、全体送信できるクライアントか確認 */
-  private canBroadcast(client: WebSocket, channel: string) {
+  public canBroadcast(client: WebSocket, channel: string) {
     const user = client.user as WebSocketUser;
 
     if (client.readyState === WebSocket.OPEN) {
@@ -21,26 +21,6 @@ export default class BroadcastCtrl {
     }
 
     return false;
-  }
-
-  /**
-   * 同じチャンネルのユーザー公開情報一覧
-   */
-  getSameChannelUsers(wss: WebSocketServer, ws: WebSocket) {
-    const target = ws.user as WebSocketUser;
-    const list: any[] = [];
-    wss.clients.forEach(async (client: WebSocket) => {
-      const user = client.user as WebSocketUser;
-
-      if (!this.canBroadcast(client, target.channel)) return;
-
-      list.push({
-        id: user.id,
-        name: user.name,
-      });
-    });
-
-    return list;
   }
 
   /** 同じチャンネルに全体送信 */

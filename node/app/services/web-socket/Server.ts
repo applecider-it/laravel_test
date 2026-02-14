@@ -43,10 +43,14 @@ export default class Server {
     const redisUrl = appConfig.redis.url;
 
     this.cannelsCtrl = new ChannelsCtrl();
-    this.globalUsersCtrl = new GlobalUsersCtrl();
     this.systemCtrl = new SystemCtrl();
     this.broadcastCtrl = new BroadcastCtrl();
     this.authCtrl = new AuthCtrl();
+
+    this.globalUsersCtrl = new GlobalUsersCtrl(
+      this.systemSendType,
+      this.broadcastCtrl,
+    );
 
     // WebSocket管理初期化
     this.webSocketCtrl = new WebSocketCtrl(
@@ -61,7 +65,7 @@ export default class Server {
       async (wss: WebSocketServer, ws: WebSocket) => {
         await this.onDisconnect(wss, ws);
       },
-      this.authCtrl
+      this.authCtrl,
     );
 
     // Redis管理初期化
@@ -70,7 +74,7 @@ export default class Server {
         await this.onRedisMessage(sender, incoming, type);
       },
       redisUrl,
-      this.systemCtrl
+      this.systemCtrl,
     );
   }
 
@@ -89,7 +93,7 @@ export default class Server {
     incoming: Incoming,
     type: string,
   ) {
-    this.updateGlobalUsers(sender, incoming, type);
+    this.globalUsersCtrl.updateGlobalUsers(sender, incoming, type);
 
     await this.sendCommon(sender, incoming, type);
   }
@@ -111,7 +115,7 @@ export default class Server {
       ws.send(
         JSON.stringify({
           type: 'connected',
-          users: this.getGlobalUsers(wss, ws),
+          users: this.globalUsersCtrl.getGlobalUsers(wss, ws),
         }),
       );
 
@@ -150,36 +154,24 @@ export default class Server {
     }
   }
 
-  /** 全てのWebSocketサーバーのユーザー情報を更新 */
-  updateGlobalUsers(sender: WebSocketUser, incoming: Incoming, type: string) {
-    if (this.systemSendType === 'redis') {
-      if (type === 'connectOther') {
-        this.globalUsersCtrl.setGlobalUser(sender, incoming);
-      } else if (type === 'disconnectOther') {
-        this.globalUsersCtrl.deleteGlobalUser(incoming);
-      }
-    }
-  }
-
-  /** 全てのWebSocketサーバーのユーザー情報を返す */
-  getGlobalUsers(wss: WebSocketServer, ws: WebSocket) {
-    if (this.systemSendType === 'redis') {
-      return this.globalUsersCtrl.getGlobalUsers(ws);
-    } else {
-      return this.broadcastCtrl.getSameChannelUsers(wss, ws);
-    }
-  }
-
   /** システムからの全体送信 */
   async sendBySystem(channel: string, data: any, type: string) {
     if (this.systemSendType === 'redis') {
+      // システムからの送信にRedisを使うとき
+
       await this.redisCtrl.publish(channel, data, type);
     } else {
+      // システムからの送信にWebSocketを使うとき
+
       const incoming: Incoming = {
         data: data,
       };
 
-      await this.sendCommon(this.systemCtrl.getSystemUser(channel), incoming, type);
+      await this.sendCommon(
+        this.systemCtrl.getSystemUser(channel),
+        incoming,
+        type,
+      );
     }
   }
 
