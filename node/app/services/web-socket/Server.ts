@@ -6,7 +6,7 @@ import { appConfig } from '@/config/config.js';
 import RedisCtrl from './server/RedisCtrl.js';
 import WebSocketCtrl from './server/WebSocketCtrl.js';
 import ChannelsCtrl from './server/ChannelsCtrl.js';
-import GlobalUsersCtrl from './server/GlobalUsersCtrl.js';
+import UsersCtrl from './server/UsersCtrl.js';
 import AuthCtrl from './server/AuthCtrl.js';
 import SystemCtrl from './server/SystemCtrl.js';
 import BroadcastCtrl from './server/BroadcastCtrl.js';
@@ -23,8 +23,8 @@ export default class Server {
   private webSocketCtrl;
   /** WebSocket サーバーのChannel管理 */
   private cannelsCtrl;
-  /** WebSocket サーバーの全てのWebSocketサーバーのユーザー管理 */
-  private globalUsersCtrl;
+  /** WebSocket サーバーの全てのユーザー管理 */
+  private usersCtrl;
   /** WebSocket サーバーのSystem管理 */
   private systemCtrl;
   /** WebSocket サーバーのBroadcast管理 */
@@ -47,7 +47,7 @@ export default class Server {
     this.broadcastCtrl = new BroadcastCtrl();
     this.authCtrl = new AuthCtrl();
 
-    this.globalUsersCtrl = new GlobalUsersCtrl(
+    this.usersCtrl = new UsersCtrl(
       this.systemSendType,
       this.broadcastCtrl,
     );
@@ -93,7 +93,7 @@ export default class Server {
     incoming: Incoming,
     type: string,
   ) {
-    this.globalUsersCtrl.updateGlobalUsers(sender, incoming, type);
+    this.usersCtrl.updateGlobalUser(sender, incoming, type);
 
     await this.sendCommon(sender, incoming, type);
   }
@@ -115,7 +115,7 @@ export default class Server {
       ws.send(
         JSON.stringify({
           type: 'connected',
-          users: this.globalUsersCtrl.getGlobalUsers(wss, ws),
+          users: this.usersCtrl.getSameChannelUsers(wss, ws),
         }),
       );
 

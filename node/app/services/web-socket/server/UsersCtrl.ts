@@ -19,7 +19,7 @@ import BroadcastCtrl from './BroadcastCtrl.js';
  * 返却フォーマット
  * [ {id, name} ]
  */
-export default class GlobalUsersCtrl {
+export default class UsersCtrl {
   /** 全てのWebSocketサーバーのユーザー情報 */
   private globalUsers = new Map();
 
@@ -34,8 +34,8 @@ export default class GlobalUsersCtrl {
     this.broadcastCtrl = broadcastCtrl;
   }
 
-  /** 全てのWebSocketサーバーのユーザー情報を更新 */
-  updateGlobalUsers(sender: WebSocketUser, incoming: Incoming, type: string) {
+  /** システムからの送信にRedisを使うときだけ、ユーザー情報を更新 */
+  updateGlobalUser(sender: WebSocketUser, incoming: Incoming, type: string) {
     if (this.systemSendType === 'redis') {
       // システムからの送信にRedisを使うとき
 
@@ -48,19 +48,6 @@ export default class GlobalUsersCtrl {
 
         this.deleteGlobalUser(incoming);
       }
-    }
-  }
-
-  /** 全てのユーザー情報を返す */
-  getGlobalUsers(wss: WebSocketServer, ws: WebSocket) {
-    if (this.systemSendType === 'redis') {
-      // システムからの送信にRedisを使うとき
-
-      return this.getGlobalUsersMap(ws);
-    } else {
-      // システムからの送信にWebSocketを使うとき
-
-      return this.getSameChannelUsers(wss, ws);
     }
   }
 
@@ -79,10 +66,21 @@ export default class GlobalUsersCtrl {
     log('GlobalUsersCtrl: deleteGlobalUser', incoming, this.globalUsers);
   }
 
-  /**
-   * 同じチャンネルのユーザー公開情報一覧
-   */
-  private getSameChannelUsers(wss: WebSocketServer, ws: WebSocket) {
+  /** 同じチャンネルのユーザー公開情報一覧 */
+  getSameChannelUsers(wss: WebSocketServer, ws: WebSocket) {
+    if (this.systemSendType === 'redis') {
+      // システムからの送信にRedisを使うとき
+
+      return this.getSameChannelGlobalUsers(ws);
+    } else {
+      // システムからの送信にWebSocketを使うとき
+
+      return this.getSameChannelWebSocketUsers(wss, ws);
+    }
+  }
+
+  /** 同じチャンネルのユーザー公開情報一覧 (WebSocket) */
+  private getSameChannelWebSocketUsers(wss: WebSocketServer, ws: WebSocket) {
     const target = ws.user as WebSocketUser;
     const list: any[] = [];
     wss.clients.forEach(async (client: WebSocket) => {
@@ -99,8 +97,8 @@ export default class GlobalUsersCtrl {
     return list;
   }
 
-  /** 全てのWebSocketサーバーのユーザー情報を */
-  private getGlobalUsersMap(ws: WebSocket) {
+  /** 同じチャンネルのユーザー公開情報一覧 (Redis経由) */
+  private getSameChannelGlobalUsers(ws: WebSocket) {
     const user = ws.user as WebSocketUser;
     const list = [...this.globalUsers.entries()]
       .filter(([_, row]) => row.channel === user.channel)
