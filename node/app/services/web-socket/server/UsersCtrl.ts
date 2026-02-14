@@ -57,13 +57,13 @@ export default class UsersCtrl {
       name: incoming.data.user.name,
       channel: sender.channel,
     });
-    log('GlobalUsersCtrl: setGlobalUser', incoming, sender, this.globalUsers);
+    log('UsersCtrl: setGlobalUser', incoming, sender, this.globalUsers);
   }
 
   /** UserIDをキーにして、削除 */
   private deleteGlobalUser(incoming: Incoming) {
     this.globalUsers.delete(incoming.data.user.id);
-    log('GlobalUsersCtrl: deleteGlobalUser', incoming, this.globalUsers);
+    log('UsersCtrl: deleteGlobalUser', incoming, this.globalUsers);
   }
 
   /** 同じチャンネルのユーザー公開情報一覧 */
@@ -106,7 +106,7 @@ export default class UsersCtrl {
         id,
         name: row.name,
       }));
-    log('GlobalUsersCtrl: getGlobalUsers', list);
+    log('UsersCtrl: getGlobalUsers', list);
     return list;
   }
 }

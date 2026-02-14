@@ -193,7 +193,30 @@ detaul: {
 }
 ```
 
+## システムから送信するときの送信タイプ
 
+`appConfig.webSocket.systemSendType`
+
+### websocket
+
+ユーザー一覧は、`WebSocketServer.clients`から取得。
+
+### redis
+
+ユーザー一覧は、redis経由で、変数に蓄積される。
+
+#### 接続時、切断時の流れ
+
+```
+クライアント接続切断
+ ↓
+ハンドシェイクしたWebSocketサーバー
+   → Redis Publish
+ ↓
+全WebSocketサーバー
+   → Redis subscribe
+   → 変数への反映
+```
 
 
 
