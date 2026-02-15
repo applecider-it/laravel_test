@@ -4,22 +4,18 @@
 import { ref } from "vue";
 
 interface Props {
-    list_val: number;
-    radio_val: string;
-    datetime_val: string;
-    list_vals: any;
-    radio_vals: any;
+    listVal: number;
+    radioVal: string;
+    dateTimeVal: string;
+    listVals: Record<string, string>;
+    radioVals: Record<string, string>;
 }
 
 const props = defineProps<Props>();
 
-const listVal = ref(props.list_val);
-const radioVal = ref(props.radio_val);
-const dateTimeVal = ref(props.datetime_val);
-
-const listVals = ref(props.list_vals);
-
-const radioVals = ref(props.radio_vals);
+const listVal = ref(props.listVal);
+const radioVal = ref(props.radioVal);
+const dateTimeVal = ref(props.dateTimeVal);
 </script>
 
 <template>
