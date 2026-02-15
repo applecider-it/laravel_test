@@ -20,7 +20,7 @@ const radioVals = ref([
 </script>
 
 <template>
-    <div>
+    <div class="app-form">
         Form動作確認
 
         <div class="mt-5">

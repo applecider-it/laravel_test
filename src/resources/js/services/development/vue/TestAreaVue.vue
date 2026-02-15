@@ -20,45 +20,47 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+
+const blockStyle = "border-gray-400 border-2 p-3";
 </script>
 
 <template>
     <div class="py-6 border-gray-500 border-2 p-5">
         <div class="mb-6 text-lg">vue.js動作確認</div>
 
-        <div class="space-y-3">
-            <div>
+        <div class="space-y-4">
+            <div :class="blockStyle">
                 <RefArea :testValue="testValue" />
             </div>
 
-            <div>
+            <div :class="blockStyle">
                 <UIArea />
             </div>
 
-            <div>
+            <div :class="blockStyle">
                 <DefineModelArea />
             </div>
 
-            <div>
+            <div :class="blockStyle">
                 <OptionsModelArea />
             </div>
 
-            <div>
+            <div :class="blockStyle">
                 <LaravelEchoArea />
             </div>
 
-            <div>
+            <div :class="blockStyle">
                 <SlowJobArea
                     :sampleJobClient="sampleJobClient"
                     :progressClient="progressClient"
                 />
             </div>
 
-            <div>
+            <div :class="blockStyle">
                 <ModalArea />
             </div>
 
-            <div>
+            <div :class="blockStyle">
                 <FormArea />
             </div>
         </div>
