@@ -48,6 +48,14 @@ class DevelopmentController extends Controller
     /** viewテスト */
     public function view_test(Request $request)
     {
+        return view('development.view_test', $this->view_test_common());
+    }
+    public function view_test_post(Request $request)
+    {
+        return redirect()->back()->withInput();
+    }
+    private function view_test_common()
+    {
         $list_val = 2;
         $radio_val = 'val2';
         $datetime_val = '2026-02-15T14:30';
@@ -60,14 +68,13 @@ class DevelopmentController extends Controller
             'val1' => 'Value 1',
             'val2' => 'Value 2',
         ];
-        return view('development.view_test', compact(
-            'list_val','radio_val','datetime_val',
-            'list_vals', 'radio_vals'
-        ));
-    }
-    public function view_test_post(Request $request)
-    {
-        return redirect()->back()->withInput();
+        return compact(
+            'list_val',
+            'radio_val',
+            'datetime_val',
+            'list_vals',
+            'radio_vals'
+        );
     }
 
     /** javascriptテスト */
@@ -76,6 +83,10 @@ class DevelopmentController extends Controller
         $user = auth()->user();
 
         $token = $this->webSocketAuthService->createUserJwt($user, ProgressChannel::getChannel($user->id));
-        return view('development.javascript_test', compact('token'));
+        return view(
+            'development.javascript_test',
+            compact('token') +
+                ['formData' => $this->view_test_common()]
+        );
     }
 }

@@ -12,6 +12,7 @@
             'testValue' => 456,
             'token' => $token,
             'wsHost' => config('myapp.ws_server_host'),
+            'formData' => $formData,
         ]) }}">
             @include('partials.message.loading')
         </div>

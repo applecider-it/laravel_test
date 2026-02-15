@@ -17,6 +17,7 @@ interface Props {
     testValue?: number;
     progressClient: ProgressClient;
     sampleJobClient: SampleJobClient;
+    formData: any;
 }
 
 const props = defineProps<Props>();
@@ -61,7 +62,7 @@ const blockStyle = "border-gray-400 border-2 p-3";
             </div>
 
             <div :class="blockStyle">
-                <FormArea />
+                <FormArea :formData="formData" />
             </div>
         </div>
     </div>

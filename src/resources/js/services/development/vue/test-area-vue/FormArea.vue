@@ -3,20 +3,19 @@
 
 import { ref } from "vue";
 
-const listVal = ref(2);
-const radioVal = ref("val1");
-const dateTimeVal = ref("2026-02-15T14:30");
+interface Props {
+    formData: any;
+}
 
-const listVals = ref([
-    { value: 1, label: "No. 1" },
-    { value: 2, label: "No. 2" },
-    { value: 3, label: "No. 3" },
-]);
+const props = defineProps<Props>();
 
-const radioVals = ref([
-    { value: "val1", label: "Value 1" },
-    { value: "val2", label: "Value 2" },
-]);
+const listVal = ref(props.formData.list_val);
+const radioVal = ref(props.formData.radio_val);
+const dateTimeVal = ref(props.formData.datetime_val);
+
+const listVals = ref(props.formData.list_vals);
+
+const radioVals = ref(props.formData.radio_vals);
 </script>
 
 <template>
@@ -28,11 +27,11 @@ const radioVals = ref([
             <select v-model="listVal" id="listVal">
                 <option disabled value="">選択してください</option>
                 <option
-                    v-for="item in listVals"
-                    :key="item.value"
-                    :value="item.value"
+                    v-for="(value, key) in listVals"
+                    :key="key"
+                    :value="key"
                 >
-                    {{ item.label }}
+                    {{ value }}
                 </option>
             </select>
 
@@ -42,13 +41,13 @@ const radioVals = ref([
         <div class="mt-5">
             <label class="app-form-label">ラジオボタン動作確認</label>
             <div class="space-x-3">
-                <label v-for="item in radioVals" :key="item.value">
+                <label v-for="(value, key) in radioVals" :key="key">
                     <input
                         type="radio"
-                        :value="item.value"
+                        :value="key"
                         v-model="radioVal"
                     />
-                    {{ item.label }}
+                    {{ value }}
                 </label>
             </div>
 
