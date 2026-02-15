@@ -11,6 +11,7 @@ import DefineModelArea from "./test-area-vue/DefineModelArea.vue";
 import OptionsModelArea from "./test-area-vue/OptionsModelArea.vue";
 import UIArea from "./test-area-vue/UIArea.vue";
 import RefArea from "./test-area-vue/RefArea.vue";
+import FormArea from "./test-area-vue/FormArea.vue";
 
 interface Props {
     testValue?: number;
@@ -55,6 +56,10 @@ const props = defineProps<Props>();
 
             <div>
                 <ModalArea />
+            </div>
+
+            <div>
+                <FormArea />
             </div>
         </div>
     </div>
