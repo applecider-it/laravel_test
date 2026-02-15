@@ -45,6 +45,12 @@ class DevelopmentController extends Controller
         return view('development.complate');
     }
 
+    /** viewテスト */
+    public function view_test(Request $request)
+    {
+        return view('development.view_test');
+    }
+
     /** javascriptテスト */
     public function javascript_test(Request $request)
     {
