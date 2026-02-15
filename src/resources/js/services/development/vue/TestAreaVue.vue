@@ -62,7 +62,13 @@ const blockStyle = "border-gray-400 border-2 p-3";
             </div>
 
             <div :class="blockStyle">
-                <FormArea :formData="formData" />
+                <FormArea
+                    :list_val="formData.list_val"
+                    :radio_val="formData.radio_val"
+                    :datetime_val="formData.datetime_val"
+                    :list_vals="formData.list_vals"
+                    :radio_vals="formData.radio_vals"
+                />
             </div>
         </div>
     </div>
