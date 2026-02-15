@@ -1,17 +1,3 @@
-@php
-$list_val = 2;
-$radio_val = 'val2';
-$datetime_val = '2026-02-15T14:30';
-$list_vals = [
-    1 => 'No. 1',
-    2 => 'No. 2',
-    3 => 'No. 3',
-];
-$radio_vals = [
-    'val1' => 'Value 1',
-    'val2' => 'Value 2',
-];
-@endphp
 <x-app-layout>
     <x-slot name="header">
         <h2 class="app-header-title">
@@ -20,7 +6,7 @@ $radio_vals = [
     </x-slot>
 
     <div class="app-container">
-        <form method="POST" action="{{ route('development.view_test') }}" class="app-form">
+        <form method="POST" action="{{ route('development.view_test_post') }}" class="app-form">
             @csrf
             <div class="mt-5">
                 <label for="list_val" class="app-form-label">リスト動作確認</label>
@@ -52,7 +38,7 @@ $radio_vals = [
 
             <div class="mt-5">
                 <label for="datetime_val" class="app-form-label">日時動作確認</label>
-                <input type="datetime-local" name="datetime_val" value="{{ $datetime_val }}" id="datetime_val" />
+                <input type="datetime-local" name="datetime_val" value="{{ old('datetime_val', $datetime_val) }}" id="datetime_val" />
             </div>
 
             <div class="mt-5">
