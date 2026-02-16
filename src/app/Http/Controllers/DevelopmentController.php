@@ -80,13 +80,21 @@ class DevelopmentController extends Controller
     /** javascriptテスト */
     public function javascript_test(Request $request)
     {
+        return view(
+            'development.javascript_test',
+            ['formData' => $this->view_test_common()]
+        );
+    }
+
+    /** websocketテスト */
+    public function websocket_test(Request $request)
+    {
         $user = auth()->user();
 
         $token = $this->webSocketAuthService->createUserJwt($user, ProgressChannel::getChannel($user->id));
         return view(
-            'development.javascript_test',
-            compact('token') +
-                ['formData' => $this->view_test_common()]
+            'development.websocket_test',
+            compact('token')
         );
     }
 }

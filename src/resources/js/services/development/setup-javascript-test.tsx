@@ -1,5 +1,5 @@
 /**
- * Reactテストのセットアップ
+ * Javascriptテストのセットアップ
  */
 
 import React from "react";
@@ -8,10 +8,6 @@ import TestAreaReact from "./react/TestAreaReact";
 
 import { createApp } from "vue";
 import TestAreaVue from "./vue/TestAreaVue.vue";
-
-import ProgressClient from "@/services/ui/ProgressClient";
-
-import SampleJobClient from "./SampleJobClient";
 
 let el: any;
 
@@ -22,13 +18,8 @@ if (el) {
 
     console.log('vue all', all);
 
-    const progressClient = new ProgressClient(all.token, all.wsHost);
-    const sampleJobClient = new SampleJobClient();
-
     const app = createApp(TestAreaVue, {
         testValue: all.testValue,
-        progressClient,
-        sampleJobClient,
         formData: all.formData,
     });
     app.mount("#vue-test-root");

@@ -1,12 +1,7 @@
 <script setup lang="ts">
 /** vueテスト用コンポーネント */
 
-import type ProgressClient from "@/services/ui/ProgressClient";
-import type SampleJobClient from "../SampleJobClient";
-
-import SlowJobArea from "./test-area-vue/SlowJobArea.vue";
 import ModalArea from "./test-area-vue/ModalArea.vue";
-import LaravelEchoArea from "./test-area-vue/LaravelEchoArea.vue";
 import DefineModelArea from "./test-area-vue/DefineModelArea.vue";
 import OptionsModelArea from "./test-area-vue/OptionsModelArea.vue";
 import UIArea from "./test-area-vue/UIArea.vue";
@@ -15,8 +10,6 @@ import FormArea from "./test-area-vue/FormArea.vue";
 
 interface Props {
     testValue?: number;
-    progressClient: ProgressClient;
-    sampleJobClient: SampleJobClient;
     formData: any;
 }
 
@@ -44,17 +37,6 @@ const blockStyle = "border-gray-400 border-2 p-3";
 
             <div :class="blockStyle">
                 <OptionsModelArea />
-            </div>
-
-            <div :class="blockStyle">
-                <LaravelEchoArea />
-            </div>
-
-            <div :class="blockStyle">
-                <SlowJobArea
-                    :sampleJobClient="sampleJobClient"
-                    :progressClient="progressClient"
-                />
             </div>
 
             <div :class="blockStyle">
