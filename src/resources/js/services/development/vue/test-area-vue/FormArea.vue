@@ -25,17 +25,17 @@ const dateTimeVal = ref(props.dateTimeVal);
         <div class="mt-5">
             <label for="listVal" class="app-form-label">リスト動作確認</label>
             <select v-model="listVal" id="listVal">
-                <option disabled value="">選択してください</option>
+                <option :value="null" key="null">選択してください</option>
                 <option
                     v-for="(value, key) in listVals"
                     :key="key"
-                    :value="key"
+                    :value="Number(key)"
                 >
                     {{ value }}
                 </option>
             </select>
 
-            <p>選択中: {{ listVal }}</p>
+            <p>選択中: [{{ listVal }}] {{ typeof listVal }}</p>
         </div>
 
         <div class="mt-5">
