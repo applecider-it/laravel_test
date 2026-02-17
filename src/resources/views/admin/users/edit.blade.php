@@ -41,7 +41,7 @@
 
         <div class="my-5">
             <div>
-                @include('admin.users.partials.edit_tweets')
+                @include('admin.users.partials.tweets')
             </div>
         </div>
 
