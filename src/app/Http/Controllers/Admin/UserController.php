@@ -7,7 +7,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 
 use App\Services\Admin\User\ListService;
-use App\Services\Admin\User\EditService;
 
 /**
  * ユーザー管理コントローラー
@@ -15,8 +14,7 @@ use App\Services\Admin\User\EditService;
 class UserController extends Controller
 {
     public function __construct(
-        private ListService $listService,
-        private EditService $editService
+        private ListService $listService
     ) {}
 
     /** 一覧 */
@@ -68,7 +66,7 @@ class UserController extends Controller
     {
         $user = $this->getUser($id);
 
-        $tweets = $this->editService->getTweets($user);
+        $tweets = $this->listService->getTweets($user);
 
         $tweets = $tweets->paginate(5, pageName: 'tweets_page')->onEachSide(2);
 
