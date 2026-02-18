@@ -2,16 +2,18 @@
     <x-slot name="header">
         <h2 class="app-header-title">
             Chat
-            @if ($room != 'default')
-                room: {{ $room }}
-            @endif
+            ( room: {{ $rooms[$room] }} )
         </h2>
     </x-slot>
 
     <div class="app-container">
         <div class="space-x-4">
-            @foreach ($rooms as $r)
-                <a href="{{ route('chat.index', ['room' => $r]) }}" class="app-link-normal">{{ $r }}</a>
+            @foreach ($rooms as $key => $val)
+                @if ($key === $room)
+                    <span>{{ $val }}</span>
+                @else
+                    <a href="{{ route('chat.index', ['room' => $key]) }}" class="app-link-normal">{{ $val }}</a>
+                @endif
             @endforeach
         </div>
 

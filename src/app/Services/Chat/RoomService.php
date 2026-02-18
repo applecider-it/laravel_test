@@ -13,12 +13,12 @@ class RoomService
     public function getRoomInfo(?string $room)
     {
         $rooms = [
-            'default',
-            'room1',
-            'room2',
+            'default' => 'デフォルト',
+            'room1' => 'ルーム１',
+            'room2' => 'ルーム２',
         ];
 
-        if (!in_array($room, $rooms)) $room = 'default';
+        if (!array_key_exists($room, $rooms)) $room = 'default';
 
         return [
             'room' => $room,
