@@ -12,4 +12,8 @@
 @viteReactRefresh
 @vite(['resources/css/app.css', 'resources/js/app.ts'])
 
+@auth
+    <meta name="user" data-json="{{ json_encode(auth()->user()) }}">
+@endauth
+
 <title>{{ config('app.name', 'Laravel') }}管理画面</title>

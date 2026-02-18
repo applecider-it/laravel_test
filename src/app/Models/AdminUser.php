@@ -12,6 +12,15 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class AdminUser extends Authenticatable
 {
-    protected $fillable = ['name', 'email', 'password'];
-    protected $hidden = ['password'];
+    protected $fillable = [
+        'name',
+        'email',
+        'password'
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+        'email_verified_at',
+    ];
 }
