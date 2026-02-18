@@ -10,7 +10,7 @@
 
 <!-- Scripts -->
 @viteReactRefresh
-@vite(['resources/css/app.css', 'resources/js/entrypoints/admin/app.ts'])
+@vite(['resources/css/admin.css', 'resources/js/entrypoints/admin/app.ts'])
 
 @auth('admin')
     <meta name="user" data-json="{{ json_encode(auth('admin')->user()) }}">
