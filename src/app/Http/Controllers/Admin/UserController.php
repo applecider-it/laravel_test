@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 use App\Services\Admin\User\ListService;
+use App\Services\Admin\User\EditService;
 
 /**
  * ユーザー管理コントローラー
@@ -14,7 +16,8 @@ use App\Services\Admin\User\ListService;
 class UserController extends Controller
 {
     public function __construct(
-        private ListService $listService
+        private ListService $listService,
+        private EditService $editService
     ) {}
 
     /** 一覧 */
@@ -54,7 +57,7 @@ class UserController extends Controller
             ]
         );
 
-        $validated['password'] = bcrypt($validated['password']);
+        $validated['password'] = Hash::make($validated['password']);
 
         $user = User::create($validated);
 
@@ -91,11 +94,7 @@ class UserController extends Controller
             ]
         );
 
-        if (!empty($validated['password'])) {
-            $validated['password'] = bcrypt($validated['password']);
-        } else {
-            unset($validated['password']);
-        }
+        $this->editService->updateValidated($validated);
 
         $user->update($validated);
 

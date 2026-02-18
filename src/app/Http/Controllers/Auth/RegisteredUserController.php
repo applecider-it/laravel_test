@@ -43,7 +43,7 @@ class RegisteredUserController extends Controller
             ]
         );
 
-        $validated['password'] = bcrypt($validated['password']);
+        $validated['password'] = Hash::make($validated['password']);
 
         User::create($validated);
 
