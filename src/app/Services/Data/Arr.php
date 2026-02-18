@@ -13,7 +13,7 @@ class Arr
     public static function mask(array $array, array $keys, string $maskValue = '[Filtered]'): array
     {
         array_walk_recursive($array, function (&$value, $key) use ($keys, $maskValue) {
-            $value = in_array($key, $keys, true) ? $maskValue : $value;
+            if (in_array($key, $keys, true)) $value = $maskValue;
         });
 
         return $array;
