@@ -18,3 +18,13 @@ const el = document.getElementById("app-container-common");
 if (el) {
     createApp(AppCommon).mount(el);
 }
+
+/*
+// UI動作確認
+import { showToast, setIsLoading } from '@/services/ui/message';
+
+setTimeout(() => {
+  showToast('Test');
+  setIsLoading(true);
+}, 1000);
+ */
