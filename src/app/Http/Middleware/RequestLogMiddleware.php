@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Log;
 
+use App\Services\Data\Arr;
+
 /**
  * リクエストログ用ミドルウェア
  */
@@ -24,10 +26,13 @@ class RequestLogMiddleware
                 'method' => $request->method(),
                 'url' => $request->fullUrl(),
                 'ip' => $request->ip(),
-                'params' => $request->except([
-                    'password',
-                    'password_confirmation',
-                ]),
+                'params' => Arr::mask(
+                    $request->all(),
+                    [
+                        'password',
+                        'password_confirmation',
+                    ]
+                ),
             ]);
         }
 
