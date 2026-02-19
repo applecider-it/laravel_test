@@ -35,8 +35,8 @@ class LoginRequest extends FormRequest
     public function attributes()
     {
         return [
-            'email' => __('myapp.models.admin_user.columns.email'),
-            'password' => __('myapp.models.admin_user.columns.password'),
+            'email' => __('app.models.admin_user.columns.email'),
+            'password' => __('app.models.admin_user.columns.password'),
         ];
     }
 

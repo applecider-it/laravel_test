@@ -26,8 +26,8 @@ class ProfileUpdateRequest extends FormRequest
     public function attributes()
     {
         return [
-            'name' => __('myapp.models.user.columns.name'),
-            'email' => __('myapp.models.user.columns.email'),
+            'name' => __('app.models.user.columns.name'),
+            'email' => __('app.models.user.columns.email'),
         ];
     }
 }

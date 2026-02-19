@@ -51,9 +51,9 @@ class UserController extends Controller
                 'password' => $user->validationPassword(),
             ],
             attributes: [
-                'name' => __('myapp.models.user.columns.name'),
-                'email' => __('myapp.models.user.columns.email'),
-                'password' => __('myapp.models.user.columns.password'),
+                'name' => __('app.models.user.columns.name'),
+                'email' => __('app.models.user.columns.email'),
+                'password' => __('app.models.user.columns.password'),
             ]
         );
 
@@ -88,9 +88,9 @@ class UserController extends Controller
                 'password' => $user->validationPassword(true),
             ],
             attributes: [
-                'name' => __('myapp.models.user.columns.name'),
-                'email' => __('myapp.models.user.columns.email'),
-                'password' => __('myapp.models.user.columns.password'),
+                'name' => __('app.models.user.columns.name'),
+                'email' => __('app.models.user.columns.email'),
+                'password' => __('app.models.user.columns.password'),
             ]
         );
 
