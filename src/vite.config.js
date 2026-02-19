@@ -11,7 +11,7 @@ export default defineConfig({
                 "resources/css/app.css",
                 "resources/css/admin.css",
 
-                "resources/js/app.ts",
+                "resources/js/entrypoints/app.ts",
                 "resources/js/entrypoints/tweet.ts",
                 "resources/js/entrypoints/chat.ts",
                 "resources/js/entrypoints/chat-echo.ts",

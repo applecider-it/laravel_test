@@ -10,7 +10,7 @@
 
 <!-- Scripts -->
 @viteReactRefresh
-@vite(['resources/css/app.css', 'resources/js/app.ts'])
+@vite(['resources/css/app.css', 'resources/js/entrypoints/app.ts'])
 
 <link rel="manifest" href="/manifest.json">
 

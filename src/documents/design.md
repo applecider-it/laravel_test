@@ -46,11 +46,11 @@ lang/
 
 resources/
   js/
-    entrypoints/ <- app.js以外のエントリーポイント
+    entrypoints/ <- エントリーポイント
     services/ <- ビジネスロジックなど
       (カテゴリーごとにディレクトリを分けて、そのなかにサービスクラスを配置している)
     types/ <- グローバルな型情報置き場
-    app.ts
+    (app.ts -> entrypointsに移動している)
   views/
     admin/ <- 独自実装の管理画面
     .
