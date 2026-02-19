@@ -27,8 +27,8 @@ class PasswordController extends Controller
                 'password' => $user->validationPassword(),
             ],
             attributes: [
-                'current_password' => __('app.columns.current_password'),
-                'password' => __('app.models.user.columns.password'),
+                'current_password' => __('myapp.columns.current_password'),
+                'password' => __('myapp.models.user.columns.password'),
             ]
         );
 
