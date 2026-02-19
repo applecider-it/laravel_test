@@ -1,4 +1,5 @@
 <?php
+
 /**
  * アプリケーション独自の設定ファイル
  */
@@ -28,4 +29,10 @@ return [
     // プッシュ通知の失敗の上限
     // 上限に到達してから失敗したら削除される
     'push_notification_failure_limit' => 5,
+
+    // トレースで隠すキーリスト
+    'trace_mask_keys' => [
+        'password',
+        'password_confirmation',
+    ],
 ];

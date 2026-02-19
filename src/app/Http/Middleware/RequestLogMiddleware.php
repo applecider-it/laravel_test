@@ -28,10 +28,7 @@ class RequestLogMiddleware
                 'ip' => $request->ip(),
                 'params' => Arr::mask(
                     $request->all(),
-                    [
-                        'password',
-                        'password_confirmation',
-                    ]
+                    config('myapp.trace_mask_keys')
                 ),
             ]);
         }
