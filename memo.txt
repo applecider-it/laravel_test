@@ -267,6 +267,10 @@ AIサーバー接続の動作確認用
 
 php artisan app:ai-test
 
+ミドルウェアのトレース
+
+php artisan app:trace-middleware
+
 -----------------------------------
 
 Redis
