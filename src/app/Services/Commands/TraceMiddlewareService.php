@@ -14,29 +14,35 @@ class TraceMiddlewareService
 {
     public function __construct() {}
 
-    /**
-     * 実行
-     */
+    /** 実行 */
     public function exec(Command $cmd)
     {
-        $conf = [
-            ['/', 'GET'],
-            ['/api/development/chat_callback_test', 'POST'],
-        ];
+        $this->traceCommon();
+        $this->traceRoutes();
+    }
 
-        echo "getMiddleware\n";
+    /** 共通のミドルウェアのトレース */
+    private function traceCommon()
+    {
+        echo 'getMiddleware' . PHP_EOL;
         print_r(app('router')->getMiddleware());
         echo PHP_EOL;
 
-        echo "getMiddlewareGroups\n";
+        echo 'getMiddlewareGroups' . PHP_EOL;
         print_r(app('router')->getMiddlewareGroups());
         echo PHP_EOL;
+    }
 
-        foreach ($conf as $row) {
+    /** ルートごとのミドルウェアのトレース */
+    private function traceRoutes()
+    {
+        $routes = config('myapp.trace_middleware_command.routes');
+
+        foreach ($routes as $row) {
             $uri = $row[0];
             $method = $row[1];
 
-            echo "uri:[$uri], method:$method.\n";
+            echo "uri:[$uri], method:$method." . PHP_EOL;
 
             $request = Request::create($uri, $method);
 
@@ -44,11 +50,12 @@ class TraceMiddlewareService
             try {
                 $route = Route::getRoutes()->match($request);
             } catch (\Symfony\Component\HttpKernel\Exception\NotFoundHttpException $e) {
-                echo "ルートなし\n";
+                echo 'ルートなし' . PHP_EOL;
+                echo PHP_EOL;
                 continue;
             }
 
-            echo "gatherMiddleware\n";
+            echo 'gatherMiddleware' . PHP_EOL;
             print_r($route->gatherMiddleware());
             echo PHP_EOL;
         }

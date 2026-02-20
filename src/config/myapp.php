@@ -35,4 +35,13 @@ return [
         'password',
         'password_confirmation',
     ],
+
+    // ミドルウェアのトレースコマンド用設定
+    'trace_middleware_command' => [
+        // トレースするルート情報
+        'routes' => [
+            ['/', 'GET'],
+            ['/api/development/chat_callback_test', 'POST'],
+        ],
+    ],
 ];
