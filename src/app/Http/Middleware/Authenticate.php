@@ -6,6 +6,9 @@ use Illuminate\Auth\AuthenticationException;
 
 use Illuminate\Auth\Middleware\Authenticate as BaseAuthenticate;
 
+/**
+ * 認証チェックのミドルウェア
+ */
 class Authenticate extends BaseAuthenticate
 {
     /**

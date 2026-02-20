@@ -9,6 +9,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 use Illuminate\Auth\Middleware\RedirectIfAuthenticated as BaseRedirectIfAuthenticated;
 
+/**
+ * 認証しているときにログイン画面などに来た時にリダイレクトさせるミドルウェア
+ */
 class RedirectIfAuthenticated extends BaseRedirectIfAuthenticated
 {
     /**
