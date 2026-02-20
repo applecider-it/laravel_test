@@ -5,10 +5,11 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Response;
 
-class RedirectIfAuthenticated
+use Illuminate\Auth\Middleware\RedirectIfAuthenticated as BaseRedirectIfAuthenticated;
+
+class RedirectIfAuthenticated extends BaseRedirectIfAuthenticated
 {
     /**
      * Handle an incoming request.
@@ -21,17 +22,15 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect($this->redirectTo($guard));
+                return redirect($this->getRedirectUrl($guard));
             }
         }
 
         return $next($request);
     }
 
-    /**
-     * Get the path the user should be redirected to when they are authenticated.
-     */
-    protected function redirectTo(?string $guard): ?string
+    /** 認証しているときに移動するページ */
+    protected function getRedirectUrl(?string $guard)
     {
         return $guard === 'admin' ? route('admin.dashboard') : route('dashboard');
     }
