@@ -12,52 +12,47 @@ use Illuminate\Support\Facades\Route;
  */
 class TraceMiddlewareService
 {
+    private Command $cmd;
+
     public function __construct() {}
 
     /** 実行 */
     public function exec(Command $cmd)
     {
+        $this->cmd = $cmd;
+
+        $uri = $this->cmd->option('uri');
+        $method = $this->cmd->option('method');
+
         $this->traceCommon();
-        $this->traceRoutes();
+        $this->traceRoutes($uri, $method);
     }
 
     /** 共通のミドルウェアのトレース */
     private function traceCommon()
     {
-        echo 'getMiddleware' . PHP_EOL;
-        print_r(app('router')->getMiddleware());
-        echo PHP_EOL;
+        $this->cmd->info("getMiddleware");
+        $this->cmd->comment(print_r(app('router')->getMiddleware(), true));
 
-        echo 'getMiddlewareGroups' . PHP_EOL;
-        print_r(app('router')->getMiddlewareGroups());
-        echo PHP_EOL;
+        $this->cmd->info("getMiddlewareGroups");
+        $this->cmd->comment(print_r(app('router')->getMiddlewareGroups(), true));
     }
 
-    /** ルートごとのミドルウェアのトレース */
-    private function traceRoutes()
+    /** ルートのミドルウェアのトレース */
+    private function traceRoutes($uri, $method)
     {
-        $routes = config('myapp.trace_middleware_command.routes');
+        $this->cmd->info("uri:[$uri], method:$method.");
 
-        foreach ($routes as $row) {
-            $uri = $row[0];
-            $method = $row[1];
+        $request = Request::create($uri, $method);
 
-            echo "uri:[$uri], method:$method." . PHP_EOL;
+        $route = null;
+        try {
+            $route = Route::getRoutes()->match($request);
 
-            $request = Request::create($uri, $method);
-
-            $route = null;
-            try {
-                $route = Route::getRoutes()->match($request);
-            } catch (\Symfony\Component\HttpKernel\Exception\NotFoundHttpException $e) {
-                echo 'ルートなし' . PHP_EOL;
-                echo PHP_EOL;
-                continue;
-            }
-
-            echo 'gatherMiddleware' . PHP_EOL;
-            print_r($route->gatherMiddleware());
-            echo PHP_EOL;
+            $this->cmd->info("gatherMiddleware");
+            $this->cmd->comment(print_r($route->gatherMiddleware(), true));
+        } catch (\Symfony\Component\HttpKernel\Exception\NotFoundHttpException $e) {
+            $this->cmd->info("ルートなし");
         }
     }
 }

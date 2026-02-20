@@ -271,6 +271,8 @@ php artisan app:ai-test
 
 php artisan app:trace-middleware
 
+php artisan app:trace-middleware --uri=/api/development/chat_callback_test --method=POST
+
 -----------------------------------
 
 Redis

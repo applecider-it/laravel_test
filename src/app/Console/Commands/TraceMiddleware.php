@@ -13,7 +13,10 @@ class TraceMiddleware extends Command
      *
      * @var string
      */
-    protected $signature = 'app:trace-middleware';
+    protected $signature = 'app:trace-middleware
+                        {--uri=/ : URI}
+                        {--method=GET : リクエストメソッド}
+                        ';
 
     /**
      * The console command description.
