@@ -52,7 +52,7 @@ const confirmFormValue = () => {
             <div class="space-x-3">
                 <label v-for="(value, key) in radioVals" :key="key">
                     <input type="radio" :value="key" v-model="radioVal" />
-                    {{ value }}
+                    <span>&nbsp;{{ value }}</span>
                 </label>
             </div>
 
