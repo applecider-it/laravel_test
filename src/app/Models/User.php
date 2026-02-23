@@ -114,7 +114,7 @@ class User extends Authenticatable
     {
         $arr = [];
         $arr[] = $nullable ? 'nullable' : 'required';
-        $arr += ['string', 'min:8', 'confirmed', Rules\Password::defaults()];
+        $arr = array_merge($arr, ['string', 'min:8', 'confirmed', Rules\Password::defaults()]);
         return $arr;
     }
 
