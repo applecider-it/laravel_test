@@ -59,7 +59,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // 開発者向けページ
-Route::get('/development', [DevelopmentController::class, 'index'])->name('development.index');
+Route::get('/development/index', [DevelopmentController::class, 'index'])->name('development.index');
 Route::get('/development/php_test', [DevelopmentController::class, 'php_test'])->name('development.php_test');
 Route::get('/development/view_test', [DevelopmentController::class, 'view_test'])->name('development.view_test');
 Route::post('/development/view_test_post', [DevelopmentController::class, 'view_test_post'])->name('development.view_test_post');
