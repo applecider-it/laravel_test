@@ -1,0 +1,14 @@
+.fadeInAccel {
+  animation: fade-in-accel 3s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+@keyframes fade-in-accel {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

@@ -4,8 +4,11 @@
 import { ref } from "vue";
 
 import { showToast, setIsLoading } from "@/services/ui/message";
+import LoadingInline from '@/services/ui/vue/message/LoadingInline.vue';
 
 const cnt = ref<number>(0);
+
+const inline = ref<boolean>(false);
 
 /** ロード画面の動作確認 */
 const loadingTest = () => {
@@ -14,6 +17,14 @@ const loadingTest = () => {
     setTimeout(() => {
         setIsLoading(false);
     }, 2000);
+};
+
+const loadingInlineTest = () => {
+    console.log("LoadingInline");
+    inline.value = true;
+    setTimeout(() => {
+        inline.value = false;
+    }, 3000);
 };
 
 /** トーストの動作確認 */
@@ -33,6 +44,12 @@ const toastTest = (type) => {
             <button class="app-btn-secondary mr-2" @click="loadingTest">
                 Loading
             </button>
+            <button class="app-btn-secondary mr-2" @click="loadingInlineTest">
+                Loading inline
+            </button>
+            <div v-if="inline">
+                <LoadingInline />
+            </div>
         </div>
 
         <div class="mt-5 space-x-2">
