@@ -9,6 +9,25 @@ class BenchmarkService
 {
     private array $benchmarkData;
 
+    private array $keywords = [
+        'vendor/illuminate',
+        'vendor/symfony',
+        'vendor/laminas',
+        'vendor/doctrine',
+        'vendor/vlucas',
+        'vendor/composer',
+        'vendor/barryvdh',
+        'vendor/dragon-code',
+        'vendor/guzzlehttp',
+        'vendor/laravel-lang',
+        'vendor/laravel',
+        'vendor/monolog',
+        'vendor/nesbot',
+        'vendor/pestphp',
+        'vendor/php-debugbar',
+        'vendor/phpunit',
+    ];
+
     function __construct()
     {
         $this->benchmarkData = [
@@ -23,11 +42,14 @@ class BenchmarkService
         $startTime = $this->benchmarkData['startTime'];
         $startMemory = $this->benchmarkData['startMemory'];
 
+        // MB単位
+        $mega = 1024 * 1024;
+
         $endTime = microtime(true);
         $endMemory = memory_get_usage();
 
         $executionTime = $endTime - $startTime;
-        $memoryUsed = ($endMemory - $startMemory) / 1024 / 1024; // MB単位
+        $memoryUsed = ($endMemory - $startMemory) / $mega;
 
         $opcacheStatus = opcache_get_status();
 
@@ -36,9 +58,9 @@ class BenchmarkService
         $trace = [
             '処理時間（秒）' => $executionTime,
             'メモリ使用量（MB）' => $memoryUsed,
-            'メモリ使用量（MB）開始時' => $startMemory / 1024 / 1024,
-            'メモリ使用量（MB）終了時' => $endMemory / 1024 / 1024,
-            'opcache使用量（MB）' => $opcacheStatus['memory_usage']['used_memory'] / 1024 / 1024,
+            'メモリ使用量（MB）開始時' => $startMemory / $mega,
+            'メモリ使用量（MB）終了時' => $endMemory / $mega,
+            'opcache使用量（MB）' => $opcacheStatus['memory_usage']['used_memory'] / $mega,
             'opcache対象ファイル数' => count($opcacheStatus['scripts']),
             'キーワードごとのファイル数' => $keywordResult,
             'その他のベンダーのファイル' => $otherVendors,
@@ -47,16 +69,7 @@ class BenchmarkService
         ];
 
         if ($output) {
-            $out = '
-                <div style="font-size: 0.7rem;">
-                    <div>--------------- performance trace begin ---------------</div>
-                        <div>performance:</div>
-                        <pre>' . json_encode($trace, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . '</pre>
-                    <div>--------------- performance trace end ---------------</div>
-                </div>
-            ';
-
-            echo $out;
+            $this->outputHtml($trace);
         }
 
         return $trace;
@@ -65,32 +78,14 @@ class BenchmarkService
     /** Opcacheのスクリプトの詳細 */
     private function getOpcacheScriptsDetail(array $scripts)
     {
-        $keywords = [
-            'vendor/illuminate',
-            'vendor/symfony',
-            'vendor/laminas',
-            'vendor/doctrine',
-            'vendor/vlucas',
-            'vendor/composer',
-            'vendor/barryvdh',
-            'vendor/dragon-code',
-            'vendor/guzzlehttp',
-            'vendor/laravel-lang',
-            'vendor/laravel',
-            'vendor/monolog',
-            'vendor/nesbot',
-            'vendor/pestphp',
-            'vendor/php-debugbar',
-            'vendor/phpunit',
-        ];
-
         $keywordResult = [];
         $otherVendors = [];
         $others = [];
 
         foreach ($scripts as $key => $val) {
+            // キーワードごとの、カウント
             $found = false;
-            foreach ($keywords as $keyword) {
+            foreach ($this->keywords as $keyword) {
                 if (strpos($key, $keyword) !== false) {
                     if (!isset($keywordResult[$keyword])) $keywordResult[$keyword] = 0;
                     $keywordResult[$keyword]++;
@@ -99,6 +94,7 @@ class BenchmarkService
                 }
             }
 
+            // キーワードにないファイルをまとめる
             if (! $found) {
                 if (strpos($key, 'vendor') !== false) {
                     $otherVendors[] = $key;
@@ -108,10 +104,26 @@ class BenchmarkService
             }
         }
 
+        // 各種ソート
         ksort($keywordResult);
         sort($otherVendors);
         sort($others);
 
         return [$keywordResult, $otherVendors, $others];
+    }
+
+    /** HTML出力 */
+    private function outputHtml(array $trace)
+    {
+        $out = '
+                <div style="font-size: 0.7rem;">
+                    <div>--------------- performance trace begin ---------------</div>
+                        <div>performance:</div>
+                        <pre>' . json_encode($trace, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) . '</pre>
+                    <div>--------------- performance trace end ---------------</div>
+                </div>
+            ';
+
+        echo $out;
     }
 }
