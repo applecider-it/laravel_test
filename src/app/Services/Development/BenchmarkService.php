@@ -9,6 +9,8 @@ class BenchmarkService
 {
     private array $benchmarkData;
 
+    private $mega = 1024 * 1024;
+
     private array $keywords = [
         'vendor/illuminate',
         'vendor/symfony',
@@ -42,30 +44,29 @@ class BenchmarkService
         $startTime = $this->benchmarkData['startTime'];
         $startMemory = $this->benchmarkData['startMemory'];
 
-        // MB単位
-        $mega = 1024 * 1024;
-
         $endTime = microtime(true);
         $endMemory = memory_get_usage();
 
         $executionTime = $endTime - $startTime;
-        $memoryUsed = ($endMemory - $startMemory) / $mega;
+        $memoryUsed = ($endMemory - $startMemory) / $this->mega;
 
         $opcacheStatus = opcache_get_status();
 
-        [$keywordResult, $otherVendors, $others] = $this->getOpcacheScriptsDetail($opcacheStatus['scripts']);
+        [$keywordResult, $otherVendors, $others, $scriptsTotalMemory] = $this->getOpcacheScriptsDetail($opcacheStatus['scripts']);
 
         $trace = [
             '処理時間（秒）' => $executionTime,
             'メモリ使用量（MB）' => $memoryUsed,
-            'メモリ使用量（MB）開始時' => $startMemory / $mega,
-            'メモリ使用量（MB）終了時' => $endMemory / $mega,
-            'opcache使用量（MB）' => $opcacheStatus['memory_usage']['used_memory'] / $mega,
+            'メモリ使用量（MB）開始時' => $startMemory / $this->mega,
+            'メモリ使用量（MB）終了時' => $endMemory / $this->mega,
+            'opcache使用量（MB）' => $opcacheStatus['memory_usage']['used_memory'] / $this->mega,
+            'opcache使用量(スクリプトのみ)（MB）' => $scriptsTotalMemory / $this->mega,
+            'opcache使用量(スクリプト以外)（MB）' => ($opcacheStatus['memory_usage']['used_memory'] - $scriptsTotalMemory) / $this->mega,
             'opcache対象ファイル数' => count($opcacheStatus['scripts']),
             'キーワードごとのファイル数' => $keywordResult,
             'その他のベンダーのファイル' => $otherVendors,
             'その他のファイル' => $others,
-            //'opcache_get_status()' => $opcacheStatus,
+            'opcache_get_status()' => $opcacheStatus,
         ];
 
         if ($output) {
@@ -81,14 +82,25 @@ class BenchmarkService
         $keywordResult = [];
         $otherVendors = [];
         $others = [];
+        $scriptsTotalMemory = 0;
 
-        foreach ($scripts as $key => $val) {
+        foreach ($scripts as $key => $row) {
+            $scriptsTotalMemory += $row['memory_consumption'];
+
             // キーワードごとの、カウント
             $found = false;
             foreach ($this->keywords as $keyword) {
                 if (strpos($key, $keyword) !== false) {
-                    if (!isset($keywordResult[$keyword])) $keywordResult[$keyword] = 0;
-                    $keywordResult[$keyword]++;
+                    if (!isset($keywordResult[$keyword])) {
+                        $keywordResult[$keyword] = [
+                            'count' => 0,
+                            'memory' => 0,
+                        ];
+                    }
+
+                    $keywordResult[$keyword]['count']++;
+                    $keywordResult[$keyword]['memory'] += $row['memory_consumption'];
+
                     $found = true;
                     continue;
                 }
@@ -96,20 +108,26 @@ class BenchmarkService
 
             // キーワードにないファイルをまとめる
             if (! $found) {
+                $val = 'memory(MB): ' . ($row['memory_consumption'] / $this->mega);
                 if (strpos($key, 'vendor') !== false) {
-                    $otherVendors[] = $key;
+                    $otherVendors[$key] = $val;
                 } else {
-                    $others[] = $key;
+                    $others[$key] = $val;
                 }
             }
         }
 
         // 各種ソート
         ksort($keywordResult);
-        sort($otherVendors);
-        sort($others);
+        ksort($otherVendors);
+        ksort($others);
 
-        return [$keywordResult, $otherVendors, $others];
+        $keywordResult2 = [];
+        foreach ($keywordResult as $key => $row) {
+            $keywordResult2[$key] = 'count: ' . $row['count'] . '; memory(MB): ' . ($row['memory'] / $this->mega);
+        }
+
+        return [$keywordResult2, $otherVendors, $others, $scriptsTotalMemory];
     }
 
     /** HTML出力 */
