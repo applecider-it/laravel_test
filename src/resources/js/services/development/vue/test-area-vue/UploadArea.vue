@@ -6,6 +6,7 @@ import axios from "axios";
 
 import { showToast, setIsLoading } from "@/services/ui/message";
 
+const fileInput = ref(null);
 const selectedFile = ref(null);
 
 const handleFileChange = (event) => {
@@ -26,12 +27,16 @@ const upload = async () => {
         },
     });
 
-    console.log('result', result);
-    console.log('result.data', result.data);
+    console.log("result", result);
+    console.log("result.data", result.data);
 
     setIsLoading(false);
 
     showToast("アップロード完了");
+
+    // ファイル入力をクリア
+    selectedFile.value = null;
+    fileInput.value.value = null;
 };
 </script>
 
@@ -40,7 +45,7 @@ const upload = async () => {
         アップロード動作確認
 
         <div class="mt-5">
-            <input type="file" @change="handleFileChange" />
+            <input type="file" ref="fileInput" @change="handleFileChange" />
             <button class="app-btn-secondary mr-2" @click="upload">
                 アップロード
             </button>
