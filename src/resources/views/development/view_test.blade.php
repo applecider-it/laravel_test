@@ -5,8 +5,6 @@
         </h2>
     </x-slot>
 
-    {{ Breadcrumbs::render('development.index') }}
-
     <div class="app-container">
         <form method="POST" action="{{ route('development.view_test_post') }}" class="app-form">
             @csrf

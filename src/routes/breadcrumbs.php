@@ -3,17 +3,6 @@
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
 
-// ダッシュボード
-Breadcrumbs::for('dashboard', function (BreadcrumbTrail $trail) {
-    $trail->push('ダッシュボード', route('dashboard'));
-});
-
-// 開発者向けページ
-Breadcrumbs::for('development.index', function (BreadcrumbTrail $trail) {
-    $trail->parent('dashboard');
-    $trail->push('開発者向けページ', route('development.index'));
-});
-
 // 管理画面ホーム
 Breadcrumbs::for('admin.dashboard', function (BreadcrumbTrail $trail) {
     $trail->push('ダッシュボード', route('admin.dashboard'));

@@ -5,8 +5,6 @@
         </h2>
     </x-slot>
 
-    {{ Breadcrumbs::render('development.index') }}
-
     <div class="app-container">
         <p><a href="{{ route('development.php_test') }}" class="app-link-normal">php_test</a></p>
         <p><a href="{{ route('development.view_test') }}" class="app-link-normal">view_test</a></p>

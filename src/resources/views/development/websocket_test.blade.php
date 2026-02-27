@@ -5,8 +5,6 @@
         </h2>
     </x-slot>
 
-    {{ Breadcrumbs::render('development.index') }}
-
     @vite(['resources/js/entrypoints/development/websocket-test.ts'])
 
     <div class="app-container">

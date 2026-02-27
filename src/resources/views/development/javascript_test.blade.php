@@ -5,8 +5,6 @@
         </h2>
     </x-slot>
 
-    {{ Breadcrumbs::render('development.index') }}
-
     @vite(['resources/js/entrypoints/development/javascript-test.ts'])
 
     <div class="app-container">

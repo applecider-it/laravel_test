@@ -1,11 +1,11 @@
-<x-admin-layout>
+<x-admin-layout
+    :breadcrumbs="['admin.users.index']"
+>
     <x-slot name="header">
         <h2 class="app-header-title">
             ユーザー一覧
         </h2>
     </x-slot>
-
-    {{ Breadcrumbs::render('admin.users.index') }}
 
     <div class="app-container-lg">
         <div class="mb-4">

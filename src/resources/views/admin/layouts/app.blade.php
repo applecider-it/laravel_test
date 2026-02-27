@@ -1,3 +1,4 @@
+@props(['breadcrumbs' => null])
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -15,6 +16,10 @@
                         {{ $header }}
                     </div>
                 </header>
+            @endisset
+
+            @isset($breadcrumbs)
+                {{ Breadcrumbs::render(...$breadcrumbs) }}
             @endisset
 
             <!-- Page Content -->

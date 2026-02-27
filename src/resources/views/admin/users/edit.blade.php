@@ -1,11 +1,11 @@
-<x-admin-layout>
+<x-admin-layout
+    :breadcrumbs="['admin.users.edit', $user]"
+>
     <x-slot name="header">
         <h2 class="app-header-title">
             ユーザー編集
         </h2>
     </x-slot>
-
-    {{ Breadcrumbs::render('admin.users.edit', $user) }}
 
     <div class="app-container-lg">
         <div class="mb-6">

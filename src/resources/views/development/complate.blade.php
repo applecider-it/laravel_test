@@ -5,8 +5,6 @@
         </h2>
     </x-slot>
 
-    {{ Breadcrumbs::render('development.index') }}
-
     <div class="app-container">
         <p>
             実行しました。

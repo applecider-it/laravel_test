@@ -1,11 +1,11 @@
-<x-admin-layout>
+<x-admin-layout
+    :breadcrumbs="['admin.users.create']"
+>
     <x-slot name="header">
         <h2 class="app-header-title">
             ユーザー作成
         </h2>
     </x-slot>
-
-    {{ Breadcrumbs::render('admin.users.create') }}
 
     <div class="app-container-lg">
         <div class="mb-6">
