@@ -6,7 +6,16 @@
     </x-slot>
 
     <div class="app-container">
-        <form method="POST" action="{{ route('development.view_test_post') }}" class="app-form">
+        <div class="my-6 text-lg">読み込み中表示の動作確認</div>
+        <div class="mt-5 border-gray-500 border-2 p-0">
+            @include('partials.message.loading')
+        </div>
+        <div class="mt-5 border-gray-500 border-2 p-0">
+            @include('partials.message.loading')
+        </div>
+
+        <div class="my-6 text-lg">フォームの動作確認</div>
+        <form method="POST" action="{{ route('development.view_test_post') }}" class="app-form mt-5">
             @csrf
             <div class="mt-5">
                 <label for="list_val" class="app-form-label">リスト動作確認</label>
