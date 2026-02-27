@@ -7,6 +7,7 @@ import OptionsModelArea from "./test-area-vue/OptionsModelArea.vue";
 import UIArea from "./test-area-vue/UIArea.vue";
 import RefArea from "./test-area-vue/RefArea.vue";
 import FormArea from "./test-area-vue/FormArea.vue";
+import UploadArea from "./test-area-vue/UploadArea.vue";
 
 interface Props {
     testValue?: number;
@@ -51,6 +52,10 @@ const blockStyle = "border-gray-400 border-2 p-3";
                     :listVals="formData.list_vals"
                     :radioVals="formData.radio_vals"
                 />
+            </div>
+
+            <div :class="blockStyle">
+                <UploadArea />
             </div>
         </div>
     </div>

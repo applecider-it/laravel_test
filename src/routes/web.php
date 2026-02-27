@@ -62,6 +62,7 @@ Route::get('/development/view_test', [DevelopmentController::class, 'view_test']
 Route::post('/development/view_test_post', [DevelopmentController::class, 'view_test_post'])->name('development.view_test_post');
 Route::get('/development/javascript_test', [DevelopmentController::class, 'javascript_test'])->name('development.javascript_test');
 Route::get('/development/websocket_test', [DevelopmentController::class, 'websocket_test'])->name('development.websocket_test');
+Route::post('/development/upload_test', [DevelopmentController::class, 'upload_test'])->name('development.upload_test');
 
 
 require __DIR__ . '/auth.php';

@@ -86,6 +86,14 @@ class DevelopmentController extends Controller
         );
     }
 
+    /** uploadテスト */
+    public function upload_test(Request $request)
+    {
+        $path = $request->file('file')->store('uploads');
+
+        return response()->json(['path' => $path]);
+    }
+
     /** websocketテスト */
     public function websocket_test(Request $request)
     {
