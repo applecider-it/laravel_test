@@ -5,6 +5,8 @@
         </h2>
     </x-slot>
 
+    {{ Breadcrumbs::render('admin.users.index') }}
+
     <div class="app-container-lg">
         <div class="mb-4">
             <a href="{{ route('admin.users.create') }}" class="app-btn-primary">

@@ -471,3 +471,9 @@ nvm use 18
 
 php artisan make:middleware RequestLogMiddleware
 
+-----------------------------------
+
+composer require diglactic/laravel-breadcrumbs
+
+php artisan vendor:publish --tag=breadcrumbs-views
+php artisan vendor:publish --tag=breadcrumbs-config
