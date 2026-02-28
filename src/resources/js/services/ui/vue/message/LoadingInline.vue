@@ -18,7 +18,7 @@
 
 <style scoped>
 .fadeInAccel {
-    animation: fade-in-accel 3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: fade-in-accel 3s cubic-bezier(0.16, 1, 0.3, 1) 1s forwards;
 }
 
 @keyframes fade-in-accel {

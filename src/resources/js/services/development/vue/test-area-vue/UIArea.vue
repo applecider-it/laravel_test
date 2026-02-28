@@ -24,7 +24,7 @@ const loadingInlineTest = () => {
     inline.value = true;
     setTimeout(() => {
         inline.value = false;
-    }, 3000);
+    }, 4000);
 };
 
 /** トーストの動作確認 */
