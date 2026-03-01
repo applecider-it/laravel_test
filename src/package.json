@@ -23,6 +23,7 @@
         "vue-loader": "^17.4.2"
     },
     "dependencies": {
+        "htmx.org": "^2.0.8",
         "laravel-echo": "^2.2.6",
         "pusher-js": "^8.4.0",
         "react": "^19.2.0",

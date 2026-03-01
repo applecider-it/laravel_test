@@ -105,4 +105,10 @@ class DevelopmentController extends Controller
             compact('token')
         );
     }
+
+    /** htmxテスト */
+    public function htmx_test(Request $request)
+    {
+        return view('development.htmx_test');
+    }
 }

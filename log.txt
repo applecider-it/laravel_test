@@ -477,3 +477,9 @@ composer require diglactic/laravel-breadcrumbs
 
 php artisan vendor:publish --tag=breadcrumbs-views
 php artisan vendor:publish --tag=breadcrumbs-config
+
+-----------------------------------
+
+
+npm install htmx.org
+

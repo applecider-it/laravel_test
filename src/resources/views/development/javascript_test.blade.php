@@ -20,5 +20,9 @@
         ]) }}" class="mt-10">
             @include('partials.message.loading')
         </div>
+
+        <div class="mt-10">
+            @include('development.partials.htmx')
+        </div>
     </div>
 </x-app-layout>
