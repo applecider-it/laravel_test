@@ -26,7 +26,7 @@ class RequestLogMiddleware
                 'method' => $request->method(),
                 'url' => $request->fullUrl(),
                 'ip' => $request->ip(),
-                'params' => Arr::mask(
+                'params' => Arr::maskRecursive(
                     $request->all(),
                     config('myapp.trace_mask_keys')
                 ),
