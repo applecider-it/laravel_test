@@ -48,7 +48,7 @@ class BenchmarkService
         $endMemory = memory_get_usage();
 
         $executionTime = $endTime - $startTime;
-        $memoryUsed = ($endMemory - $startMemory) / $this->mega;
+        $memoryUsed = $this->byteToMega($endMemory - $startMemory);
 
         $opcacheStatus = opcache_get_status();
 
@@ -57,11 +57,11 @@ class BenchmarkService
         $trace = [
             '処理時間（秒）' => $executionTime,
             'メモリ使用量（MB）' => $memoryUsed,
-            'メモリ使用量（MB）開始時' => $startMemory / $this->mega,
-            'メモリ使用量（MB）終了時' => $endMemory / $this->mega,
-            'opcache使用量（MB）' => $opcacheStatus['memory_usage']['used_memory'] / $this->mega,
-            'opcache使用量(スクリプトのみ)（MB）' => $scriptsTotalMemory / $this->mega,
-            'opcache使用量(スクリプト以外)（MB）' => ($opcacheStatus['memory_usage']['used_memory'] - $scriptsTotalMemory) / $this->mega,
+            'メモリ使用量（MB）開始時' => $this->byteToMega($startMemory),
+            'メモリ使用量（MB）終了時' => $this->byteToMega($endMemory),
+            'opcache使用量（MB）' => $this->byteToMega($opcacheStatus['memory_usage']['used_memory']),
+            'opcache使用量(スクリプトのみ)（MB）' => $this->byteToMega($scriptsTotalMemory),
+            'opcache使用量(スクリプト以外)（MB）' => $this->byteToMega($opcacheStatus['memory_usage']['used_memory'] - $scriptsTotalMemory),
             'opcache対象ファイル数' => count($opcacheStatus['scripts']),
             'キーワードごとのファイル数' => $keywordResult,
             'その他のベンダーのファイル' => $otherVendors,
@@ -108,7 +108,7 @@ class BenchmarkService
 
             // キーワードにないファイルをまとめる
             if (! $found) {
-                $val = 'memory(MB): ' . ($row['memory_consumption'] / $this->mega);
+                $val = 'memory(MB): ' . $this->byteToMega($row['memory_consumption']);
                 if (strpos($key, 'vendor') !== false) {
                     $otherVendors[$key] = $val;
                 } else {
@@ -124,10 +124,16 @@ class BenchmarkService
 
         $keywordResult2 = [];
         foreach ($keywordResult as $key => $row) {
-            $keywordResult2[$key] = 'count: ' . $row['count'] . '; memory(MB): ' . ($row['memory'] / $this->mega);
+            $keywordResult2[$key] = 'count: ' . $row['count'] . '; memory(MB): ' . $this->byteToMega($row['memory']);
         }
 
         return [$keywordResult2, $otherVendors, $others, $scriptsTotalMemory];
+    }
+
+    /** ByteをMB単位に変換 */
+    private function byteToMega(int $byte): float
+    {
+        return $byte / $this->mega;
     }
 
     /** HTML出力 */
