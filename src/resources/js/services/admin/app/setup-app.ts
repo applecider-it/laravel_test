@@ -1,23 +1,9 @@
-import "@/services/app/bootstrap";
+import "@/services/app/bootstrap/axios";
+import "@/services/app/bootstrap/alpinejs";
+import "@/services/app/bootstrap/htmx";
+import "@/services/app/bootstrap/app";
 
-import Alpine from "alpinejs";
-import { createApp } from "vue";
-
-import { getAuthUser } from "@/services/app/application";
-
-import AppCommon from "@/services/app/vue/AppCommon.vue";
-
-window.Alpine = Alpine;
-Alpine.start();
-
-const adminUser = getAuthUser();
-console.log("auth adminUser", adminUser);
-
-const el = document.getElementById("app-container-common");
-
-if (el) {
-    createApp(AppCommon).mount(el);
-}
+console.log("setup admin");
 
 /*
 // UI動作確認
