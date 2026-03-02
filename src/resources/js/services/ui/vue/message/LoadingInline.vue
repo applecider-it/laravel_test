@@ -1,3 +1,5 @@
+<script setup lang="ts"></script>
+
 <template>
     <div
         class="flex space-x-2 justify-center items-center my-28 opacity-0 fadeInAccel"
@@ -13,8 +15,6 @@
         ></span>
     </div>
 </template>
-
-<script setup lang="ts"></script>
 
 <style scoped>
 .fadeInAccel {

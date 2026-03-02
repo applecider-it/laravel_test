@@ -1,10 +1,3 @@
-<template>
-    <div>
-        <Toasts :toasts="toasts" />
-        <Loading :isLoading="isLoading" />
-    </div>
-</template>
-
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 
@@ -23,3 +16,10 @@ onMounted(() => {
     });
 });
 </script>
+
+<template>
+    <div>
+        <Toasts :toasts="toasts" />
+        <Loading :isLoading="isLoading" />
+    </div>
+</template>
