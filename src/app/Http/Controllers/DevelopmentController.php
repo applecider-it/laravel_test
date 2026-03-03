@@ -52,6 +52,8 @@ class DevelopmentController extends Controller
     {
         return view('development.view_test', $this->formService->formData());
     }
+
+    /** viewテスト(POST処理) */
     public function view_test_post(Request $request)
     {
         return redirect()->back()->withInput();
