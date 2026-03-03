@@ -63,7 +63,6 @@ Route::post('/development/view_test_post', [DevelopmentController::class, 'view_
 Route::get('/development/javascript_test', [DevelopmentController::class, 'javascript_test'])->name('development.javascript_test');
 Route::get('/development/websocket_test', [DevelopmentController::class, 'websocket_test'])->name('development.websocket_test');
 Route::post('/development/upload_test', [DevelopmentController::class, 'upload_test'])->name('development.upload_test');
-Route::post('/development/htmx_test', [DevelopmentController::class, 'htmx_test'])->name('development.htmx_test');
 Route::get('/development/router_test', [DevelopmentController::class, 'router_test'])->name('development.router_test');
 
 

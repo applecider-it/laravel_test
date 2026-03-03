@@ -88,12 +88,6 @@ class DevelopmentController extends Controller
         );
     }
 
-    /** htmxテスト */
-    public function htmx_test(Request $request)
-    {
-        return view('development.htmx_test');
-    }
-
     /** routerテスト */
     public function router_test(Request $request)
     {

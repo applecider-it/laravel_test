@@ -489,3 +489,8 @@ npm install htmx.org
 
 npm install vue-router
 
+-----------------------------------
+
+
+npm uninstall htmx.org
+

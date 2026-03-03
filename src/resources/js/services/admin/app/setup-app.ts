@@ -1,6 +1,5 @@
 import "@/services/app/bootstrap/axios";
 import "@/services/app/bootstrap/alpinejs";
-import "@/services/app/bootstrap/htmx";
 import "@/services/app/bootstrap/app";
 
 console.log("setup admin");
