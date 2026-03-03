@@ -10,5 +10,6 @@
         <p><a href="{{ route('development.view_test') }}" class="app-link-normal">view_test</a></p>
         <p><a href="{{ route('development.javascript_test') }}" class="app-link-normal">javascript_test</a></p>
         <p><a href="{{ route('development.websocket_test') }}" class="app-link-normal">websocket_test</a></p>
+        <p><a href="{{ route('development.router_test') }}" class="app-link-normal">router_test</a></p>
     </div>
 </x-app-layout>

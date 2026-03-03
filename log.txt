@@ -483,3 +483,9 @@ php artisan vendor:publish --tag=breadcrumbs-config
 
 npm install htmx.org
 
+
+-----------------------------------
+
+
+npm install vue-router
+

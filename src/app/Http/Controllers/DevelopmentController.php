@@ -111,4 +111,13 @@ class DevelopmentController extends Controller
     {
         return view('development.htmx_test');
     }
+
+    /** routerテスト */
+    public function router_test(Request $request)
+    {
+        return view(
+            'development.router_test',
+            ['name' => 'Router Test!!']
+        );
+    }
 }

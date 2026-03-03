@@ -40,6 +40,11 @@
         @apply text-blue-600 hover:underline;
     }
 
+    /* アクティブなリンク */
+    .app-link-active {
+        @apply text-gray-400 hover:no-underline;
+    }
+
     /* フォーム全体 */
     .app-form {
         @apply bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 space-y-4;
