@@ -14,11 +14,5 @@
         ]) }}">
             @include('partials.message.loading')
         </div>
-
-        <div id="react-test-root" data-all="{{ json_encode([
-            'testValue' => 123,
-        ]) }}" class="mt-10">
-            @include('partials.message.loading')
-        </div>
     </div>
 </x-app-layout>

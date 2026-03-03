@@ -2,4 +2,4 @@
  * websocketテストのエントリーポイント
  */
 
-import "@/services/development/setup-websocket-test.tsx";
+import "@/services/development/setup-websocket-test";

@@ -9,7 +9,6 @@
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.2",
         "@tailwindcss/vite": "^4.0.0",
-        "@vitejs/plugin-react": "^5.1.0",
         "@vitejs/plugin-vue": "^6.0.2",
         "alpinejs": "^3.4.2",
         "autoprefixer": "^10.4.2",
@@ -25,8 +24,6 @@
     "dependencies": {
         "laravel-echo": "^2.2.6",
         "pusher-js": "^8.4.0",
-        "react": "^19.2.0",
-        "react-dom": "^19.2.0",
         "vue-router": "^5.0.3"
     }
 }

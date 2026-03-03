@@ -494,3 +494,11 @@ npm install vue-router
 
 npm uninstall htmx.org
 
+
+-----------------------------------
+
+
+npm uninstall --save-dev @vitejs/plugin-react
+
+npm uninstall react react-dom
+

@@ -9,7 +9,6 @@
 <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
 
 <!-- Scripts -->
-@viteReactRefresh
 @vite(['resources/css/admin.css', 'resources/js/entrypoints/admin/app.ts'])
 
 @auth('admin')
