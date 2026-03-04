@@ -1,13 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { type useRouter } from "@/services/nav/vue-hook/useRouter";
+import { RouterPartsProps } from "../../types"
 
-interface Props {
-    router: ReturnType<typeof useRouter>;
-    setCurrent: (name: string) => void;
-}
-
-const props = defineProps<Props>();
+const props = defineProps<RouterPartsProps>();
 
 const commonCnt = defineModel<number>("commonCnt");
 
@@ -47,11 +42,8 @@ onMounted(() => {
                 <button @click="cnt++" class="app-btn-primary">Add</button>
             </div>
             <div>
-                <button
-                    @click="setCurrent('Parts2')"
-                    class="app-btn-secondary"
-                >
-                    To Parts2
+                <button @click="setCurrent('Parts2')" class="app-btn-secondary">
+                    To Parts2 ->
                 </button>
             </div>
         </div>

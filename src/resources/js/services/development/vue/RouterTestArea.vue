@@ -26,9 +26,9 @@ const navLinkClass = (name: string) => {
 };
 
 const setCurrent = (name: string) => {
-    direction.value = (name === 'Parts1') ? 'left' : 'right';
-    router.setCurrent(name)
-}
+    direction.value = name === "Parts1" ? "left" : "right";
+    router.setCurrent(name);
+};
 
 // 初期化時
 onMounted(() => {
@@ -61,7 +61,12 @@ onMounted(() => {
         </div>
 
         <div class="mt-3 p-5 border-gray-500 border-2 overflow-hidden">
-            <transition :name="direction === 'right' ? 'app-slide-right' : 'app-slide-left'" mode="out-in">
+            <transition
+                :name="
+                    direction === 'right' ? 'app-slide-right' : 'app-slide-left'
+                "
+                mode="out-in"
+            >
                 <keep-alive>
                     <component
                         :is="router.currentComponent.value"

@@ -1,14 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { showToast } from "@/services/ui/message";
-import { type useRouter } from "@/services/nav/vue-hook/useRouter";
+import { RouterPartsProps } from "../../types"
 
-interface Props {
-    router: ReturnType<typeof useRouter>;
-    setCurrent: (name: string) => void;
-}
-
-const props = defineProps<Props>();
+const props = defineProps<RouterPartsProps>();
 
 const commonCnt = defineModel<number>("commonCnt");
 
@@ -46,11 +41,8 @@ onMounted(() => {
                 </button>
             </div>
             <div>
-                <button
-                    @click="setCurrent('Parts1')"
-                    class="app-btn-secondary"
-                >
-                    To Parts1
+                <button @click="setCurrent('Parts1')" class="app-btn-secondary">
+                    <- To Parts1
                 </button>
             </div>
         </div>
