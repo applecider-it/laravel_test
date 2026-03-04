@@ -12,7 +12,7 @@
 @vite(['resources/css/admin.css', 'resources/js/entrypoints/admin/app.ts'])
 
 @auth('admin')
-    <meta name="user" data-json="{{ json_encode(auth('admin')->user()) }}">
+    <meta name="admin-user" data-json="{{ json_encode(auth('admin')->user()) }}">
 @endauth
 
 <title>{{ config('app.name', 'Laravel') }}管理画面</title>
