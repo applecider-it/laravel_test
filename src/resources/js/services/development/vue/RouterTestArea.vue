@@ -2,12 +2,9 @@
 import { ref, onMounted } from "vue";
 import { useRouter } from "@/services/nav/vue-hook/useRouter";
 
-import Parts1 from "../vue/router-test-area/Parts1.vue";
-import Parts2 from "../vue/router-test-area/Parts2.vue";
+import { components, componentInfos } from "../router-test/routes";
 
 console.log("router test code");
-
-const components = { Parts1, Parts2 };
 
 interface Props {
     name: string;
@@ -19,14 +16,16 @@ const router = useRouter(components, "Parts1");
 
 const commonCnt = ref<number>(0);
 
-const direction = ref<string>("right");
+const direction = ref<string>("");
 
 const navLinkClass = (name: string) => {
     return [router.isCurrent(name) ? "app-link-active" : "app-link-normal"];
 };
 
 const setCurrent = (name: string) => {
-    direction.value = name === "Parts1" ? "left" : "right";
+    const before = componentInfos[router.currentName()];
+    const after = componentInfos[name];
+    direction.value = before.sort > after.sort ? "left" : "right";
     router.setCurrent(name);
 };
 
@@ -71,7 +70,6 @@ onMounted(() => {
                     <component
                         :is="router.currentComponent.value"
                         v-model:commonCnt="commonCnt"
-                        :router="router"
                         :setCurrent="setCurrent"
                     />
                 </keep-alive>

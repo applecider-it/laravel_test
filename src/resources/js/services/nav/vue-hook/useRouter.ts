@@ -19,5 +19,10 @@ export function useRouter(components: any, init: string) {
         isCurrent,
         setCurrent,
         currentComponent,
+        currentName: () => {
+            const val = current.value;
+
+            return val;
+        }
     };
 }

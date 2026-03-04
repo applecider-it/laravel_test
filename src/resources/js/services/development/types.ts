@@ -1,6 +1,13 @@
-import { type useRouter } from "@/services/nav/vue-hook/useRouter";
-
+/** ルーターテストのパーツのProps */
 export type RouterPartsProps = {
-    router: ReturnType<typeof useRouter>;
     setCurrent: (name: string) => void;
+};
+
+type RouterComponentInfo = {
+    sort: number;
+};
+
+/** ルーターの詳細情報 */
+export type RouterComponentInfos = {
+    [key: string]: RouterComponentInfo;
 };
