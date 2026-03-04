@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onActivated } from "vue";
 import { showToast } from "@/services/ui/message";
 import { RouterPartsProps } from "../../types"
 
@@ -17,6 +17,11 @@ const execToast = () => {
 onMounted(() => {
     console.log("parts2 mounted");
 });
+
+// 遷移時
+onActivated(() => {
+  console.log('parts2 activated')
+})
 </script>
 
 <template>
@@ -24,6 +29,9 @@ onMounted(() => {
         <h3 class="text-xl font-bold">Parts2</h3>
 
         <div class="space-y-2 mt-5">
+            <div>
+                <span>commonCnt: {{ commonCnt }}</span>
+            </div>
             <div>
                 <button @click="commonCnt++" class="app-btn-primary">
                     Add Common

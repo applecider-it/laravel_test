@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onActivated } from "vue";
 import { RouterPartsProps } from "../../types"
 
 const props = defineProps<RouterPartsProps>();
@@ -18,6 +18,11 @@ const onClickCommon = () => {
 onMounted(() => {
     console.log("parts1 mounted");
 });
+
+// 遷移時
+onActivated(() => {
+  console.log('parts1 activated')
+})
 </script>
 
 <template>
@@ -25,6 +30,9 @@ onMounted(() => {
         <h3 class="text-xl font-bold">Parts1</h3>
 
         <div class="space-y-2 mt-5">
+            <div>
+                <span>commonCnt: {{ commonCnt }}</span>
+            </div>
             <div>
                 <button @click="commonCnt++" class="app-btn-primary">
                     Add Common
