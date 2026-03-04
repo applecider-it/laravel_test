@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
-import { components } from "../router-test/router";
+import { useRouter } from "@/services/nav/vue-hook/useRouter";
+
+import Parts1 from "../vue/router-test-area/Parts1.vue";
+import Parts2 from "../vue/router-test-area/Parts2.vue";
+
+const components = { Parts1, Parts2 };
 
 interface Props {
     name: string;
@@ -8,10 +13,15 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const current = ref("Parts1");
-const currentComponent = computed(() => components[current.value]);
+const router = useRouter(components, "Parts1");
+
+const currentComponent = computed(() => router.currentComponent());
 
 const commonCnt = ref<number>(0);
+
+const navLinkClass = (name: string) => {
+    return [router.isCurrent(name) ? "app-link-active" : "app-link-normal"];
+};
 
 // 初期化時
 onMounted(() => {
@@ -20,8 +30,6 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="text-lg">router動作確認</div>
-
     <div class="mt-5 space-y-2">
         <div>タグからの値: {{ name }}</div>
         <div>
@@ -31,26 +39,22 @@ onMounted(() => {
 
     <div class="mt-5 space-x-2">
         <button
-            @click="current = 'Parts1'"
-            :class="[
-                current === 'Parts1' ? 'app-link-active' : 'app-link-normal',
-            ]"
+            @click="router.setCurrent('Parts1')"
+            :class="navLinkClass('Parts1')"
         >
             Parts1
         </button>
         <button
-            @click="current = 'Parts2'"
-            :class="[
-                current === 'Parts2' ? 'app-link-active' : 'app-link-normal',
-            ]"
+            @click="router.setCurrent('Parts2')"
+            :class="navLinkClass('Parts2')"
         >
             Parts2
         </button>
     </div>
 
-    <div class="mt-3">
+    <div class="mt-3 p-5 border-gray-500 border-2">
         <keep-alive>
-            <component :is="currentComponent" v-model:commonCnt="commonCnt" />
+            <component :is="currentComponent" v-model:commonCnt="commonCnt" :router="router" />
         </keep-alive>
     </div>
 </template>

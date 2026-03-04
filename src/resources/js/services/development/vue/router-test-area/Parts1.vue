@@ -1,5 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
+import { type useRouter } from "@/services/nav/vue-hook/useRouter";
+
+interface Props {
+    router: ReturnType<typeof useRouter>;
+}
+
+const props = defineProps<Props>();
 
 const commonCnt = defineModel<number>("commonCnt");
 
@@ -18,26 +25,32 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="p-5 border-gray-500 border-2">
-        <h3 class="text-xl font-bold">Page2 Parts1</h3>
+    <h3 class="text-xl font-bold">Parts1</h3>
 
-        <div class="space-y-2 mt-5">
-            <div>
-                <button @click="commonCnt++" class="app-btn-primary">
-                    Add Common
-                </button>
-            </div>
-            <div>
-                <button @click="onClickCommon" class="app-btn-primary">
-                    Add Common2
-                </button>
-            </div>
-            <div>
-                <span>cnt: {{ cnt }}</span>
-            </div>
-            <div>
-                <button @click="cnt++" class="app-btn-primary">Add</button>
-            </div>
+    <div class="space-y-2 mt-5">
+        <div>
+            <button @click="commonCnt++" class="app-btn-primary">
+                Add Common
+            </button>
+        </div>
+        <div>
+            <button @click="onClickCommon" class="app-btn-primary">
+                Add Common2
+            </button>
+        </div>
+        <div>
+            <span>cnt: {{ cnt }}</span>
+        </div>
+        <div>
+            <button @click="cnt++" class="app-btn-primary">Add</button>
+        </div>
+        <div>
+            <button
+                @click="router.setCurrent('Parts2')"
+                class="app-btn-secondary"
+            >
+                To Parts2
+            </button>
         </div>
     </div>
 </template>
