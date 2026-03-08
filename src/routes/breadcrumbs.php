@@ -43,3 +43,15 @@ Breadcrumbs::for('admin.posts.edit', function (BreadcrumbTrail $trail, $post) {
     $trail->parent('admin.posts.index');
     $trail->push($post->title, route('admin.posts.edit', $post));
 });
+
+// 画像一覧
+Breadcrumbs::for('admin.files.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('admin.dashboard');
+    $trail->push('画像', route('admin.files.index'));
+});
+
+// 画像新規作成
+Breadcrumbs::for('admin.files.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('admin.files.index');
+    $trail->push('新規作成', route('admin.files.create'));
+});

@@ -20,6 +20,9 @@
                     <x-nav-link :href="route('admin.posts.index')" :active="request()->routeIs('admin.posts.index')">
                         投稿
                     </x-nav-link>
+                    <x-nav-link :href="route('admin.files.index')" :active="request()->routeIs('admin.files.index')">
+                        画像
+                    </x-nav-link>
                 </div>
             </div>
 

@@ -520,3 +520,11 @@ php artisan migrate
 
 npm install marked
 
+
+php artisan make:migration create_files_table
+
+php artisan migrate
+
+php artisan make:model File
+
+php artisan make:controller Admin/FileController
