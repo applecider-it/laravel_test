@@ -20,6 +20,7 @@ export default defineConfig({
                 "resources/js/entrypoints/development/router-test.ts",
 
                 "resources/js/entrypoints/admin/app.ts",
+                "resources/js/entrypoints/admin/post-edit.ts",
             ],
             refresh: true,
         }),

@@ -518,3 +518,5 @@ php artisan make:migration create_posts_table
 php artisan migrate
 
 
+npm install marked
+

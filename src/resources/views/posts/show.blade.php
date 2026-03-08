@@ -13,8 +13,8 @@
             <div>
                 {{ $post->published_at }}
             </div>
-            <div>
-                {{ $post->content }}
+            <div class="app-post-content-container">
+                {!! $post->contentHtml() !!}
             </div>
         </div>
     </div>

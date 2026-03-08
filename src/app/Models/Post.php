@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Support\Str;
+
 /**
  * 投稿モデル
  * 
@@ -88,5 +90,11 @@ class Post extends Model
             $q->where('title', 'like', "%{$keyword}%")
                 ->orWhere('content', 'like', "%{$keyword}%");
         });
+    }
+
+    /** 変換した投稿内容 */
+    public function contentHtml()
+    {
+        return Str::markdown($this->content);
     }
 }

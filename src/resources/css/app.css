@@ -107,6 +107,21 @@
     .app-container-lg {
         @apply py-12 max-w-7xl mx-auto px-6;
     }
+
+    /* 投稿内容 */
+    .app-post-content-container {
+        h1 {
+            @apply text-gray-500 text-xl my-4;
+        }
+
+        h2 {
+            @apply text-gray-500 text-lg my-3;
+        }
+
+        li {
+            @apply text-gray-400 ml-2;
+        }
+    }
 }
 
 /* 右スライドアニメーション */

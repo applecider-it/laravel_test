@@ -1,3 +1,5 @@
+@vite('resources/js/entrypoints/admin/post-edit.ts')
+
 <div>
     <label for="title" class="app-form-label">タイトル</label>
     <input type="text" name="title" id="title" value="{{ old('title', $post->title) }}" class="mt-1 app-form-input">
@@ -15,11 +17,17 @@
 </div>
 
 <div>
-    <label for="content" class="app-form-label">内容</label>
-    <textarea name="content" rows="20" class="mt-1 app-form-input">{{ old('content', $post->content) }}</textarea>
+    <label for="content" class="app-form-label">内容 (markdown)</label>
+    <textarea id="editor" name="content" rows="15" class="mt-1 app-form-input">{{ old('content', $post->content) }}</textarea>
     @error('content')
         <p class="app-error-text">{{ $message }}</p>
     @enderror
+</div>
+
+<div>
+    <label for="content" class="app-form-label">プレビュー</label>
+    <div id="preview" class="app-post-content-container border p-5 overflow-y-scroll" style="height: 20rem;">
+    </div>
 </div>
 
 <div>
