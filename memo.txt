@@ -5,6 +5,17 @@ cd /home/owner/workspace/tmp/laravel_test
 
 -----------------------------------
 
+port
+
+laravel: 8000
+vite: 5173
+websocket: 8080
+soketi: 6001
+python: 8090
+
+
+-----------------------------------
+
 開発サーバーを起動
 
 -------
