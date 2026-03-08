@@ -21,4 +21,8 @@ export function checkDirty(form) {
     form.addEventListener("change", () => {
         isDirty = true;
     });
+
+    form.addEventListener("submit", () => {
+        isDirty = false;
+    });
 }
