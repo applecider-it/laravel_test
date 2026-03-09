@@ -5,7 +5,6 @@
                 <th class="app-table-th">ID</th>
                 <th class="app-table-th">ファイル名</th>
                 <th class="app-table-th">URL</th>
-                <th class="app-table-th"></th>
                 <th class="app-table-th">作成日時</th>
                 <th class="app-table-th">操作</th>
             </tr>
@@ -15,16 +14,16 @@
                 <tr>
                     <td class="app-table-td">{{ $file->id }}</td>
                     <td class="app-table-td">{{ $file->file_name }}</td>
-                    <td class="app-table-td text-xs">{{ $file->fileUrl() }}</td>
                     <td class="app-table-td">
-                        <button onclick="App.funcs.writeClipboard(this)" data-clipboard-data="{{ $file->fileUrl() }}" class="app-btn-secondary">Copy</button>
+                        <input type="text" readonly value="{{ $file->fileUrl() }}" class="text-xs w-60">
+                        <button onclick="App.funcs.writeClipboard(this)" data-clipboard-data="{{ $file->fileUrl() }}" class="app-btn-secondary app-btn-small">Copy</button>
                     </td>
                     <td class="app-table-td">{{ $file->created_at }}</td>
                     <td class="app-table-td flex space-x-2">
                         <form method="POST" action="{{ route('admin.files.destroy', $file) }}" onsubmit="return confirm('削除してもよろしいですか？')">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="app-btn-danger">
+                            <button type="submit" class="app-btn-danger app-btn-small">
                                 削除
                             </button>
                         </form>

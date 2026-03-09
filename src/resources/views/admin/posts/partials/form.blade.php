@@ -17,7 +17,7 @@
 </div>
 
 <div>
-    <label for="content" class="app-form-label">投稿内容</label>
+    <label for="content" class="app-form-label">投稿内容 (Markdown)</label>
     <div class="flex h-screen">
         <textarea id="editor" name="content" class="w-1/2 p-4 border-r">{{ old('content', $post->content) }}</textarea>
         <div class="w-1/2 p-4 overflow-y-scroll bg-gray-100 dark:bg-gray-900 app-post-content-container" id="preview"></div>

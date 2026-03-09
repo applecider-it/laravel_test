@@ -21,7 +21,7 @@
                         投稿
                     </x-nav-link>
                     <x-nav-link :href="route('admin.files.index')" :active="request()->routeIs('admin.files.index')">
-                        画像
+                        ファイル
                     </x-nav-link>
                 </div>
             </div>
