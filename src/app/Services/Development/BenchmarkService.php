@@ -59,6 +59,8 @@ class BenchmarkService
             'メモリ使用量（MB）' => $memoryUsed,
             'メモリ使用量（MB）開始時' => $this->byteToMega($startMemory),
             'メモリ使用量（MB）終了時' => $this->byteToMega($endMemory),
+            'メモリ使用量（MB）ピーク時' => $this->byteToMega(memory_get_peak_usage()),
+            'メモリ使用量（MB）確保された値' => $this->byteToMega(memory_get_peak_usage(true)),
             'opcache使用量（MB）' => $this->byteToMega($opcacheStatus['memory_usage']['used_memory']),
             'opcache使用量(スクリプトのみ)（MB）' => $this->byteToMega($scriptsTotalMemory),
             'opcache使用量(スクリプト以外)（MB）' => $this->byteToMega($opcacheStatus['memory_usage']['used_memory'] - $scriptsTotalMemory),
