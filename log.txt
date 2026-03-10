@@ -528,3 +528,8 @@ php artisan migrate
 php artisan make:model File
 
 php artisan make:controller Admin/FileController
+
+php artisan migrate:rollback
+
+npm uninstall marked
+

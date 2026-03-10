@@ -93,7 +93,7 @@ test@localhost.com / testtest
 
 test2@localhost.com / test2test2
 
-http://localhost:8000/admin_secrettext/login
+http://localhost:8000/admin_secrettext/dashboard
 
 admin@localhost.com / adminadmin
 

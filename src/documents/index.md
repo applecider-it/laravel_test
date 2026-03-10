@@ -6,7 +6,6 @@
 
 - [ツイート機能](./features/tweet.md)
 - [チャット](./features/chat.md)
-- [投稿](./features/post.md)
 
 ## モデル
 
@@ -18,5 +17,3 @@
   - [ユーザーツイート](./Models/User/Tweet.md)
 - [管理者](./Models/AdminUser.md)
 - [プッシュ通知登録情報](./Models/PushNotification.md)
-- [投稿](./Models/Post.md)
-- [ファイル](./Models/File.md)
