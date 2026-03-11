@@ -11,18 +11,24 @@ function init() {
             }
         });
 
+        console.log("checkDirty init");
+
         isInit = true;
     }
 }
 
 /** 離脱チェック */
 export function checkDirty(form) {
+    console.log("checkDirty setup");
+
     init();
     form.addEventListener("change", () => {
+        console.log("checkDirty on");
         isDirty = true;
     });
 
     form.addEventListener("submit", () => {
+        console.log("checkDirty off");
         isDirty = false;
     });
 }
