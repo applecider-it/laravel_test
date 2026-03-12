@@ -3,28 +3,30 @@
         <div class="flex">
             <!-- Logo -->
             <div class="shrink-0 flex items-center">
-                <a href="{{ route('dashboard') }}">
+                <a href="{{ route('home') }}">
                     <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
                 </a>
             </div>
 
             <!-- Navigation Links -->
             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Dashboard') }}
-                </x-nav-link>
-                <x-nav-link href="{{ route('tweet.index') }}" :active="request()->routeIs('tweet.index')">
-                    Tweet
-                </x-nav-link>
-                <x-nav-link href="{{ route('tweet_js.index') }}" :active="request()->routeIs('tweet_js.index')">
-                    Tweet (JS)
-                </x-nav-link>
-                <x-nav-link href="{{ route('chat.index') }}" :active="request()->routeIs('chat.index')">
-                    Chat
-                </x-nav-link>
-                <x-nav-link href="{{ route('chat_echo.index') }}" :active="request()->routeIs('chat_echo.index')">
-                    Chat (Echo)
-                </x-nav-link>
+                @auth
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        {{ __('Dashboard') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('tweet.index') }}" :active="request()->routeIs('tweet.index')">
+                        Tweet
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('tweet_js.index') }}" :active="request()->routeIs('tweet_js.index')">
+                        Tweet (JS)
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('chat.index') }}" :active="request()->routeIs('chat.index')">
+                        Chat
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('chat_echo.index') }}" :active="request()->routeIs('chat_echo.index')">
+                        Chat (Echo)
+                    </x-nav-link>
+                @endauth
             </div>
         </div>
 
@@ -33,7 +35,11 @@
             <x-dropdown align="right" width="48">
                 <x-slot name="trigger">
                     <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
-                        <div>{{ Auth::user()->name }}</div>
+                        @auth
+                            <div>{{ Auth::user()->name }}</div>
+                        @else
+                            Guest
+                        @endauth
 
                         <div class="ms-1">
                             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -44,20 +50,29 @@
                 </x-slot>
 
                 <x-slot name="content">
-                    <x-dropdown-link :href="route('profile.edit')">
-                        {{ __('Profile') }}
-                    </x-dropdown-link>
-
-                    <!-- Authentication -->
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-
-                        <x-dropdown-link :href="route('logout')"
-                                onclick="event.preventDefault();
-                                            this.closest('form').submit();">
-                            {{ __('Log Out') }}
+                    @auth
+                        <x-dropdown-link :href="route('profile.edit')">
+                            {{ __('Profile') }}
                         </x-dropdown-link>
-                    </form>
+
+                        <!-- Authentication -->
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+
+                            <x-dropdown-link :href="route('logout')"
+                                    onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                                {{ __('Log Out') }}
+                            </x-dropdown-link>
+                        </form>
+                    @else
+                        <x-dropdown-link :href="route('login')">
+                            {{ __('Log In') }}
+                        </x-dropdown-link>
+                        <x-dropdown-link :href="route('register')">
+                            {{ __('Register') }}
+                        </x-dropdown-link>
+                    @endauth
                 </x-slot>
             </x-dropdown>
         </div>
