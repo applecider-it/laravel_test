@@ -53,6 +53,7 @@ const confirmModalValue = () => {
         <button
             @click="() => {open = false}"
             className="app-btn-secondary"
+            type="button"
         >
             閉じる
         </button>
