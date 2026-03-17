@@ -15,7 +15,7 @@ defineProps<{
         "
         @click="onClose"
     >
-        <div class="bg-white rounded-xl p-6 shadow-xl max-w-full" @click.stop>
+        <div class="bg-white rounded-xl p-6 shadow-xl max-w-full max-h-full overflow-auto" @click.stop>
             <slot />
         </div>
     </div>
