@@ -28,9 +28,7 @@ export function vuePropModel<T = any>(key: string) {
     };
 }
 
-/**
- * METAタグ内のJSONデータを返す。
- */
+/** METAタグ内のJSONデータを返す。 */
 export function getMetaJson(name: string) {
     const meta = document.querySelector(`meta[name="${name}"]`) as HTMLElement;
 
