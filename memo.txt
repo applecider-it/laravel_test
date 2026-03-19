@@ -23,18 +23,26 @@ python: 8090
 laravel
 
 
-composer dev
+まとめて起動
+
 
 foreman start
+
 
 npx concurrently \
   -c "#93c5fd,#c4b5fd,#fb7185" \
   "php artisan serve" \
-  "php artisan pail --timeout=0" \
+  "tail -f ./storage/logs/laravel.log" \
   "npm run dev" \
   --names=server,logs,vite \
   --kill-others
 
+
+composer dev
+
+  php artisan pailがあるので挙動がおかしくなる
+
+--
 
 ログクリア
 
@@ -42,7 +50,7 @@ echo "" > ./storage/logs/laravel.log
 
 --
 
-個別
+個別起動
 
 php artisan serve
 
