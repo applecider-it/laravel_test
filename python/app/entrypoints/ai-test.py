@@ -1,5 +1,5 @@
 
-from app.services.generate import generate_text
+from app.services.ai.generate import generate_text
 
 source = "word1 word2 word3"
 

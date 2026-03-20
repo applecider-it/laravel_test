@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from app.models.request import RequestData
-from app.services.ai_model import process_text
+from app.services.ai.ai_model import process_text
 
 router = APIRouter()
 

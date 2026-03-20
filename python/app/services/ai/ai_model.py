@@ -1,4 +1,4 @@
-from app.services.generate import generate_text
+from .generate import generate_text
 
 # AIの処理をここにまとめる
 def process_text(text: str) -> str:
