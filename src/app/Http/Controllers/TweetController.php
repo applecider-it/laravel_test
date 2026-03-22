@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 use App\Models\User\Tweet as UserTweet;
-use App\Services\Tweet\ListService as TweetListService;
-use App\Services\Tweet\FormService as TweetFormService;
+use App\Services\Tweet\ListService;
+use App\Services\Tweet\EditService;
 
 /**
  * ツイート管理コントローラー
@@ -18,23 +18,42 @@ use App\Services\Tweet\FormService as TweetFormService;
 class TweetController extends Controller
 {
     public function __construct(
-        private TweetListService $tweetListService,
-        private TweetFormService $tweetFormService,
+        private ListService $listService,
+        private EditService $editService,
     ) {}
 
     /** 一覧ページ */
     public function index(Request $request)
     {
-        return view('tweet.index', $this->indexCommon($request));
+        $searchWord = $request->input('search_word');
+        $page = $request->input('page', old('page', 1));
+
+        $tweets = $this->listService->getTweetsForList($searchWord);
+
+        $tweets = $tweets->paginate(5, page: $page)->onEachSide(1);
+        $tweets->withQueryString();
+
+        return view('tweet.index', compact('tweets', 'searchWord', 'page'));
+    }
+
+    /** 新規作成 */
+    public function create()
+    {
+        $tweet = new UserTweet();
+        return view('tweet.create', compact('tweet'));
     }
 
     /** 追加処理 */
     public function store(Request $request)
     {
-        $validation = $this->tweetFormService->newTweetValidation();
+        $tweet = new UserTweet();
         $validated = $request->validate(
-            rules: $validation['rules'],
-            attributes: $validation['attributes']
+            rules: [
+                'content' => $tweet->validationContent(),
+            ],
+            attributes: [
+                'content' => __('app.models.user/tweet.columns.content')
+            ]
         );
 
         $user = $request->user();
@@ -49,7 +68,7 @@ class TweetController extends Controller
         if ($commit) {
             // 確定時
 
-            $this->tweetFormService->newTweet($user, $content);
+            $this->editService->newTweet($user, $content);
 
             return redirect()->back()->with('success', '投稿が作成されました')->withInput(['content' => ''] + $request->all());
         } else if ($confirm) {
@@ -57,56 +76,12 @@ class TweetController extends Controller
 
             return view('tweet.confirm', [
                 'data' => $validated,
-            ] + $this->indexCommon($request));
+            ]);
         } else {
             // 戻るとき
 
-            return redirect()->route('tweet.index')
-                ->withInput($validated + $request->all());
+            return redirect()->route('tweet.create')
+                ->withInput($validated);
         }
-    }
-
-    /** 一覧ページ共通処理 */
-    private function indexCommon(Request $request)
-    {
-        $searchWord = $request->input('search_word', old('search_word'));
-        $sort = $request->input('sort', old('sort', 'id'));
-        $sortType = $request->input('sort_type', old('sort_type', 'desc'));
-        $page = $request->input('page', old('page', 1));
-
-        $tweets = $this->tweetListService->getTweetsForList($searchWord, $sort, $sortType);
-
-        $tweets = $tweets->paginate(5, page: $page)->onEachSide(1);
-        /*
-        $tweets->appends([
-            'search_word' => $searchWord,
-            'sort'        => $sort,
-            'sort_type'   => $sortType,
-        ]);
-        */
-        $tweets->withQueryString();
-
-        return compact('tweets', 'searchWord', 'sort', 'sortType', 'page');
-    }
-
-    /** 削除処理 */
-    public function destroy(Request $request, UserTweet $tweet)
-    {
-        if ($response = $this->ownerCheck($request, $tweet)) return $response;
-
-        $tweet->delete();
-
-        return redirect()->route('tweet.index')->with('success', 'ツイートを削除しました');
-    }
-
-    /** オーナーチェック */
-    public function ownerCheck(Request $request, UserTweet $tweet)
-    {
-        if ($tweet->user_id !== $request->user()->id) {
-            return redirect()->route('tweet.index')
-                ->with('error', '権限がありません');
-        }
-
-        return null;
     }
 }

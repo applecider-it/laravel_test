@@ -40,8 +40,8 @@ Route::middleware('auth')->group(function () {
     // Tweet
     Route::resource('tweet', TweetController::class)->only([
         'index',
+        'create',
         'store',
-        'destroy',
     ]);
     Route::get('/tweet_js/index', [TweetJsController::class, 'index'])->name('tweet_js.index');
 

@@ -3,6 +3,7 @@
 namespace App\Services\Tweet;
 
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 
 use App\Models\User;
 use App\Models\User\Tweet as UserTweet;
@@ -10,29 +11,13 @@ use App\Models\User\Tweet as UserTweet;
 use App\Http\Resources\User\TweetResource;
 
 /**
- * ツイートのフォーム関連
+ * ツイートの編集関連
  */
-class FormService
+class EditService
 {
     public function __construct(
         private WebsocketService $tweetWebsocketService,
     ) {}
-
-    /**
-     * 指定したユーザーの新しいツイート作成時のバリデーション情報
-     */
-    public function newTweetValidation()
-    {
-        $tweet = new UserTweet();
-        return [
-            'rules' => [
-                'content' => $tweet->validationContent(),
-            ],
-            'attributes' => [
-                'content' => __('app.models.user/tweet.columns.content')
-            ]
-        ];
-    }
 
     /**
      * 指定したユーザーの新しいツイート作成
@@ -56,5 +41,30 @@ class FormService
             'tweet' => $tweet,
             'tweetResource' => $tweetResource,
         ];
+    }
+
+    /** Tweet追加処理 */
+    public function storeTweetApi(Request $request)
+    {
+        //usleep(1000 * 1000 * 3);
+
+        $tweet = new UserTweet();
+        $validated = $request->validate(
+            rules: [
+                'content' => $tweet->validationContent(),
+            ],
+            attributes: [
+                'content' => __('app.models.user/tweet.columns.content')
+            ]
+        );
+
+        $user = $request->user();
+        $content = $validated['content'];
+
+        $ret = $this->newTweet($user, $content);
+
+        $tweetResource = $ret['tweetResource'];
+
+        return $tweetResource;
     }
 }

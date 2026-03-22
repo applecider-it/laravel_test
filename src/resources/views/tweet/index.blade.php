@@ -6,11 +6,17 @@
     </x-slot>
 
     @include('partials.message.session')
-    @include('partials.message.errors', ['input_error_message' => 'ツイートの入力に問題があります'])
 
     <div class="app-container">
-        @include('tweet.partials.form')
-
-        @include('tweet.partials.index_common')
+        <div class="mb-4">
+            <a href="{{ route('tweet.create') }}" class="app-btn-primary">
+                新規作成
+            </a>
+        </div>
+        
+        <div class="space-y-4">
+            @include('tweet.partials.search')
+            @include('tweet.partials.list')
+        </div>
     </div>
 </x-app-layout>

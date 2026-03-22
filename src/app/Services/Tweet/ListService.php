@@ -12,14 +12,14 @@ class ListService
     /**
      * 一覧用のツイートリストオブジェクト
      */
-    public function getTweetsForList(?string $searchWord, ?string $sort, ?string $sortType)
+    public function getTweetsForList(?string $searchWord)
     {
         $tweets = UserTweet::with('user');
         
         if (!empty($searchWord)) {
             $tweets->where('content', 'like', "%{$searchWord}%");
         }
-        $tweets->orderBy($sort, $sortType);
+        $tweets->orderBy('id', 'desc');
         $tweets->latest();
 
         return $tweets;

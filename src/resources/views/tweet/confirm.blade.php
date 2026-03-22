@@ -17,10 +17,6 @@
             </div>
             <button type="submit" class="mt-2 app-btn-secondary" name="back" value="on">戻る</button>
             <button type="submit" class="mt-2 app-btn-primary" name="commit" value="on">確定</button>
-
-            @include('tweet.partials.hidden')
         </form>
-
-        @include('tweet.partials.index_common')
     </div>
 </x-app-layout>
