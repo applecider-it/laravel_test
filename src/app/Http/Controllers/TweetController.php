@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-use App\Models\User\Tweet as UserTweet;
+use App\Models\User\Tweet;
 use App\Services\Tweet\ListService;
 use App\Services\Tweet\EditService;
 
@@ -26,9 +26,9 @@ class TweetController extends Controller
     public function index(Request $request)
     {
         $searchWord = $request->input('search_word');
-        $page = $request->input('page', old('page', 1));
+        $page = $request->input('page', 1);
 
-        $tweets = $this->listService->getTweetsForList($searchWord);
+        $tweets = $this->listService->getTweets($searchWord);
 
         $tweets = $tweets->paginate(5, page: $page)->onEachSide(1);
         $tweets->withQueryString();
@@ -39,14 +39,14 @@ class TweetController extends Controller
     /** 新規作成 */
     public function create()
     {
-        $tweet = new UserTweet();
+        $tweet = new Tweet;
         return view('tweet.create', compact('tweet'));
     }
 
     /** 追加処理 */
     public function store(Request $request)
     {
-        $tweet = new UserTweet();
+        $tweet = new Tweet;
         $validated = $request->validate(
             rules: [
                 'content' => $tweet->validationContent(),

@@ -12,7 +12,7 @@
                 'user' => $user,
                 'token' => $token,
                 'wsHost' => config('myapp.ws_server_host'),
-                'tweets' => App\Http\Resources\User\TweetResource::collection($tweets),
+                'tweets' => $tweetsResource,
             ]) }}">
             @include('partials.message.loading')
         </div>

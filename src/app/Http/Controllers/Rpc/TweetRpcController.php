@@ -22,7 +22,7 @@ class TweetRpcController extends Controller
 
         if ($name === 'store_tweet') {
             return response()->json(
-                app(\App\Services\Tweet\EditService::class)->storeTweetApi($request)
+                app(\App\Services\Tweet\EditService::class)->rpcStoreTweet($request)
             );
         }
 

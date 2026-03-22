@@ -8,14 +8,14 @@ use Illuminate\Support\Facades\Log;
 use App\Models\User;
 
 /**
- * チャット(Echo)のフォームApiのプロセスの管理
+ * チャット(Echo)の編集の管理
  */
-class FormApiService
+class EditService
 {
     public function __construct() {}
 
-    /** Echoでチャットメッセージ送信処理 */
-    public function sendMessage(Request $request, User $user)
+    /** RPCからEchoでチャットメッセージ送信処理 */
+    public function rpcSendMessage(Request $request, User $user)
     {
         $room = $request->input('room');
         $message = $request->input('message');

@@ -22,7 +22,7 @@ class ChatRpcController extends Controller
 
         if ($name === 'send_message') {
             return response()->json(
-                app(\App\Services\Chat\FormApiService::class)->sendMessage($request, $user)
+                app(\App\Services\Chat\EditService::class)->rpcSendMessage($request, $user)
             );
         }
 

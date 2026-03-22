@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\User\Tweet as UserTweet;
 use App\Services\WebSocket\AuthService as WebSocketAuthService;
 use App\Services\Channels\TweetChannel;
+use \App\Http\Resources\User\TweetResource;
 
 /**
  * ツイート(JS)管理コントローラー
@@ -29,6 +30,8 @@ class TweetJsController extends Controller
 
         $token = $this->webSocketAuthService->createUserJwt($user, TweetChannel::getChannel());
 
-        return view('tweet_js.index', compact('tweets', 'token', 'user'));
+        $tweetsResource = TweetResource::collection($tweets);
+
+        return view('tweet_js.index', compact('tweetsResource', 'token', 'user'));
     }
 }

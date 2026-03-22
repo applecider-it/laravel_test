@@ -11,16 +11,16 @@ use App\Services\Channels\ChatChannel;
 use App\Models\User;
 
 /**
- * チャットのフォームApiのプロセスの管理
+ * チャットの編集の管理
  */
-class FormApiService
+class EditService
 {
     public function __construct(
         private WebSocketSystemService $webSocketSystemService,
     ) {}
 
-    /** チャットメッセージ送信処理 */
-    public function sendMessage(Request $request, User $user)
+    /** RPCからチャットメッセージ送信処理 */
+    public function rpcSendMessage(Request $request, User $user)
     {
         Log::info(request()->all());
         $room = $request->input('room');

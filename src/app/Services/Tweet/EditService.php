@@ -43,8 +43,8 @@ class EditService
         ];
     }
 
-    /** Tweet追加処理 */
-    public function storeTweetApi(Request $request)
+    /** RPCからTweet追加処理 */
+    public function rpcStoreTweet(Request $request)
     {
         //usleep(1000 * 1000 * 3);
 

@@ -12,7 +12,7 @@ class ListService
     /**
      * 一覧用のツイートリストオブジェクト
      */
-    public function getTweetsForList(?string $searchWord)
+    public function getTweets(?string $searchWord)
     {
         $tweets = UserTweet::with('user');
         
