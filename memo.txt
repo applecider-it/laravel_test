@@ -1,7 +1,5 @@
 
-cd /home/owner/workspace/tmp/laravel_test/src
-
-cd /home/owner/workspace/tmp/laravel_test
+cd ~/workspace/github/laravel-app/src
 
 -----------------------------------
 
@@ -72,15 +70,13 @@ php artisan serve
 
 node
 
-srcディレクトリで実行すると、node関連の設定の読み込みが混乱してしまうことがあったので、
-nodeディレクトリに移動してから実行したほうが無難。
-
-cd /home/owner/workspace/tmp/laravel_test/node
+foremanで実行すると、foremanが.envを読み込むため環境変数が混乱してしまうので、
+nodeディレクトリに移動してから実行したほうが、正確な動作確認ができる。
 
 
 websocketサーバー起動
 
-cd /home/owner/workspace/tmp/laravel_test/node
+cd ~/workspace/github/laravel-app/node
 
 npx tsx watch ./app/entrypoints/websocket-server.js
 
@@ -95,7 +91,7 @@ node dist/entrypoints/websocket-server.js
 
 python
 
-cd /home/owner/workspace/tmp/laravel_test/python
+cd ~/workspace/github/laravel-app/python
 
 source venv/bin/activate
 
@@ -262,7 +258,7 @@ php artisan app:push-notification-test laravel 1
 
 nodeで、Push通知まとめて送信
 
-cd /home/owner/workspace/tmp/laravel_test/node
+cd ~/workspace/github/laravel-app/node
 
 npx tsx ./app/entrypoints/push-sender.js
 
@@ -338,7 +334,7 @@ Echo、Pusher
 
 soketi起動
 
-cd /home/owner/workspace/tmp/laravel_test/soketi
+cd ~/workspace/github/laravel-app/soketi
 
 nvm use 18
 
