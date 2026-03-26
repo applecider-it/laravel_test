@@ -128,6 +128,22 @@ App\Models\AdminUser::create(
   ]
 );
 
+
+-----------------------------------
+
+セットアップ
+
+composer install
+
+npm ci
+
+cp .env.example .env
+
+php artisan key:generate
+
+php artisan migrate
+
+
 -----------------------------------
 
 ルート一覧
